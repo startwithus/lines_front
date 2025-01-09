@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { icon } from "../../utility/icon";
 
 const MultiplierProgress = () => {
   const [value, setValue] = useState(42);
@@ -13,7 +14,7 @@ const MultiplierProgress = () => {
   return (
     <div className="slider-wrapper">
       <div className="lines-container">
-        <p>LINES</p>
+        <img src={icon.line} alt="" />
       </div>
       <div
         className="value-display"
@@ -21,8 +22,10 @@ const MultiplierProgress = () => {
       //   left: `calc(${value}% - ${value > 50 ? "100px" : "25px"})`,
       // }}
       >
-        <div className="value-button">{(value / 100).toFixed(2)}x</div>
-      </div>
+        <div className="">
+          <img src={icon.buttonNum} alt="" />
+          {(value / 100).toFixed(2)}x</div>
+         </div>
       <div
         className="slider-scale"
         style={{
