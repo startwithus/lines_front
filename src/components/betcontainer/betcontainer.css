@@ -59,6 +59,7 @@
   gap: 0.5rem;
   justify-content: space-between;
   width: 100%;
+  justify-content: center;
 }
 .btn-incress-decress button {
   background: none;
@@ -68,6 +69,15 @@
   justify-content: center;
   cursor: pointer;
   color: var(--hg-btn-disabled-color);
+}
+.btn-incress-decress button:hover {
+  /* border: 2px solid green; */
+}
+.btn-incress-decress:active {
+  transform: translateY(1px);
+}
+.btn-decressincress img {
+  width: 25px;
 }
 /* navbar */
 .main-navbar-container {
@@ -109,7 +119,6 @@
   transform: translate(-50%, -50%) rotate(45deg);
 }
 
-
 .border-icon {
   display: inline-block;
   padding: 3px 5px 0px 4px;
@@ -122,7 +131,7 @@
 
 .border-icon.active {
   border-color: #fff; /* Change border color to white */
-  color: #fff;        /* Change icon color to white */
+  color: #fff; /* Change icon color to white */
 }
 
 .icons-all {
@@ -130,10 +139,8 @@
 }
 
 .icons-all.active {
-  color: #fff;        /* Change icon color to white */
+  color: #fff; /* Change icon color to white */
 }
-
-
 
 .sound-text {
   margin-top: 10px;

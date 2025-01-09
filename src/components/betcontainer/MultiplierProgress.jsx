@@ -17,12 +17,15 @@ const MultiplierProgress = () => {
         <img src={icon.line} alt="" />
       </div>
       <div
-        className="value-display"
+        className="current-value-progress"
         // style={{
         //   left: `calc(${value}% - ${value > 50 ? "100px" : "25px"})`,
         // }}
       >
-        <div className="value-button">{(value / 100).toFixed(2)}x</div>
+        <span className="multi-img">
+          <img src={icon.groupA} alt="" />
+        </span>
+        <p className="xvalue">{(value / 100).toFixed(2)}x</p>
       </div>
       <div style={{ width: "100%" }}>
         <div className="slider-scale">
@@ -65,7 +68,8 @@ const MultiplierProgress = () => {
         <div
           className="value-display"
           style={{
-            left: `calc(${number}% - 235px)`,
+            left: `calc(${number}% - 170px)`,
+            marginTop: "2px",
           }}
         >
           <div className="">
