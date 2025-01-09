@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { icon } from "../../utility/icon";
 
-const AmountSection = (handlePlacebet) => {
+const AmountSection = ({ handlePlacebet }) => {
   // State to manage progress (range: 0 to 100)
   const [progress, setProgress] = useState(50); // Initial value set to 50
 
@@ -11,7 +11,7 @@ const AmountSection = (handlePlacebet) => {
   };
 
   // Function to increase progress
-  const increaseProgress = () => {
+  const handleIncrease = () => {
     setProgress((prev) => Math.min(prev + 10, 100)); // Increase by 10, max value is 100
   };
 
@@ -39,10 +39,12 @@ const AmountSection = (handlePlacebet) => {
           </button>
         </div>
         <div className="bet">
-          <button className="btn-bet">BET</button>
+          <button className="btn-bet" onClick={handlePlacebet}>
+            BET
+          </button>
         </div>
         <div className="btn-incress-decress">
-          <button onClick={increaseProgress} className="btn-decressincress">
+          <button onClick={handleIncrease} className="btn-decressincress">
             <img src={icon.upIcon} alt="" />
           </button>
         </div>
