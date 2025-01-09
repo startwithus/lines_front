@@ -1,0 +1,42 @@
+.error-modal{
+    /* background-color: red; */
+    backdrop-filter: blur(10px);
+    background-image: radial-gradient(circle at -42% -120%, hsla(0, 0%, 100%, .69), hsla(0, 0%, 100%, 0) 103%), radial-gradient(circle at -3% 100%, #000, hsla(0, 0%, 100%, 0) 30%);
+    border-radius: 15px;
+    bottom: 0;
+    content: "";
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 2;
+    border-radius: .25rem;
+    padding: .5rem;
+    color: white;
+    width: 430px;
+    position: absolute;
+    top: .5rem;
+    left: 35%;
+    height: 50px;
+    z-index: 1000;
+}
+.modal-content-error{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.icon-close {
+    color: #97a4ae;
+    text-shadow: 0 1px 0 #97a4ae;
+    font-size: 2rem ;
+    background-color: transparent;
+    line-height: 1;
+    font-weight: 700 !important;
+    border: none;
+    cursor: pointer;
+    background-color: transparent;
+  }
+  
+  .icon-close:hover {
+    color: white;
+  }
