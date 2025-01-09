@@ -17,65 +17,59 @@ const MultiplierProgress = () => {
       </div>
       <div
         className="value-display"
-      // style={{
-      //   left: `calc(${value}% - ${value > 50 ? "100px" : "25px"})`,
-      // }}
+        // style={{
+        //   left: `calc(${value}% - ${value > 50 ? "100px" : "25px"})`,
+        // }}
       >
         <div className="value-button">{(value / 100).toFixed(2)}x</div>
       </div>
-      <div
-        className="slider-scale"
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          margin: "1rem",
-          color: "#fff",
-          fontSize: "14px",
-          fontWeight: 800,
-        }}
-      >
-        <span>1</span>
-        <span>25</span>
-        <span>50</span>
-        <span>75</span>
-        <span>100</span>
-      </div>
-      <div
-        className=""
-        style={{ border: ".5rem solid #fff", borderRadius: ".5rem" }}
-      >
-        <div style={{ border: ".2rem solid black ", borderRadius: "3px" }}>
-          <div
-            className="slider-track"
-            style={{
-              background: `linear-gradient(to right, red ${value}%, #4ace4a ${value}%)`,
-            }}
-          >
-            <div className="slider-progress"></div>
-            <input
-              type="range"
-              min="1"
-              max="100"
-              value={value}
-              onChange={handleChange}
-              className="slider"
-            />
+      <div style={{ width: "100%" }}>
+        <div className="slider-scale">
+          <span>1</span>
+          <span>25</span>
+          <span>50</span>
+          <span>75</span>
+          <span>100</span>
+        </div>
+        <div className="tringle-container">
+          <div className="triangle-up"></div>
+          <div className="triangle-up1"></div>
+          <div className="triangle-up2"></div>
+          <div className="triangle-up3"></div>
+          <div className="triangle-up4"></div>
+        </div>
+        <div
+          className=""
+          style={{ border: ".5rem solid #fff", borderRadius: ".5rem" }}
+        >
+          <div style={{ border: ".2rem solid black ", borderRadius: "3px" }}>
+            <div
+              className="slider-track"
+              style={{
+                background: `linear-gradient(to right, red ${value}%, #4ace4a ${value}%)`,
+              }}
+            >
+              <div className="slider-progress"></div>
+              <input
+                type="range"
+                min="1"
+                max="100"
+                value={value}
+                onChange={handleChange}
+                className="slider"
+              />
+            </div>
           </div>
         </div>
-      </div>
-      <div
-        className="value-display"
-        style={{
-          position: "relative",
-          color: "#fff",
-          fontSize: "12px",
-          fontWeight: 800,
-          marginTop: ".3rem",
-          left: `calc(${number}% - 235px)`,
-        }}
-      >
-        <div className="">
-          {number === 2 ? "2(min)" : number === 98 ? "98(max)" : `${number}`}
+        <div
+          className="value-display"
+          style={{
+            left: `calc(${number}% - 235px)`,
+          }}
+        >
+          <div className="">
+            {number === 2 ? "2(min)" : number === 98 ? "98(max)" : `${number}`}
+          </div>
         </div>
       </div>
     </div>
