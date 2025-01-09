@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 const MultiplierProgress = () => {
   const [value, setValue] = useState(42);
-  const [number, setNumber] = useState();
+  const [number, setNumber] = useState(50);
   const handleChange = (e) => {
     const newValue = e.target.value;
     setValue(newValue);
@@ -17,9 +17,9 @@ const MultiplierProgress = () => {
       </div>
       <div
         className="value-display"
-        // style={{
-        //   left: `calc(${value}% - ${value > 50 ? "100px" : "25px"})`,
-        // }}
+      // style={{
+      //   left: `calc(${value}% - ${value > 50 ? "100px" : "25px"})`,
+      // }}
       >
         <div className="value-button">{(value / 100).toFixed(2)}x</div>
       </div>
