@@ -91,7 +91,7 @@ const Home = () => {
           <div className="manual-btn-container">
             <div className="manual-bg">
               <div className="manual-btn">
-                <p>manual</p>
+                <p>manua</p>
               </div>
             </div>
           </div>
