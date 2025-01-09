@@ -9,6 +9,9 @@ import downIcon from "../assests/Polygon 1.png";
 import upIcon from "../assests/Polygon 2.png";
 import soundIcon from "../assests/image 5.png";
 import unSoundIcon from "../assests/image 6.png";
+import muteIcon from "../assests/image 7.png";
+import unmuteIcon from "../assests/image 8.png";
+import infoIcon from "../assests/image 11.png";
 import groupA from "../assests/Group 1.png";
 export const icon = {
   liner: liner,
@@ -22,5 +25,8 @@ export const icon = {
   upIcon: upIcon,
   soundIcon: soundIcon,
   unSoundIcon: unSoundIcon,
+  muteIcon: muteIcon,
+  unmuteIcon: unmuteIcon,
+  infoIcon: infoIcon,
   groupA: groupA,
 };

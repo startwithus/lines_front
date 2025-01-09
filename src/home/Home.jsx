@@ -18,6 +18,10 @@ const Home = () => {
   const rawQuery = location.search.substring(1);
   const decodedQuery = decodeURIComponent(rawQuery);
   const [loading, setLoading] = useState(true);
+  const [amount, setAmount] = useState("40.00");
+  const [autoMultiplier, setAutoMultiplier] = useState("2.00x");
+  const [isBetting, setIsBetting] = useState(false);
+  const autoValue = parseFloat(autoMultiplier.replace("x", "")).toFixed(2);
 
   let queryParams = {};
   try {
@@ -77,6 +81,27 @@ const Home = () => {
       };
     }
   }, [queryParams.id]);
+  const handlePlacebet = () => {
+    // Check if the bet amount is valid
+    if (+amount > info.balance || +amount === 0) {
+      return setShowBalance(true);
+    }
+    if (isBetting) return;
+    setIsBetting(true);
+    // if (sound) {
+    //   playBetSound();
+    // }
+    setTimeout(() => {
+      socket.emit("message", `PB:${amount}:${autoValue}`);
+
+      // Listen for "spin_result" and handle the response data
+      // socket.once("result", (data) => {
+      //   handleResultData(data);
+      // });
+      console.log("PB:", amount, autoValue);
+      setIsBetting(false);
+    }, 500);
+  };
   // if socket not connected
   if (loading || !socketConnected) {
     return <Loader message={"Connecting..."} />;
@@ -97,7 +122,7 @@ const Home = () => {
           </div>
         </div>
         <BalanceWinAmount info={info} />
-        <AmountSection />
+        <AmountSection handlePlacebet={handlePlacebet} />
         <div className="main-navbar-container">
           <NavbarContainer />
         </div>

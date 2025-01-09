@@ -7,18 +7,27 @@ import "../models/model.css";
 import { BsInfoLg } from "react-icons/bs";
 import { IoInformationCircleOutline } from "react-icons/io5";
 import GameInfo from "./GameInfo";
+import { icon } from "../../utility/icon";
 const NavbarContainer = () => {
   const [isSoundOn, setIsSoundOn] = useState(true);
   const [isMusicOn, setIsMusicOn] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
   const [isActive, setIsActive] = useState(false);
+  const [isMusicDisabled, setIsMusicDisabled] = useState(false); // State to disable music toggle
 
   const toggleSound = () => {
-    setIsSoundOn((prev) => !prev);
+    const newSoundState = !isSoundOn;
+    setIsSoundOn(newSoundState);
+    setIsMusicDisabled(!newSoundState); // Disable music toggle when sound is turned off
+    if (!newSoundState) {
+      setIsMusicOn(false); // Ensure music is turned off when sound is off
+    }
   };
 
   const toggleMusic = () => {
-    setIsMusicOn((prev) => !prev);
+    if (!isMusicDisabled) {
+      setIsMusicOn(!isMusicOn);
+    }
   };
 
   const toggleModal = () => {
@@ -28,41 +37,43 @@ const NavbarContainer = () => {
   return (
     <div className="main-navbar">
       <ul className="MainNavbar__list">
+        {/* {/ Sound Toggle /} */}
         <li
           className="MainNavbar__item"
           onClick={toggleSound}
           style={{ cursor: "pointer" }}
         >
-          <span
-            className={`border-icon ${!isSoundOn ? "active" : ""}`}
-          >
-            <AiFillSound className={`icons-all ${!isSoundOn ? "active" : ""}`} />
-            {!isSoundOn && <span className="sound-line"></span>}
-          </span>
+          {isSoundOn ? (
+            <img src={icon.soundIcon} alt="Sound On" />
+          ) : (
+            <img src={icon.unSoundIcon} alt="Sound Off" />
+          )}
           <span className="sound-text">SOUND</span>
         </li>
 
+        {/* {/ Music Toggle /} */}
         <li
-          className={`MainNavbar__item direction-icnon ${!isMusicOn ? "active" : ""
-            }`}
+          className={`MainNavbar__item ${isMusicDisabled ? "disabled" : ""}`}
           onClick={toggleMusic}
-          style={{ cursor: "pointer" }}
+          style={{
+            cursor: isMusicDisabled ? "not-allowed" : "pointer",
+            opacity: isMusicDisabled ? 0.5 : 1, // Reduce opacity when disabled
+            color: isMusicDisabled ? "gray" : "inherit", // Change text/icon color to gray
+          }}
         >
-          <span className={`border-icon ${!isMusicOn ? "active" : ""}`}>
-            {isMusicOn ? (
-              <MdMusicNote className={`icons-all ${!isMusicOn ? "active" : ""}`} />
-            ) : (
-              <MdMusicOff className={`icons-all ${!isMusicOn ? "active" : ""}`} />
-            )}
-          </span>
+          {isMusicOn && !isMusicDisabled ? (
+            <img src={icon.muteIcon} alt="Music On" />
+          ) : (
+            <img src={icon.unmuteIcon} alt="Music Off" />
+          )}
           <span className="sound-text">MUSIC</span>
         </li>
         <li
-          className="MainNavbar__item direction-icnon"
+          className="MainNavbar__item"
           onClick={toggleModal} // Open modal on click
         >
-          <span className="border-icon" >
-            <BsInfoLg className="icons-all" />
+          <span className="">
+            <img src={icon.infoIcon} alt="" />
           </span>
           <span className="sound-text">INFO</span>
         </li>
@@ -73,7 +84,7 @@ const NavbarContainer = () => {
           <span className="sound-text">HOME</span>
         </li>
       </ul>
-      {/* {/ Modal /} */}
+      {/* {/ {/ Modal /} /} */}
       {isModalOpen && (
         <div className="game-info-modal">
           <GameInfo toggleModal={toggleModal} />
