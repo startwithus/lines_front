@@ -174,7 +174,7 @@ body {
 }
 
 .icons-all {
-  color: var(--hg-text-primary);
+  /* color: var(--hg-text-primary); */
   font-size: 14px;
 }
 .direction-icnon {
@@ -184,7 +184,9 @@ body {
   align-items: center;
 }
 .show-bet-graph-container {
-  background-color: #001a4d;
+  /* background-color: #001a4d; */
+  background-image: url(`../../assests/misc-4.png);
+  background-repeat: no-repeat, repeat;
   width: 74%;
   padding: 1rem 1rem 1rem 0.5rem;
   height: 100%;
@@ -359,4 +361,24 @@ body {
   border-bottom: 12px solid #fff;
   top: 12.9rem;
   left: 23rem;
+}
+.value-container {
+  position: relative;
+  display: inline-block;
+}
+
+.value-image {
+  display: block;
+  width: 100%; /* Adjust as needed */
+}
+
+.value-text {
+  position: absolute;
+  top: 50%; /* Center vertically */
+  left: 50%; /* Center horizontally */
+  transform: translate(-50%, -50%); /* Adjust for perfect centering */
+  color: white; /* Or any color that contrasts with the image */
+  font-weight: bold;
+  font-size: 16px; /* Adjust as needed */
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.5); /* Optional for better visibility */
 }

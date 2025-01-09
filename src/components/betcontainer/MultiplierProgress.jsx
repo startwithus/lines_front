@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { icon } from "../../utility/icon";
 
 const MultiplierProgress = () => {
   const [value, setValue] = useState(42);
@@ -13,7 +14,7 @@ const MultiplierProgress = () => {
   return (
     <div className="slider-wrapper">
       <div className="lines-container">
-        <p>LINES</p>
+        <img src={icon.line} alt="" />
       </div>
       <div
         className="value-display"

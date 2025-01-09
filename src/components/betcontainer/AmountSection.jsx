@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { BsTriangleFill } from "react-icons/bs";
 import { TbTriangleInvertedFilled } from "react-icons/tb";
+import { icon } from "../../utility/icon";
 
 const AmountSection = () => {
   // State to manage progress (range: 0 to 100)
@@ -36,7 +37,7 @@ const AmountSection = () => {
       <div className="select-bet-container">
         <div className="btn-incress-decress">
           <button onClick={decreaseProgress}>
-            <TbTriangleInvertedFilled style={{ fontSize: "23px" }} />
+            <img src={icon.downIcon} alt="" />
           </button>
         </div>
         <div className="bet">
@@ -44,7 +45,7 @@ const AmountSection = () => {
         </div>
         <div className="btn-incress-decress">
           <button onClick={increaseProgress}>
-            <BsTriangleFill style={{ fontSize: "23px" }} />
+            <img src={icon.upIcon} alt="" />
           </button>
         </div>
       </div>

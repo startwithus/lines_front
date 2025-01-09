@@ -108,15 +108,35 @@
   background-color: #fff;
   transform: translate(-50%, -50%) rotate(45deg);
 }
+
+
 .border-icon {
   display: inline-block;
   padding: 3px 5px 0px 4px;
-  border: 2px solid #fff;
-  border: "2px solid #fff";
+  border: 2px solid #4ace4a;
   border-radius: 50%;
   position: relative;
+  color: #4ace4a;
+  transition: all 0.3s ease;
 }
+
+.border-icon.active {
+  border-color: #fff; /* Change border color to white */
+  color: #fff;        /* Change icon color to white */
+}
+
+.icons-all {
+  transition: all 0.3s ease;
+}
+
+.icons-all.active {
+  color: #fff;        /* Change icon color to white */
+}
+
+
+
 .sound-text {
+  margin-top: 10px;
   font-size: 8px;
   font-weight: 600;
   color: var(--hg-text-primary);

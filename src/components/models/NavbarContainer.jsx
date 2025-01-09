@@ -11,6 +11,7 @@ const NavbarContainer = () => {
   const [isSoundOn, setIsSoundOn] = useState(true);
   const [isMusicOn, setIsMusicOn] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
+  const [isActive, setIsActive] = useState(false);
 
   const toggleSound = () => {
     setIsSoundOn((prev) => !prev);
@@ -32,18 +33,26 @@ const NavbarContainer = () => {
           onClick={toggleSound}
           style={{ cursor: "pointer" }}
         >
-          <span className="border-icon">
-            <AiFillSound className="icons-all" />
+          <span
+            className={`border-icon ${!isSoundOn ? "active" : ""}`}
+          >
+            <AiFillSound className={`icons-all ${!isSoundOn ? "active" : ""}`} />
             {!isSoundOn && <span className="sound-line"></span>}
           </span>
           <span className="sound-text">SOUND</span>
         </li>
-        <li className="MainNavbar__item direction-icnon" onClick={toggleMusic}>
-          <span className="border-icon">
+
+        <li
+          className={`MainNavbar__item direction-icnon ${!isMusicOn ? "active" : ""
+            }`}
+          onClick={toggleMusic}
+          style={{ cursor: "pointer" }}
+        >
+          <span className={`border-icon ${!isMusicOn ? "active" : ""}`}>
             {isMusicOn ? (
-              <MdMusicNote className="icons-all" />
+              <MdMusicNote className={`icons-all ${!isMusicOn ? "active" : ""}`} />
             ) : (
-              <MdMusicOff className="icons-all" />
+              <MdMusicOff className={`icons-all ${!isMusicOn ? "active" : ""}`} />
             )}
           </span>
           <span className="sound-text">MUSIC</span>
@@ -52,14 +61,14 @@ const NavbarContainer = () => {
           className="MainNavbar__item direction-icnon"
           onClick={toggleModal} // Open modal on click
         >
-          <span className="border-icon" style={{ border: "2px solid #4ace4a" }}>
-            <BsInfoLg className="icons-all" style={{ color: "#4ace4a" }} />
+          <span className="border-icon" >
+            <BsInfoLg className="icons-all" />
           </span>
           <span className="sound-text">INFO</span>
         </li>
         <li className="MainNavbar__item direction-icnon">
-          <span className="border-icon" style={{ border: "2px solid #4ace4a" }}>
-            <TiHome className="icons-all" style={{ color: "#4ace4a" }} />
+          <span className="border-icon">
+            <TiHome className="icons-all" />
           </span>
           <span className="sound-text">HOME</span>
         </li>
