@@ -1,5 +1,6 @@
 import React from "react";
 import { icon } from "../../utility/icon";
+
 const GameInfo = ({ toggleModal }) => {
   return (
     <div className="modal-overlay">
@@ -12,13 +13,7 @@ const GameInfo = ({ toggleModal }) => {
           <div className="info-line">
             <h3>GAME INFO - LINES</h3>
           </div>
-          <hr
-            style={{
-              color: "gray",
-              // backgroundColor: color,
-              height: "1px",
-            }}
-          />
+          <hr className="divider" />
           <div className="about-game">
             <h1>ABOUT THE GAME</h1>
             <p>
@@ -33,11 +28,10 @@ const GameInfo = ({ toggleModal }) => {
             <h1>FEATURES</h1>
             <h2>THE LINE</h2>
             <p>
-              {" "}
               In LINES, you can choose to play with one, two or three Lines.
               Each Line goes from 1 to 100.
             </p>
-            <img src={icon.liner} alt="" />
+            <img src={icon.liner} alt="" className="info-image" />
             <p>
               The game starts with one Line. You can add additional Lines by
               pressing the blue + button under the current Line. You can remove
@@ -49,7 +43,7 @@ const GameInfo = ({ toggleModal }) => {
               left or right to set your desired Target. The Target can be set to
               any whole number from 2 to 98.
             </p>
-            <img src={icon.linerTwo} alt="" />
+            <img src={icon.linerTwo} alt="" className="info-image" />
 
             <h2>WINNING</h2>
             <p>
@@ -63,7 +57,7 @@ const GameInfo = ({ toggleModal }) => {
               win amount will be determined by the total payout times your bet
               amount.
             </p>
-            <img src={icon.linerThree} alt="" />
+            <img src={icon.linerThree} alt="" className="info-image" />
             <p>
               Once you have set your desired Target on each Line, press BET to
               place your bet and start the round. When doing so, each Line will
@@ -92,13 +86,13 @@ const GameInfo = ({ toggleModal }) => {
               all Lines would exceed 5000 then a bet cannot be placed and one or
               more Targets need to be reduced.
             </p>
-            <img src={icon.maxMulti} alt="" />
+            <img src={icon.maxMulti} alt="" className="info-image" />
             <p>
               If the total payout for a certain combination of Targets across
               all Lines would be lower than 1.05 then a bet cannot be placed and
               one or more Targets need to be increased.
             </p>
-            <img src={icon.minMulti} alt="" />
+            <img src={icon.minMulti} alt="" className="info-image" />
           </div>
 
           <div className="about-game">
@@ -125,12 +119,94 @@ const GameInfo = ({ toggleModal }) => {
               by clicking on the arrows and choosing the bet level of your
               choice.
             </p>
+
+            <h2>AUTOPLAY</h2>
             <p>
-              The current bet level is shown in the BET display. Change the bet
-              by clicking on the arrows and choosing the bet level of your
-              choice.
+              Using Autoplay will let you play a number of game rounds
+              automatically. Press the AUTOPLAY button and choose a number of
+              game rounds to initiate this feature. The remaining number of
+              spins is displayed. Autoplay is stopped by pressing the STOP
+              button.
+            </p>
+
+            <h2>ADVANCED AUTOPLAY SETTING</h2>
+            <p>
+              The Advanced Autoplay settings allow the player to set number of
+              plays, total session lost limit and single win limit. The autoplay
+              feature will stop when any of the selected limits are exceeded.
+            </p>
+
+            <h2>TURBO PLAY</h2>
+            <p>
+              The Turbo Play functionality is used to get the fastest game round
+              possible (not available on all operators and jurisdictions). Turbo
+              Play is activated from the menu.
             </p>
           </div>
+
+          <div className="about-game">
+            <h1>ADDITIONAL INFORMATION</h1>
+            <p>
+              In addition to the features described here, the bar on the bottom
+              of the game screen displays the current balance in the chosen
+              currency, the amount paid if a win occurs, and the amount bet on
+              the last/current proposition.
+            </p>
+          </div>
+        </div>
+
+        <div className="about-game">
+          <h1>INTERRUPTED GAME</h1>
+          <p>
+            In the event of disconnection, a previously started round that has
+            been interrupted may be resumed immediately by starting the game
+            again. The results of a completed round (where display of the visual
+            result was interrupted) will only be re-displayed within the game
+            for winning rounds, but all game rounds may be reviewed in Game
+            History. Any amount wagered on an unfinished game will remain paused
+            until you either complete the game or the game is void as a result
+            of account inactivity or system maintenance. When an unfinished game
+            is void, your bet will be refunded to your account. Any awards
+            earned on an unfinished round will not be credited unless you resume
+            and complete the game. Winnings on unfinished game rounds where the
+            player cannot further influence the outcome of the game will be
+            automatically credited to the player’s account after 1 day. Game
+            rounds will never be affected by unforeseen external errors due to
+            hardware, bandwidth, network errors or similar. Game rounds will be
+            either stored and completed by the player at a later time or they
+            will be closed and the wager will be refunded to the player. If an
+            incomplete game round has not been resumed within 1 day, the round
+            will be rolled back and the wager will be refunded.
+          </p>
+        </div>
+
+        <div className="about-game">
+          <h1>GAME HISTORY</h1>
+          <p>
+            The result of a completed game may be viewed in Game History
+            immediately after closing the game window. Results of unfinished
+            games are not displayed in Game History.
+          </p>
+        </div>
+
+        <div className="about-game">
+          <h1>GENERAL TERMS AND CONDITIONS</h1>
+          <p>
+            - Misuse or malfunction voids all pays and plays.
+            <br />- Any visual representation of a physical device (a reel, a
+            wheel of fortune or similar) does not represent a “real” physical
+            device and the probabilities of it stopping on any particular
+            position is determined by the game’s random number generator, and
+            not the number of positions on each device.
+          </p>
+        </div>
+        <div className="GameInfo__edition">
+          <p data-part-id="generatedAtDate">Game rules generated 2024-09-02 10:55 UTC</p>
+          <p>
+            <span data-part-id="gameVersion">Game version 1.0.3</span>
+            <br />
+            <span data-part-id="serverVersion">Server version 2.0.185</span>
+          </p>
         </div>
       </div>
     </div>
