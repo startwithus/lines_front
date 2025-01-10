@@ -22,6 +22,7 @@ const Home = () => {
   const [autoMultiplier, setAutoMultiplier] = useState("2.00x");
   const [isBetting, setIsBetting] = useState(false);
   const autoValue = parseFloat(autoMultiplier.replace("x", "")).toFixed(2);
+  const [cashoutData, setCashoutData] = useState([]); // To manage the queue of cashout data
 
   let queryParams = {};
   try {
@@ -57,21 +58,21 @@ const Home = () => {
       //     console.error(err);
       //   }
       // };
-      // const handleCashout = (data) => {
-      //   try {
-      //     setCashoutData((oldata) => [...new Set([...oldata, data])]);
-      //     if (data) {
-      //       setCashModal(true);
-      //       if (sound) {
-      //         playCashoutSound();
-      //       }
-      //     }
-      //   } catch (err) {
-      //     console.error(err);
-      //   }
-      // };
+      const handleCashout = (data) => {
+        try {
+          setCashoutData((oldata) => [...new Set([...oldata, data])]);
+          //     if (data) {
+          //       setCashModal(true);
+          //       if (sound) {
+          //         playCashoutSound();
+          //       }
+          //     }
+        } catch (err) {
+          console.error(err);
+        }
+      };
       // socketInstance.on("bets", handleBet);
-      // socketInstance.on("cashout", handleCashout);
+      socketInstance.on("cashout", handleCashout);
       // socketInstance.on("betError", (data) => {
       //   setError(data);
       //   setErrorModal(true);
@@ -87,6 +88,7 @@ const Home = () => {
       return setShowBalance(true);
     }
     if (isBetting) return;
+    setCashoutData([]); // Reset cashout data
     setIsBetting(true);
     // if (sound) {
     //   playBetSound();
@@ -121,7 +123,7 @@ const Home = () => {
             </div>
           </div>
         </div>
-        <BalanceWinAmount info={info} />
+        <BalanceWinAmount info={info} cashoutData={cashoutData} />
         <AmountSection
           handlePlacebet={handlePlacebet}
           amount={amount}
