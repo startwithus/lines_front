@@ -2,36 +2,81 @@ import React, { useState } from "react";
 import { icon } from "../../utility/icon";
 
 const MultiplierProgress = () => {
-  const [value, setValue] = useState(50);
-  const [number, setNumber] = useState(50);
-  const [isActive, setIsActive] = useState(false);
-  const handleMouseDown = () => setIsActive(true);
-  const handleMouseUp = () => setIsActive(false);
-  const handleChange = (e) => {
-    const newValue = e.target.value;
-    setValue(newValue);
-    // Map value to range between 2 and 98
-    const newNumber = Math.max(2, Math.min(98, newValue));
-    setNumber(newNumber);
+  const [sliders, setSliders] = useState([{ value: 50, isActive: false }]); // Initial slider with default value
+
+  const handleAddLine = () => {
+    if (sliders.length < 3) {
+      setSliders([...sliders, { value: 50, isActive: false }]);
+    }
   };
 
-  return (
-    <div className="slider-wrapper">
-      <div className="lines-container">
-        <img src={icon.line} alt="" />
-      </div>
+  const handleRemoveLine = (index) => {
+    setSliders(sliders.filter((_, idx) => idx !== index));
+  };
+
+  const handleMouseDown = (index) => {
+    setSliders((prev) =>
+      prev.map((slider, idx) =>
+        idx === index ? { ...slider, isActive: true } : slider
+      )
+    );
+  };
+
+  const handleMouseUp = (index) => {
+    setSliders((prev) =>
+      prev.map((slider, idx) =>
+        idx === index ? { ...slider, isActive: false } : slider
+      )
+    );
+  };
+
+  const handleChange = (e, index) => {
+    const newValue = e.target.value;
+    setSliders((prev) =>
+      prev.map((slider, idx) =>
+        idx === index
+          ? {
+              ...slider,
+              value: newValue,
+              number: Math.max(2, Math.min(98, newValue)),
+            }
+          : slider
+      )
+    );
+  };
+
+  const renderSlider = (slider, index) => {
+    const value = slider.value || 50;
+    const isActive = slider.isActive || false;
+
+    return (
       <div
-        className="current-value-progress"
-        // style={{
-        //   left: `calc(${value}% - ${value > 50 ? "100px" : "25px"})`,
-        // }}
+        key={index}
+        style={{ width: "100%", position: "relative", marginTop: "2rem" }}
       >
-        <span className="multi-img">
-          <img src={icon.groupA} alt="" />
-        </span>
-        <p className="xvalue">{(value / 100).toFixed(2)}x</p>
-      </div>
-      <div style={{ width: "100%" }}>
+        {index === 0 && (
+          <div
+            className="current-value-progress"
+            style={{
+              // position: "absolute",
+              left: `calc(${value}% - ${value > 50 ? "100px" : "25px"})`,
+              top: "-30px",
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <span className="multi-img" style={{}}>
+              <img
+                src={icon.groupA}
+                alt="Group Icon"
+                style={{ width: "150px", height: "50px", textAlign: "center" }}
+              />
+            </span>
+            <p className="xvalue" style={{}}>
+              {(value / 100).toFixed(2)}x
+            </p>
+          </div>
+        )}
         <div className="slider-scale">
           <span>1</span>
           <span>25</span>
@@ -46,10 +91,7 @@ const MultiplierProgress = () => {
           <div className="triangle-up3"></div>
           <div className="triangle-up4"></div>
         </div>
-        <div
-          className=""
-          style={{ border: ".5rem solid #fff", borderRadius: ".5rem" }}
-        >
+        <div style={{ border: ".5rem solid #fff", borderRadius: ".5rem" }}>
           <div
             style={{
               border: ".2rem solid black",
@@ -61,7 +103,9 @@ const MultiplierProgress = () => {
               className="slider-track"
               style={{
                 background: `linear-gradient(to right, red ${value}%, #4ace4a ${value}%)`,
-                height: "12px",
+                height: "13px",
+                // padding:"6px"
+                // width:"200px"
               }}
             >
               <input
@@ -69,10 +113,10 @@ const MultiplierProgress = () => {
                 min="1"
                 max="100"
                 value={value}
-                onChange={handleChange}
+                onChange={(e) => handleChange(e, index)}
                 className="slider"
-                onMouseDown={handleMouseDown}
-                onMouseUp={handleMouseUp}
+                onMouseDown={() => handleMouseDown(index)}
+                onMouseUp={() => handleMouseUp(index)}
                 style={{
                   position: "absolute",
                   top: "0",
@@ -96,17 +140,38 @@ const MultiplierProgress = () => {
             </div>
           </div>
         </div>
-        <div
-          className="value-display"
-          style={{
-            left: `calc(${number}% - 170px)`,
-            marginTop: "2px",
-          }}
-        >
-          <div className="">
-            {number === 2 ? "2(min)" : number === 98 ? "98(max)" : `${number}`}
+        {index !== 0 && (
+          <img
+            src={icon.crossIcon}
+            alt="Remove Slider"
+            onClick={() => handleRemoveLine(index)}
+            style={{
+              position: "absolute",
+              top: "-10px",
+              left: "-40px",
+              cursor: "pointer",
+              width: "40px",
+              height: "40px",
+            }}
+          />
+        )}
+      </div>
+    );
+  };
+
+  return (
+    <div className="slider-wrapper">
+      <div className="lines-container">
+        <img src={icon.line} alt="" />
+      </div>
+      <div className="">
+        {sliders.map((slider, index) => renderSlider(slider, index))}
+        {sliders.length < 3 && (
+          <div className="plus-section" onClick={handleAddLine}>
+            <h1>ADD LINE</h1>
+            <img src={icon.plusIcon} alt="Add Line" />
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
