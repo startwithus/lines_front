@@ -177,10 +177,7 @@ body {
   font-size: 12px;
   font-weight: 600;
   transition: background-color 0.3s; /* Smooth transition effect */
-
 }
-
-
 
 .btn-bet:hover {
   background-color: var(--hg-btn-disabled-bg);
@@ -215,7 +212,7 @@ body {
   width: 50%;
   height: 100px;
   margin: auto;
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 
 .value-display {
@@ -232,7 +229,7 @@ body {
   width: 100%;
   display: flex;
   justify-content: center;
-  margin: 2rem;
+  margin: 1rem;
 }
 .multi-img img {
   width: 210px; /* Adjust the size as needed */
@@ -241,8 +238,8 @@ body {
 }
 .xvalue {
   position: relative;
-  top: 1rem;
-  left: -8rem;
+  /* top: 1rem; */
+  left: -7rem;
   font-size: 20px;
   font-weight: 800;
   color: #fff;
@@ -263,7 +260,7 @@ body {
 .slider-scale {
   display: flex;
   justify-content: space-between;
-  margin: 1rem 1rem;
+  margin: 0.2rem 0.5rem;
   color: #fff;
   font-size: 14px;
   font-weight: 800;
@@ -405,11 +402,17 @@ body {
   text-shadow: 0 0 5px rgba(0, 0, 0, 0.5); /* Optional for better visibility */
 }
 
-
-
-
-
-
-
-
-
+.plus-section {
+  text-align: center;
+  margin-top: 10rem;
+  /* background-color: red; */
+}
+.plus-section h1 {
+  font-size: 24px;
+  color: white;
+}
+.plus-section img {
+  width: 80px;
+  height: 80px;
+  margin-top: 0.5rem;
+}
