@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import { icon } from "../../utility/icon";
 
 const MultiplierProgress = () => {
-  const [value, setValue] = useState(42);
+  const [value, setValue] = useState(50);
   const [number, setNumber] = useState(50);
+  const [isActive, setIsActive] = useState(false);
+  const handleMouseDown = () => setIsActive(true);
+  const handleMouseUp = () => setIsActive(false);
   const handleChange = (e) => {
     const newValue = e.target.value;
     setValue(newValue);
@@ -11,6 +14,7 @@ const MultiplierProgress = () => {
     const newNumber = Math.max(2, Math.min(98, newValue));
     setNumber(newNumber);
   };
+
   return (
     <div className="slider-wrapper">
       <div className="lines-container">
@@ -46,14 +50,20 @@ const MultiplierProgress = () => {
           className=""
           style={{ border: ".5rem solid #fff", borderRadius: ".5rem" }}
         >
-          <div style={{ border: ".2rem solid black ", borderRadius: "3px" }}>
+          <div
+            style={{
+              border: ".2rem solid black",
+              borderRadius: "3px",
+              position: "relative",
+            }}
+          >
             <div
               className="slider-track"
               style={{
                 background: `linear-gradient(to right, red ${value}%, #4ace4a ${value}%)`,
+                height: "12px",
               }}
             >
-              <div className="slider-progress"></div>
               <input
                 type="range"
                 min="1"
@@ -61,6 +71,27 @@ const MultiplierProgress = () => {
                 value={value}
                 onChange={handleChange}
                 className="slider"
+                onMouseDown={handleMouseDown}
+                onMouseUp={handleMouseUp}
+                style={{
+                  position: "absolute",
+                  top: "0",
+                  left: "0",
+                  background: "transparent",
+                }}
+              />
+              <img
+                src={isActive ? icon.scrollBar : icon.misc}
+                alt="Slider Thumb"
+                className="slider-thumb"
+                style={{
+                  position: "absolute",
+                  top: "-4px",
+                  left: `calc(${value}% - 10px)`,
+                  width: "30px",
+                  height: "24px",
+                  pointerEvents: "none",
+                }}
               />
             </div>
           </div>

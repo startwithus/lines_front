@@ -16,7 +16,7 @@ const BalanceWinAmount = ({ info }) => {
         <div>
           <p style={{ fontSize: "11px", Color: "#e9ecef" }}>Win</p>
 
-          <p style={{ fontSize: "16px", fontWeight: 700, color: "fff" }}>45x</p>
+          <p style={{ fontSize: "16px", fontWeight: 700, color: "fff" }}>34</p>
         </div>
       </div>
     </div>

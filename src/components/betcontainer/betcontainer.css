@@ -152,3 +152,16 @@
   font-weight: 600;
   color: var(--hg-text-primary);
 }
+
+.btn-decressincress img {
+  width: 24px;
+  height: 24px;
+  transition: transform 0.3s ease;
+}
+
+.btn-decressincress img:hover {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 2px rgba(0, 255, 0, 0.6));
+  background: none;
+  display: inline-block;
+}

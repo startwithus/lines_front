@@ -18,7 +18,7 @@ const Home = () => {
   const rawQuery = location.search.substring(1);
   const decodedQuery = decodeURIComponent(rawQuery);
   const [loading, setLoading] = useState(true);
-  const [amount, setAmount] = useState("40.00");
+  const [amount, setAmount] = useState("10.00");
   const [autoMultiplier, setAutoMultiplier] = useState("2.00x");
   const [isBetting, setIsBetting] = useState(false);
   const autoValue = parseFloat(autoMultiplier.replace("x", "")).toFixed(2);
@@ -122,7 +122,11 @@ const Home = () => {
           </div>
         </div>
         <BalanceWinAmount info={info} />
-        <AmountSection handlePlacebet={handlePlacebet} />
+        <AmountSection
+          handlePlacebet={handlePlacebet}
+          amount={amount}
+          setAmount={setAmount}
+        />
         <div className="main-navbar-container">
           <NavbarContainer />
         </div>

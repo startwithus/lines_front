@@ -1,24 +1,32 @@
 import React, { useState } from "react";
 import { icon } from "../../utility/icon";
 
-const AmountSection = ({ handlePlacebet }) => {
+const AmountSection = ({ handlePlacebet, amount, setAmount }) => {
   // State to manage progress (range: 0 to 100)
-  const [progress, setProgress] = useState(50); // Initial value set to 50
+  const [progress, setProgress] = useState(10); // Initial value set to 50
 
   // Function to decrease progress
   const decreaseProgress = () => {
-    setProgress((prev) => Math.max(prev - 10, 0)); // Decrease by 10, min value is 0
+    setProgress((prev) => {
+      const newProgress = Math.max(prev - 10, 10); // Decrease by 10, min value is 0
+      setAmount(newProgress); // Update the amount to reflect the progress
+      return newProgress;
+    });
   };
 
   // Function to increase progress
   const handleIncrease = () => {
-    setProgress((prev) => Math.min(prev + 10, 100)); // Increase by 10, max value is 100
+    setProgress((prev) => {
+      const newProgress = Math.min(prev + 10, 2000); // Increase by 10, max value is 100
+      setAmount(newProgress); // Update the amount to reflect the progress
+      return newProgress;
+    });
   };
 
   return (
     <div className="action-pet-container">
       <div className="action-pet">
-        <p>{progress.toFixed(2)}x</p>
+        <p>{amount}x</p>
       </div>
       <div className="progress-bar-container">
         <div className="progress-bar">
