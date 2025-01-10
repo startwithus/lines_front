@@ -122,7 +122,8 @@ const Home = () => {
           </div>
         </div>
         <BalanceWinAmount info={info} />
-        <AmountSection handlePlacebet={handlePlacebet} />
+        <AmountSection 
+        handlePlacebet={handlePlacebet} />
         <div className="main-navbar-container">
           <NavbarContainer />
         </div>

@@ -160,6 +160,7 @@ body {
   justify-content: center;
   align-items: center;
 }
+
 .btn-bet {
   width: 160px;
   height: 30px;
@@ -174,6 +175,14 @@ body {
   cursor: pointer;
   font-size: 12px;
   font-weight: 600;
+  transition: background-color 0.3s; /* Smooth transition effect */
+
+}
+
+
+
+.btn-bet:hover {
+  background-color: var(--hg-btn-disabled-bg);
 }
 
 .icons-all {
@@ -275,9 +284,9 @@ body {
   width: 30px;
   height: 30px;
   border-radius: 0.5rem;
-  background: #001a4d;
+  /* background: #001a4d; */
   cursor: pointer;
-  border: 2px solid black;
+  /* border: 2px solid black; */
   pointer-events: auto;
 }
 
@@ -392,3 +401,12 @@ body {
   font-size: 16px; /* Adjust as needed */
   text-shadow: 0 0 5px rgba(0, 0, 0, 0.5); /* Optional for better visibility */
 }
+
+
+
+
+
+
+
+
+

@@ -13,6 +13,9 @@ import muteIcon from "../assests/image 7.png";
 import unmuteIcon from "../assests/image 8.png";
 import infoIcon from "../assests/image 11.png";
 import groupA from "../assests/Group 1.png";
+import scrollBar from '../assests/misc-9.png';
+import misc from "../assests/misc-8.png";
+import triangleIcon from '../assests/misc.png'
 export const icon = {
   liner: liner,
   linerTwo: linerTwo,
@@ -29,4 +32,7 @@ export const icon = {
   unmuteIcon: unmuteIcon,
   infoIcon: infoIcon,
   groupA: groupA,
+  scrollBar: scrollBar,
+  triangleIcon: triangleIcon,
+  misc: misc,
 };

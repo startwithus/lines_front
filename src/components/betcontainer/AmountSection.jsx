@@ -11,7 +11,7 @@ const AmountSection = ({ handlePlacebet }) => {
   };
 
   // Function to increase progress
-  const handleIncrease = () => {
+  const increaseProgress = () => {
     setProgress((prev) => Math.min(prev + 10, 100)); // Increase by 10, max value is 100
   };
 
@@ -28,6 +28,7 @@ const AmountSection = ({ handlePlacebet }) => {
               width: `${progress}%`,
               backgroundColor: "#4caf50", // Example color
               height: "100%", // Ensure it fills the container
+              
             }}
           ></span>
         </div>
@@ -35,7 +36,7 @@ const AmountSection = ({ handlePlacebet }) => {
       <div className="select-bet-container">
         <div className="btn-incress-decress">
           <button onClick={decreaseProgress} className="btn-decressincress">
-            <img src={icon.downIcon} alt="" />
+            <img src={icon.downIcon} alt="" className="icon-shadow" />
           </button>
         </div>
         <div className="bet">
@@ -44,8 +45,8 @@ const AmountSection = ({ handlePlacebet }) => {
           </button>
         </div>
         <div className="btn-incress-decress">
-          <button onClick={handleIncrease} className="btn-decressincress">
-            <img src={icon.upIcon} alt="" />
+          <button onClick={increaseProgress} className="btn-decressincress">
+            <img src={icon.upIcon} alt="" className="icon-shadow" />
           </button>
         </div>
       </div>
