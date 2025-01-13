@@ -117,20 +117,21 @@ const MultiplierProgress = () => {
                   background: "transparent",
                 }}
               />
-              <img
-                src={isActive ? icon.scrollBar : icon.misc}
-                alt="Slider Thumb"
-                className="slider-thumb"
-                style={{
-                  position: "absolute",
-                  top: "-4px",
-                  left: `calc(${value}% - 10px)`,
-                  width: "30px",
-                  height: "24px",
-                  pointerEvents: "none",
-                }}
-              />
+
             </div>
+            <img
+              src={isActive ? icon.scrollBar : icon.misc}
+              alt="Slider Thumb"
+              className="slider-thumb"
+              style={{
+                position: "absolute",
+                top: "-4px",
+                left: `calc(${value}% - 10px)`,
+                width: "30px",
+                height: "24px",
+                pointerEvents: "none",
+              }}
+            />
           </div>
         </div>
         {index !== 0 && (
@@ -148,7 +149,7 @@ const MultiplierProgress = () => {
             }}
           />
         )}
-        
+
       </div>
     );
   };
@@ -160,6 +161,9 @@ const MultiplierProgress = () => {
       </div>
       <div className="">
         {sliders.map((slider, index) => renderSlider(slider, index))}
+
+      </div>
+      <div className="">
         {sliders.length < 3 && (
           <div className="plus-section" onClick={handleAddLine}>
             <h1>ADD LINE</h1>

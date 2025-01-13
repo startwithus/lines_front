@@ -404,12 +404,13 @@ body {
 
 .plus-section {
   text-align: center;
-  margin-top: 10rem;
   /* background-color: red; */
 }
 .plus-section h1 {
   font-size: 24px;
   color: white;
+    /* margin-top: 10rem; */
+
 }
 .plus-section img {
   width: 80px;
