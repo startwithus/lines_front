@@ -116,7 +116,7 @@ body {
   background-color: var(--hg-bg-primary);
 }
 .manual-side-container {
-  height: 65%;
+  height: 66%;
   background: var(--hg-bg-user-panel);
   margin: 0 0.5em;
   padding: 0.5em;
@@ -177,10 +177,7 @@ body {
   font-size: 12px;
   font-weight: 600;
   transition: background-color 0.3s; /* Smooth transition effect */
-
 }
-
-
 
 .btn-bet:hover {
   background-color: var(--hg-btn-disabled-bg);
@@ -404,12 +401,3 @@ body {
   font-size: 16px; /* Adjust as needed */
   text-shadow: 0 0 5px rgba(0, 0, 0, 0.5); /* Optional for better visibility */
 }
-
-
-
-
-
-
-
-
-

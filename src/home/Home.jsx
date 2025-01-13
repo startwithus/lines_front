@@ -135,7 +135,11 @@ const Home = () => {
       </div>
 
       <div className="show-bet-graph-container">
-        <MultiplierProgress />
+        <MultiplierProgress
+          setAutoMultiplier={setAutoMultiplier}
+          autoMultiplier={autoMultiplier}
+          autoValue={autoValue}
+        />
       </div>
     </div>
   );

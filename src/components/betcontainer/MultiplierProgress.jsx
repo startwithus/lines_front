@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import { icon } from "../../utility/icon";
 
-const MultiplierProgress = () => {
+const MultiplierProgress = ({
+  setAutoMultiplier,
+  autoMultiplier,
+  autoValue,
+}) => {
   const [value, setValue] = useState(50);
   const [number, setNumber] = useState(50);
   const [isActive, setIsActive] = useState(false);
@@ -29,7 +33,7 @@ const MultiplierProgress = () => {
         <span className="multi-img">
           <img src={icon.groupA} alt="" />
         </span>
-        <p className="xvalue">{(value / 100).toFixed(2)}x</p>
+        <p className="xvalue">{(value / 1).toFixed(2)}x</p>
       </div>
       <div style={{ width: "100%" }}>
         <div className="slider-scale">
@@ -80,20 +84,30 @@ const MultiplierProgress = () => {
                   background: "transparent",
                 }}
               />
-              <img
-                src={isActive ? icon.scrollBar : icon.misc}
-                alt="Slider Thumb"
-                className="slider-thumb"
-                style={{
-                  position: "absolute",
-                  top: "-4px",
-                  left: `calc(${value}% - 10px)`,
-                  width: "30px",
-                  height: "24px",
-                  pointerEvents: "none",
-                }}
-              />
             </div>
+            <div
+              className=""
+              style={{
+                position: "absolute",
+                top: "-4px",
+                background: "#fff",
+                width: "100%",
+                height: "20px",
+              }}
+            ></div>
+            <img
+              src={isActive ? icon.scrollBar : icon.misc}
+              alt="Slider Thumb"
+              className="slider-thumb"
+              style={{
+                position: "absolute",
+                top: "-6px",
+                left: `calc(${value}% - 10px)`,
+                width: "30px",
+                height: "24px",
+                pointerEvents: "none",
+              }}
+            />
           </div>
         </div>
         <div
