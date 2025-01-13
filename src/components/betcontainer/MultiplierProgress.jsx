@@ -1,22 +1,42 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { icon } from "../../utility/icon";
 
 const MultiplierProgress = ({
   setAutoMultiplier,
   autoMultiplier,
   autoValue,
+  resultData,
+  // currentMax,
 }) => {
-  const [value, setValue] = useState(50);
-  const [number, setNumber] = useState(50);
+  // const [value, setValue] = useState(50);
+  // const [number, setNumber] = useState(50);
+  const [sliderValue, setSliderValue] = useState(50); // Value of the slider
   const [isActive, setIsActive] = useState(false);
   const handleMouseDown = () => setIsActive(true);
   const handleMouseUp = () => setIsActive(false);
-  const handleChange = (e) => {
-    const newValue = e.target.value;
-    setValue(newValue);
-    // Map value to range between 2 and 98
-    const newNumber = Math.max(2, Math.min(98, newValue));
-    setNumber(newNumber);
+  // const refCurrent = useRef(Number(resultData.winningMultiplier));
+  // const [newCoefficient, setNewCoefficient] = useState(
+  //   resultData.winningMultiplier
+  // );
+  const handleSliderChange = (e) => {
+    const newValue = parseFloat(e.target.value);
+    setSliderValue(newValue);
+
+    // Map slider value to a multiplier range
+    let mappedMultiplier;
+    if (newValue < 1.1) {
+      mappedMultiplier = newValue + 0.01;
+    } else if (newValue < 2.0) {
+      mappedMultiplier = newValue + 0.1;
+    } else if (newValue < 10) {
+      mappedMultiplier = newValue + 1.0;
+    } else if (newValue < 100) {
+      mappedMultiplier = newValue + 10.0;
+    } else {
+      mappedMultiplier = Math.min(newValue + 100.0, 1000.0);
+    }
+
+    setAutoMultiplier(mappedMultiplier.toFixed(2) + "x");
   };
 
   return (
@@ -33,7 +53,7 @@ const MultiplierProgress = ({
         <span className="multi-img">
           <img src={icon.groupA} alt="" />
         </span>
-        <p className="xvalue">{(value / 1).toFixed(2)}x</p>
+        <p className="xvalue">{parseFloat(autoMultiplier).toFixed(2)}x</p>
       </div>
       <div style={{ width: "100%" }}>
         <div className="slider-scale">
@@ -64,16 +84,27 @@ const MultiplierProgress = ({
             <div
               className="slider-track"
               style={{
-                background: `linear-gradient(to right, red ${value}%, #4ace4a ${value}%)`,
+                background: `linear-gradient(to right, red ${sliderValue}%, #4ace4a ${sliderValue}%)`,
                 height: "12px",
               }}
             >
+              <div
+                className="white-bg"
+                style={{
+                  position: "absolute",
+                  top: "-4px",
+                  background: "#fff",
+                  width: `${autoValue}%`,
+                  height: "20px",
+                  transition: "width 0.3s ease",
+                }}
+              ></div>
               <input
                 type="range"
                 min="1"
                 max="100"
-                value={value}
-                onChange={handleChange}
+                value={sliderValue}
+                onChange={handleSliderChange}
                 className="slider"
                 onMouseDown={handleMouseDown}
                 onMouseUp={handleMouseUp}
@@ -85,16 +116,7 @@ const MultiplierProgress = ({
                 }}
               />
             </div>
-            <div
-              className=""
-              style={{
-                position: "absolute",
-                top: "-4px",
-                background: "#fff",
-                width: "100%",
-                height: "20px",
-              }}
-            ></div>
+
             <img
               src={isActive ? icon.scrollBar : icon.misc}
               alt="Slider Thumb"
@@ -102,7 +124,7 @@ const MultiplierProgress = ({
               style={{
                 position: "absolute",
                 top: "-6px",
-                left: `calc(${value}% - 10px)`,
+                left: `calc(${sliderValue}% - 10px)`,
                 width: "30px",
                 height: "24px",
                 pointerEvents: "none",
@@ -113,12 +135,16 @@ const MultiplierProgress = ({
         <div
           className="value-display"
           style={{
-            left: `calc(${number}% - 170px)`,
+            left: `calc(${sliderValue}% - 170px)`,
             marginTop: "2px",
           }}
         >
           <div className="">
-            {number === 2 ? "2(min)" : number === 98 ? "98(max)" : `${number}`}
+            {sliderValue <= 3
+              ? "2(MIN)"
+              : sliderValue >= 97
+              ? "98(MAX)"
+              : `${sliderValue}`}
           </div>
         </div>
       </div>

@@ -165,3 +165,34 @@
   background: none;
   display: inline-block;
 }
+@media (max-width: 768px) {
+  .blance-info-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* / height: 20%; / */
+    width: 100%;
+    background: var(--hg-bg-user-panel);
+    margin: 0;
+    border-radius: 4px;
+    margin-top: 0.5rem;
+  }
+
+  .action-pet-container {
+    background: var(--hg-bg-user-panel);
+    margin: 0;
+    /* / padding: 12px; / */
+    border-radius: 0.25rem;
+    margin-top: 0.5rem;
+  }
+  .select-bet-container {
+    gap: 20px;
+  }
+  .main-navbar-container {
+    background: var(--hg-bg-user-panel);
+    margin: 0;
+    /* / padding: 0.4em; / */
+    border-radius: 4px;
+    margin-top: 0.5rem;
+  }
+}
