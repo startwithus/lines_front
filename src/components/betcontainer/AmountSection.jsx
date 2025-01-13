@@ -2,41 +2,21 @@ import React, { useState } from "react";
 import { icon } from "../../utility/icon";
 
 const AmountSection = ({ handlePlacebet, amount, setAmount }) => {
-  const MIN_AMOUNT = 10; // Define minimum amount
-  const MAX_AMOUNT = 100; // Define maximum amount
+  // State to manage progress (range: 0 to 100)
+  const [progress, setProgress] = useState(10); // Initial value set to 50
 
-  const disableMin = Number(amount) === MIN_AMOUNT;
-  const disableMax = Number(amount) === MAX_AMOUNT;
-
-  const buttonStyle = (disabled) => ({
-    cursor: disabled ? "default" : "pointer",
-    opacity: disabled ? 0.5 : 1,
-  });
-
-  // Function to increase the amount
-  const handleIncrease = () => {
-    let numericValue = parseFloat(amount);
-    if (isNaN(numericValue) || amount === "") {
-      numericValue = MIN_AMOUNT;
-    } else {
-      numericValue += MIN_AMOUNT;
-      if (numericValue > MAX_AMOUNT) {
-        numericValue = MAX_AMOUNT;
-      }
-    }
-    setAmount(numericValue.toFixed(2));
+  // Function to decrease progress
+  const decreaseProgress = () => {
+    setProgress((prev) => {
+      const newProgress = Math.max(prev - 10, 10); // Decrease by 10, min value is 0
+      setAmount(newProgress); // Update the amount to reflect the progress
+      return newProgress;
+    });
   };
 
-  // Function to decrease the amount
-  const handleDecrease = () => {
-    let numericValue = parseFloat(amount);
-    if (isNaN(numericValue) || amount === "") {
-      numericValue = MIN_AMOUNT;
-    } else if (numericValue > MIN_AMOUNT) {
-      numericValue -= MIN_AMOUNT;
-    }
-    numericValue = Math.max(MIN_AMOUNT, numericValue);
-    setAmount(numericValue.toFixed(2));
+  // Function to increase progress
+  const increaseProgress = () => {
+    setProgress((prev) => Math.min(prev + 10, 100)); // Increase by 10, max value is 100
   };
 
   return (
@@ -49,7 +29,7 @@ const AmountSection = ({ handlePlacebet, amount, setAmount }) => {
           <span
             className="bet-progressbar"
             style={{
-              width: `${(amount / MAX_AMOUNT) * 100}%`,
+              width: `${progress}%`,
               backgroundColor: "#4caf50", // Example color
               height: "100%", // Ensure it fills the container
             }}
@@ -58,12 +38,7 @@ const AmountSection = ({ handlePlacebet, amount, setAmount }) => {
       </div>
       <div className="select-bet-container">
         <div className="btn-incress-decress">
-          <button
-            onClick={handleDecrease}
-            className="btn-decressincress"
-            style={buttonStyle(disableMin)}
-            disabled={disableMin}
-          >
+          <button onClick={decreaseProgress} className="btn-decressincress">
             <img src={icon.downIcon} alt="" className="icon-shadow" />
           </button>
         </div>
@@ -73,12 +48,7 @@ const AmountSection = ({ handlePlacebet, amount, setAmount }) => {
           </button>
         </div>
         <div className="btn-incress-decress">
-          <button
-            onClick={handleIncrease}
-            className="btn-decressincress"
-            style={buttonStyle(disableMax)}
-            disabled={disableMax}
-          >
+          <button onClick={increaseProgress} className="btn-decressincress">
             <img src={icon.upIcon} alt="" className="icon-shadow" />
           </button>
         </div>

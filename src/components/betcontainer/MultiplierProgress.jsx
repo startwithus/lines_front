@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { icon } from "../../utility/icon";
 
-const MultiplierProgress = () => {
+const MultiplierProgress = ({ setResultData, autoMultiplier, setAutoMultiplier }) => {
   const [sliders, setSliders] = useState([{ value: 50, isActive: false }]); // Initial slider with default value
 
   const handleAddLine = () => {
@@ -31,11 +31,11 @@ const MultiplierProgress = () => {
   };
 
   const handleChange = (e, index) => {
-    const newValue = e.target.value;
+    const newValue = parseInt(e.target.value, 10);
     setSliders((prev) =>
       prev.map((slider, idx) =>
         idx === index
-          ? { ...slider, value: newValue, number: Math.max(2, Math.min(98, newValue)) }
+          ? { ...slider, value: Math.max(2, Math.min(98, newValue)) }
           : slider
       )
     );
@@ -46,28 +46,25 @@ const MultiplierProgress = () => {
     const isActive = slider.isActive || false;
 
     return (
-      <div key={index} style={{ width: "100%", position: "relative", marginTop: "2rem" }}>
+      <div className="lines-section" key={index}>
         {index === 0 && (
           <div
             className="current-value-progress"
             style={{
-              // position: "absolute",
               left: `calc(${value}% - ${value > 50 ? "100px" : "25px"})`,
               top: "-30px",
               display: "flex",
               alignItems: "center",
             }}
           >
-            <span className="multi-img" style={{}}>
+            <span className="multi-img">
               <img
                 src={icon.groupA}
                 alt="Group Icon"
                 style={{ width: "150px", height: "50px", textAlign: "center" }}
               />
             </span>
-            <p className="xvalue" style={{}}>
-              {(value / 100).toFixed(2)}x
-            </p>
+            <p className="xvalue">{(value / 10).toFixed(2)}x</p>
           </div>
         )}
         <div className="slider-scale">
@@ -97,8 +94,6 @@ const MultiplierProgress = () => {
               style={{
                 background: `linear-gradient(to right, red ${value}%, #4ace4a ${value}%)`,
                 height: "13px",
-                // padding:"6px"
-                // width:"200px"
               }}
             >
               <input
@@ -117,7 +112,6 @@ const MultiplierProgress = () => {
                   background: "transparent",
                 }}
               />
-
             </div>
             <img
               src={isActive ? icon.scrollBar : icon.misc}
@@ -149,7 +143,6 @@ const MultiplierProgress = () => {
             }}
           />
         )}
-
       </div>
     );
   };
@@ -159,18 +152,13 @@ const MultiplierProgress = () => {
       <div className="lines-container">
         <img src={icon.line} alt="" />
       </div>
-      <div className="">
-        {sliders.map((slider, index) => renderSlider(slider, index))}
-
-      </div>
-      <div className="">
-        {sliders.length < 3 && (
-          <div className="plus-section" onClick={handleAddLine}>
-            <h1>ADD LINE</h1>
-            <img src={icon.plusIcon} alt="Add Line" />
-          </div>
-        )}
-      </div>
+      <div>{sliders.map((slider, index) => renderSlider(slider, index))}</div>
+      {sliders.length < 3 && (
+        <div className="plus-section" onClick={handleAddLine}>
+          <h1>ADD LINE</h1>
+          <img src={icon.plusIcon} alt="Add Line" />
+        </div>
+      )}
     </div>
   );
 };
