@@ -15,6 +15,7 @@ import infoIcon from "../assests/image 11.png";
 import groupA from "../assests/Group 1.png";
 import scrollBar from "../assests/misc-9.png";
 import misc from "../assests/misc-8.png";
+import misc7 from "../assests/misc-7.png";
 export const icon = {
   liner: liner,
   linerTwo: linerTwo,
@@ -33,4 +34,5 @@ export const icon = {
   groupA: groupA,
   scrollBar: scrollBar,
   misc: misc,
+  misc7: misc7,
 };

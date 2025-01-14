@@ -146,6 +146,25 @@ const MultiplierProgress = ({
           </div>
         </div>
       </div>
+      {/* <div className="add-liner">
+        <img src={icon.misc7} alt="" />
+      </div> */}
+    </div>
+  );
+  return (
+    <div className="slider-wrapper">
+      <div className="lines-container">
+        <img src={icon.line} alt="" />
+      </div>
+      <div className="">
+        {/* {sliders.map((slider, index) => renderSlider(slider, index))}
+        {sliders.length < 3 && ( */}
+        <div className="plus-section">
+          <h1>ADD LINE</h1>
+          <img src={icon.misc7} alt="Add Line" />
+        </div>
+        {/* )} */}
+      </div>
     </div>
   );
 };
