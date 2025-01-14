@@ -26,7 +26,7 @@ const AmountSection = ({ handlePlacebet, amount, setAmount }) => {
   return (
     <div className="action-pet-container">
       <div className="action-pet">
-        <p>{amount}x</p>
+        <p>{amount}</p>
       </div>
       <div className="progress-bar-container">
         <div className="progress-bar">

@@ -112,6 +112,7 @@ const Home = () => {
   if (Object.keys(info)?.length === 0 && !loading) {
     return <UserNot />;
   }
+
   return (
     <div className="container">
       <div className="Pane__inner">

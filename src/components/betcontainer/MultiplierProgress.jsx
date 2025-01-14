@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { icon } from "../../utility/icon";
+import LinerAnimation from "./LinerAnimation";
 
 const MultiplierProgress = ({
   setAutoMultiplier,
@@ -19,23 +20,30 @@ const MultiplierProgress = ({
   //   resultData.winningMultiplier
   // );
   const handleSliderChange = (e) => {
-    const newValue = parseFloat(e.target.value);
-    setSliderValue(newValue);
+    const newValue = parseFloat(e.target.value); // Get the current slider value
+    setSliderValue(newValue); // Update the slider value state
+
+    let mappedMultiplier; // Variable to store the mapped multiplier value
 
     // Map slider value to a multiplier range
-    let mappedMultiplier;
     if (newValue < 1.1) {
-      mappedMultiplier = newValue + 0.01;
+      mappedMultiplier = newValue + 0.01; // Increment by 0.01 when below 1.10
     } else if (newValue < 2.0) {
-      mappedMultiplier = newValue + 0.1;
-    } else if (newValue < 10) {
-      mappedMultiplier = newValue + 1.0;
-    } else if (newValue < 100) {
-      mappedMultiplier = newValue + 10.0;
-    } else {
-      mappedMultiplier = Math.min(newValue + 100.0, 1000.0);
+      mappedMultiplier = newValue + 0.1; // Increment by 0.10 when between 1.10 and 2.00
+    } else if (newValue >= 2.0 && newValue < 10) {
+      mappedMultiplier = newValue + 1.0; // Increment by 1.00 when between 2.00 and 10
+    } else if (newValue >= 10 && newValue < 100) {
+      mappedMultiplier = newValue + 10.0; // Increment by 10.00 when between 10 and 100
+    } else if (newValue >= 100 && newValue < 1000) {
+      mappedMultiplier = newValue + 100.0; // Increment by 100.00 when between 100 and 1000
     }
 
+    // Cap the value at 1000.00
+    if (mappedMultiplier > 1000) {
+      mappedMultiplier = 1000.0;
+    }
+
+    // Set the updated multiplier value with a fixed precision of 2 decimal places
     setAutoMultiplier(mappedMultiplier.toFixed(2) + "x");
   };
 
@@ -88,17 +96,7 @@ const MultiplierProgress = ({
                 height: "12px",
               }}
             >
-              <div
-                className="white-bg"
-                style={{
-                  position: "absolute",
-                  top: "-4px",
-                  background: "#fff",
-                  width: `${autoValue}%`,
-                  height: "20px",
-                  transition: "width 0.3s ease",
-                }}
-              ></div>
+              <LinerAnimation sliderValue={sliderValue} />
               <input
                 type="range"
                 min="1"
