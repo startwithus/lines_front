@@ -12,32 +12,42 @@ const MultiplierProgress = ({
   setSliderValue1,
   resultData,
 }) => {
-  // const [value, setValue] = useState(50);
-  // const [number, setNumber] = useState(50);
-  const [sliderValue, setSliderValue] = useState(50); // Value of the slider
+  const [sliderValue, setSliderValue] = useState(11);
   const [isActive, setIsActive] = useState(false);
+  const [currentImage, setCurrentImage] = useState(icon.groupA); // Default image
+  const [iconToDisplay, setIconToDisplay] = useState(icon.groupA);
   const handleMouseDown = () => setIsActive(true);
   const handleMouseUp = () => setIsActive(false);
-  // const refCurrent = useRef(Number(resultData.winningMultiplier));
-  // const [newCoefficient, setNewCoefficient] = useState(
-  //   resultData.winningMultiplier
-  // );
+
+  // Change the image based on the condition of sliderValue1 and autoMultiplier
+  useEffect(() => {
+    if (isBetting) {
+      setIconToDisplay(icon.groupA); // Reset to groupA when betting starts
+    } else {
+      if (sliderValue1 > parseFloat(autoMultiplier)) {
+        setIconToDisplay(icon.group3); // Show group3 if sliderValue1 > autoMultiplier
+      } else if (sliderValue1 < parseFloat(autoMultiplier)) {
+        setIconToDisplay(icon.group2); // Show group2 if sliderValue1 < autoMultiplier
+      } else {
+        setIconToDisplay(icon.groupA); // Default to groupA if they are equal
+      }
+    }
+  }, [sliderValue1, autoMultiplier, isBetting]);
   const handleSliderChange = (e) => {
     const newValue = parseFloat(e.target.value);
     setSliderValue(newValue);
 
     let mappedMultiplier;
-
     if (newValue <= 2) {
-      mappedMultiplier = 0.93 + (newValue - 1) * 0.01; // Increment by 0.01 for values between 1 and 2
+      mappedMultiplier = 0.93 + (newValue - 1) * 0.01;
     } else if (newValue <= 10) {
-      mappedMultiplier = 1.1 + (newValue - 2) * 0.03; // Increment by 0.03 for values between 2 and 10
+      mappedMultiplier = 1.1 + (newValue - 2) * 0.03;
     } else if (newValue <= 50) {
-      mappedMultiplier = 2.0 + (newValue - 10) * 0.07; // Increment by 0.07 for values between 10 and 50
+      mappedMultiplier = 2.0 + (newValue - 10) * 0.07;
     } else if (newValue <= 100) {
-      mappedMultiplier = 5.0 + (newValue - 50) * 0.76; // Increment by 0.1 for values between 50 and 100
+      mappedMultiplier = 5.0 + (newValue - 50) * 0.76;
     } else if (newValue > 100) {
-      mappedMultiplier = 1000.0 + (newValue - 100) * 100; // Increment by 0.5 for values above 100
+      mappedMultiplier = 1000.0 + (newValue - 100) * 100;
     }
 
     // Cap the value at 1000.00
@@ -45,25 +55,20 @@ const MultiplierProgress = ({
       mappedMultiplier = 1000.0;
     }
 
-    // Set the updated multiplier value with a fixed precision of 2 decimal places
     setAutoMultiplier(mappedMultiplier.toFixed(2) + "x");
   };
 
-  // car container
+  const isWinning = sliderValue1 > parseFloat(autoMultiplier);
 
   return (
     <div className="slider-wrapper">
       <div className="lines-container">
         <img src={icon.line} alt="" />
       </div>
-      <div
-        className="current-value-progress"
-        // style={{
-        //   left: `calc(${value}% - ${value > 50 ? "100px" : "25px"})`,
-        // }}
-      >
+      <div className="current-value-progress">
         <span className="multi-img">
-          <img src={icon.groupA} alt="" />
+          {/* Show the image based on the comparison */}
+          <img src={iconToDisplay} alt="" />
         </span>
         <p className="xvalue">{parseFloat(autoMultiplier).toFixed(2)}x</p>
       </div>

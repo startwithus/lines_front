@@ -20,7 +20,7 @@ const Home = () => {
   const decodedQuery = decodeURIComponent(rawQuery);
   const [loading, setLoading] = useState(true);
   const [amount, setAmount] = useState("10.00");
-  const [autoMultiplier, setAutoMultiplier] = useState("2.00x");
+  const [autoMultiplier, setAutoMultiplier] = useState("2.07x");
   const [resultData, setResultData] = useState({});
   const [isBetting, setIsBetting] = useState(false);
   const [currentMax, setCurrentMax] = useState({});
