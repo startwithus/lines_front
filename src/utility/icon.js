@@ -16,6 +16,7 @@ import groupA from "../assests/Group 1.png";
 import scrollBar from "../assests/misc-9.png";
 import misc from "../assests/misc-8.png";
 import misc7 from "../assests/misc-7.png";
+import betLoader from "../assests/loader.96576605.svg";
 export const icon = {
   liner: liner,
   linerTwo: linerTwo,
@@ -35,4 +36,5 @@ export const icon = {
   scrollBar: scrollBar,
   misc: misc,
   misc7: misc7,
+  betLoader: betLoader,
 };

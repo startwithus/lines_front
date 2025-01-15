@@ -60,6 +60,7 @@
 
 .about-game h1 {
   font-size: 18px;
+  font-weight: 600;
   color: var(--hg-bg-accent);
   margin-bottom: 10px;
 }
@@ -80,7 +81,6 @@
   max-width: 100%;
   height: auto;
   margin: 10px 0;
- 
 }
 
 .GameInfo__edition {

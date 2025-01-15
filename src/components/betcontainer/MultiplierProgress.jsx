@@ -5,9 +5,12 @@ import LinerAnimation from "./LinerAnimation";
 const MultiplierProgress = ({
   setAutoMultiplier,
   autoMultiplier,
+  currentMax,
+  isBetting,
   autoValue,
+  sliderValue1,
+  setSliderValue1,
   resultData,
-  // currentMax,
 }) => {
   // const [value, setValue] = useState(50);
   // const [number, setNumber] = useState(50);
@@ -20,22 +23,21 @@ const MultiplierProgress = ({
   //   resultData.winningMultiplier
   // );
   const handleSliderChange = (e) => {
-    const newValue = parseFloat(e.target.value); // Get the current slider value
-    setSliderValue(newValue); // Update the slider value state
+    const newValue = parseFloat(e.target.value);
+    setSliderValue(newValue);
 
-    let mappedMultiplier; // Variable to store the mapped multiplier value
+    let mappedMultiplier;
 
-    // Map slider value to a multiplier range
-    if (newValue < 1.1) {
-      mappedMultiplier = newValue + 0.01; // Increment by 0.01 when below 1.10
-    } else if (newValue < 2.0) {
-      mappedMultiplier = newValue + 0.1; // Increment by 0.10 when between 1.10 and 2.00
-    } else if (newValue >= 2.0 && newValue < 10) {
-      mappedMultiplier = newValue + 1.0; // Increment by 1.00 when between 2.00 and 10
-    } else if (newValue >= 10 && newValue < 100) {
-      mappedMultiplier = newValue + 10.0; // Increment by 10.00 when between 10 and 100
-    } else if (newValue >= 100 && newValue < 1000) {
-      mappedMultiplier = newValue + 100.0; // Increment by 100.00 when between 100 and 1000
+    if (newValue <= 2) {
+      mappedMultiplier = 0.93 + (newValue - 1) * 0.01; // Increment by 0.01 for values between 1 and 2
+    } else if (newValue <= 10) {
+      mappedMultiplier = 1.1 + (newValue - 2) * 0.03; // Increment by 0.03 for values between 2 and 10
+    } else if (newValue <= 50) {
+      mappedMultiplier = 2.0 + (newValue - 10) * 0.07; // Increment by 0.07 for values between 10 and 50
+    } else if (newValue <= 100) {
+      mappedMultiplier = 5.0 + (newValue - 50) * 0.76; // Increment by 0.1 for values between 50 and 100
+    } else if (newValue > 100) {
+      mappedMultiplier = 1000.0 + (newValue - 100) * 100; // Increment by 0.5 for values above 100
     }
 
     // Cap the value at 1000.00
@@ -46,6 +48,8 @@ const MultiplierProgress = ({
     // Set the updated multiplier value with a fixed precision of 2 decimal places
     setAutoMultiplier(mappedMultiplier.toFixed(2) + "x");
   };
+
+  // car container
 
   return (
     <div className="slider-wrapper">
@@ -96,7 +100,11 @@ const MultiplierProgress = ({
                 height: "12px",
               }}
             >
-              <LinerAnimation sliderValue={sliderValue} />
+              <LinerAnimation
+                sliderValue1={sliderValue1}
+                sliderValue={sliderValue}
+                isBetting={isBetting}
+              />
               <input
                 type="range"
                 min="1"
@@ -138,32 +146,17 @@ const MultiplierProgress = ({
           }}
         >
           <div className="">
-            {sliderValue <= 3
+            {sliderValue <= 2
               ? "2(MIN)"
-              : sliderValue >= 97
+              : sliderValue >= 98
               ? "98(MAX)"
               : `${sliderValue}`}
           </div>
         </div>
       </div>
-      {/* <div className="add-liner">
-        <img src={icon.misc7} alt="" />
-      </div> */}
-    </div>
-  );
-  return (
-    <div className="slider-wrapper">
-      <div className="lines-container">
-        <img src={icon.line} alt="" />
-      </div>
-      <div className="">
-        {/* {sliders.map((slider, index) => renderSlider(slider, index))}
-        {sliders.length < 3 && ( */}
-        <div className="plus-section">
-          <h1>ADD LINE</h1>
-          <img src={icon.misc7} alt="Add Line" />
-        </div>
-        {/* )} */}
+      <div className="plus-section">
+        <h1>ADD LINE</h1>
+        <img alt="" src={icon.misc7} />
       </div>
     </div>
   );

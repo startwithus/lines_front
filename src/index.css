@@ -8,9 +8,7 @@ body {
   background-color: var(--hg-bg-primary);
   user-select: none;
 }
-html body {
-  height: calc(var(--vh, 1vh) * 100 - var(--safe-area-inset-bottom));
-}
+
 ::-webkit-scrollbar {
   display: none;
 }
@@ -413,6 +411,7 @@ html body {
   .container {
     width: 100%;
     flex-direction: column-reverse;
+    height: var(--viewport-height, 100vh);
   }
   .Pane__inner {
     flex-basis: 25%;

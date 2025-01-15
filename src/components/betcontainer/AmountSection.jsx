@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { icon } from "../../utility/icon";
 
-const AmountSection = ({ handlePlacebet, amount, setAmount }) => {
+const AmountSection = ({ handlePlacebet, amount, setAmount, isBetting }) => {
   // State to manage progress (range: 0 to 100)
   const [progress, setProgress] = useState(10); // Initial value set to 50
 
@@ -48,7 +48,11 @@ const AmountSection = ({ handlePlacebet, amount, setAmount }) => {
         </div>
         <div className="bet">
           <button className="btn-bet" onClick={handlePlacebet}>
-            BET
+            {isBetting ? (
+              <img src={icon.betLoader} className="bet-icon" alt="" />
+            ) : (
+              "Place Bet"
+            )}
           </button>
         </div>
         <div className="btn-incress-decress">
