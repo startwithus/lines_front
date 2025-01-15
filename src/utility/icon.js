@@ -15,8 +15,11 @@ import infoIcon from "../assests/image 11.png";
 import groupA from "../assests/Group 1.png";
 import scrollBar from "../assests/misc-9.png";
 import misc from "../assests/misc-8.png";
-import plusIcon from '../assests/misc-7.png';
-import crossIcon from '../assests/misc-6.png'
+import misc7 from "../assests/misc-7.png";
+import betLoader from "../assests/loader.96576605.svg";
+import group3 from "../assests/Group 3.png";
+import group2 from "../assests/Group 2.png";
+
 export const icon = {
   liner: liner,
   linerTwo: linerTwo,
@@ -35,6 +38,8 @@ export const icon = {
   groupA: groupA,
   scrollBar: scrollBar,
   misc: misc,
-  plusIcon: plusIcon,
-  crossIcon: crossIcon
+  misc7: misc7,
+  betLoader: betLoader,
+  group2: group2,
+  group3: group3
 };

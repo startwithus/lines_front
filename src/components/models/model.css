@@ -25,22 +25,44 @@
 }
 
 .close-modal {
-  background-color: #d9534f;
-  color: #fff;
+  background-color: black;
+  color: gray;
   border: none;
   border-radius: 4px;
-  padding: 8px 12px;
+  /* padding: 8px 12px; */
   cursor: pointer;
-  font-size: 16px;
+  /* font-size: 16px; */
   position: absolute;
-  top: 10px;
+  top: 0;
   right: 10px;
 }
 
 .close-modal:hover {
-  background-color: #c9302c;
+  color: green;
 }
 
+.fixed-header {
+  position: fixed; /* Fix the element in place */
+  top: 0; /* Position it at the top of the viewport */
+  left: 0;
+  width: 50%;
+  margin-top: 1rem;
+  background-color: black;
+  text-align: center;
+  align-items: center;
+}
+
+.responsive-divider {
+  height: 2px;
+  border: none;
+  background-color: gray;
+  width: 100%; /* Adjust width to be relative */
+  margin: 0 auto; /* Center the divider */
+}
+.info-line {
+  left: auto;
+  width: 40%;
+}
 .game-info-line h3 {
   font-size: 20px;
   color: var(--hg-text-primary);
@@ -48,18 +70,14 @@
   text-align: center;
 }
 
-.divider {
-  border: none;
-  border-top: 2px solid #ddd;
-  margin: 10px 0;
-}
-
 .about-game {
   margin-bottom: 20px;
+  /* margin-top: 1rem; */
 }
 
 .about-game h1 {
   font-size: 18px;
+  font-weight: 700;
   color: var(--hg-bg-accent);
   margin-bottom: 10px;
 }
@@ -68,6 +86,7 @@
   font-size: 16px;
   color: #fff;
   margin-bottom: 5px;
+  margin-top: 1rem;
 }
 
 .about-game p {
@@ -80,7 +99,6 @@
   max-width: 100%;
   height: auto;
   margin: 10px 0;
- 
 }
 
 .GameInfo__edition {
@@ -92,3 +110,51 @@
 .GameInfo__edition p {
   margin: 5px 0;
 }
+
+@media (max-width: 768px) {
+  .responsive-divider {
+    width: 90%; /* Increase width on smaller devices */
+  }
+  .info-line {
+    width: 93%;
+    left: 10px;
+
+  }
+}
+
+@media (max-width: 480px) {
+  .responsive-divider {
+    width: 95%; /* Maximize width for very small screens */
+  }
+  .info-line {
+    width: 70%;
+    left: 50px;
+  }
+}
+
+
+/* Scrollbar Styling */
+.modal-content::-webkit-scrollbar {
+  width: 8px; /* Width of the scrollbar */
+}
+
+.modal-content::-webkit-scrollbar-track {
+  background: #1a1a1a; /* Background color of the scrollbar track */
+  border-radius: 8px;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+  background-color: green; /* Color of the scrollbar thumb */
+  border-radius: 4px;
+}
+
+.modal-content::-webkit-scrollbar-thumb:hover {
+  background-color: #00ff00; /* Brighter green on hover */
+}
+
+/* For Firefox */
+.modal-content {
+  scrollbar-width: thin; /* Makes the scrollbar thinner */
+  scrollbar-color: green #1a1a1a; /* Thumb color and track color */
+}
+

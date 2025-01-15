@@ -1,19 +1,24 @@
 import React from "react";
 import { icon } from "../../utility/icon";
+import { MdOutlineCancel } from "react-icons/md";
 
 const GameInfo = ({ toggleModal }) => {
   return (
     <div className="modal-overlay">
-      <div className="modal-content">
-        <button className="close-modal" onClick={toggleModal}>
-          Close
-        </button>
+      <button className="close-modal" onClick={toggleModal}>
+        <MdOutlineCancel style={{ fontSize: "32px" }} />
 
-        <div className="game-info-line">
-          <div className="info-line">
+      </button>
+      <div className="modal-content">
+        <div className="game-info-line ">
+          <div className="info-line fixed-header">
             <h3>GAME INFO - LINES</h3>
+            <div className="">
+              <hr className="responsive-divider" />
+            </div>
+
           </div>
-          <hr className="divider" />
+
           <div className="about-game">
             <h1>ABOUT THE GAME</h1>
             <p>
@@ -31,7 +36,9 @@ const GameInfo = ({ toggleModal }) => {
               In LINES, you can choose to play with one, two or three Lines.
               Each Line goes from 1 to 100.
             </p>
-            <img src={icon.liner} alt="" className="info-image" />
+            <div className="" style={{ textAlign: "center" }}>
+              <img src={icon.liner} alt="" className="info-image" />
+            </div>
             <p>
               The game starts with one Line. You can add additional Lines by
               pressing the blue + button under the current Line. You can remove
@@ -43,8 +50,9 @@ const GameInfo = ({ toggleModal }) => {
               left or right to set your desired Target. The Target can be set to
               any whole number from 2 to 98.
             </p>
-            <img src={icon.linerTwo} alt="" className="info-image" />
-
+            <div className="" style={{ textAlign: "center" }}>
+              <img src={icon.linerTwo} alt="" className="info-image" />
+            </div>
             <h2>WINNING</h2>
             <p>
               Setting the Target on a Line adjusts how much that Line will
@@ -57,7 +65,10 @@ const GameInfo = ({ toggleModal }) => {
               win amount will be determined by the total payout times your bet
               amount.
             </p>
-            <img src={icon.linerThree} alt="" className="info-image" />
+            <div className="" style={{ textAlign: "center" }}>
+
+              <img src={icon.linerThree} alt="" className="info-image" />
+            </div>
             <p>
               Once you have set your desired Target on each Line, press BET to
               place your bet and start the round. When doing so, each Line will
@@ -86,13 +97,17 @@ const GameInfo = ({ toggleModal }) => {
               all Lines would exceed 5000 then a bet cannot be placed and one or
               more Targets need to be reduced.
             </p>
-            <img src={icon.maxMulti} alt="" className="info-image" />
+            <div className="" style={{ textAlign: "center" }}>
+              <img src={icon.maxMulti} alt="" className="info-image" />
+            </div>
             <p>
               If the total payout for a certain combination of Targets across
               all Lines would be lower than 1.05 then a bet cannot be placed and
               one or more Targets need to be increased.
             </p>
-            <img src={icon.minMulti} alt="" className="info-image" />
+            <div className="" style={{ textAlign: "center" }}>
+              <img src={icon.minMulti} alt="" className="info-image" />
+            </div>
           </div>
 
           <div className="about-game">
@@ -200,14 +215,14 @@ const GameInfo = ({ toggleModal }) => {
             not the number of positions on each device.
           </p>
         </div>
-        <div className="GameInfo__edition">
+        {/* <div className="GameInfo__edition">
           <p data-part-id="generatedAtDate">Game rules generated 2024-09-02 10:55 UTC</p>
           <p>
             <span data-part-id="gameVersion">Game version 1.0.3</span>
             <br />
             <span data-part-id="serverVersion">Server version 2.0.185</span>
           </p>
-        </div>
+        </div> */}
       </div>
     </div>
   );

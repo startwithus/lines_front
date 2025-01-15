@@ -8,10 +8,13 @@ body {
   background-color: var(--hg-bg-primary);
   user-select: none;
 }
+
 ::-webkit-scrollbar {
   display: none;
 }
 :root body {
+  --vh: 4.78px;
+  --safe-area-inset-bottom: constant(safe-area-inset-bottom);
   --hg-typography-font-family: HacksawUI, sans-serif;
   --hg-bg-accent: #4ace4a;
   --hg-bg-accent-rgb: 74, 206, 74;
@@ -415,6 +418,7 @@ body {
   .container {
     width: 100%;
     flex-direction: column-reverse;
+    height: var(--viewport-height, 100vh);
   }
   .Pane__inner {
     flex-basis: 25%;

@@ -13,6 +13,7 @@ const Home = () => {
   const location = useLocation();
   const [socket, setSocket] = useState(null);
   const [info, setInfo] = useState({});
+  const [sliderValue1, setSliderValue1] = useState(0);
   const [socketConnected, setSocketConnected] = useState(false);
   const [showBalance, setShowBalance] = useState(false);
   const rawQuery = location.search.substring(1);
@@ -22,6 +23,7 @@ const Home = () => {
   const [autoMultiplier, setAutoMultiplier] = useState("2.00x");
   const [resultData, setResultData] = useState({});
   const [isBetting, setIsBetting] = useState(false);
+  const [currentMax, setCurrentMax] = useState({});
   const autoValue = parseFloat(autoMultiplier.replace("x", "")).toFixed(2);
   const [cashoutData, setCashoutData] = useState([]); // To manage the queue of cashout data
 
@@ -51,14 +53,14 @@ const Home = () => {
         setInfo(data);
         setLoading(false);
       });
-      // const handleBet = (data) => {
-      //   try {
-      //     setAllBetData((oldata) => [...new Set([data, ...oldata])]);
-      //     setCurrentMax(data);
-      //   } catch (err) {
-      //     console.error(err);
-      //   }
-      // };
+      const handleBet = (data) => {
+        try {
+          // setAllBetData((oldata) => [...new Set([data, ...oldata])]);
+          setCurrentMax(data);
+        } catch (err) {
+          console.error(err);
+        }
+      };
       const handleCashout = (data) => {
         try {
           setCashoutData((oldata) => [...new Set([...oldata, data])]);
@@ -72,7 +74,7 @@ const Home = () => {
           console.error(err);
         }
       };
-      // socketInstance.on("bets", handleBet);
+      socketInstance.on("bets", handleBet);
       socketInstance.on("cashout", handleCashout);
       // socketInstance.on("betError", (data) => {
       //   setError(data);
@@ -91,6 +93,7 @@ const Home = () => {
     if (isBetting) return;
     setCashoutData([]); // Reset cashout data
     setIsBetting(true);
+    setSliderValue1(0);
     // if (sound) {
     //   playBetSound();
     // }
@@ -105,6 +108,30 @@ const Home = () => {
       setIsBetting(false);
     }, 500);
   };
+  useEffect(() => {
+    if (!socket) return;
+
+    const handleResult = (data) => {
+      // Assuming data is of the form [ "result", { "winningMultiplier": value } ]
+      const winningMultiplier = data?.winningMultiplier || 1;
+
+      // Calculate slider width based on winningMultiplier
+      const newSliderValue = Math.min(winningMultiplier * 100, 100);
+      setSliderValue1(winningMultiplier);
+
+      // Simulate the end of betting
+      setTimeout(() => {
+        setIsBetting(false);
+      }, 3000); // Adjust time as needed for animation
+    };
+
+    socket.on("result", handleResult);
+
+    return () => {
+      socket.off("result", handleResult);
+    };
+  }, [socket]);
+  console.log(sliderValue1);
   // if socket not connected
   if (loading || !socketConnected) {
     return <Loader message={"Connecting..."} />;
@@ -112,6 +139,7 @@ const Home = () => {
   if (Object.keys(info)?.length === 0 && !loading) {
     return <UserNot />;
   }
+
   return (
     <div className="container">
       <div className="Pane__inner">
@@ -129,6 +157,7 @@ const Home = () => {
           handlePlacebet={handlePlacebet}
           amount={amount}
           setAmount={setAmount}
+          isBetting={isBetting}
         />
         <div className="main-navbar-container">
           <NavbarContainer />
@@ -140,6 +169,9 @@ const Home = () => {
           setAutoMultiplier={setAutoMultiplier}
           autoMultiplier={autoMultiplier}
           autoValue={autoValue}
+          sliderValue1={sliderValue1}
+          setSliderValue1={setSliderValue1}
+          isBetting={isBetting}
         />
       </div>
     </div>
