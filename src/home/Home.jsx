@@ -20,6 +20,7 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [amount, setAmount] = useState("10.00");
   const [autoMultiplier, setAutoMultiplier] = useState("2.00x");
+  const [resultData, setResultData] = useState({});
   const [isBetting, setIsBetting] = useState(false);
   const autoValue = parseFloat(autoMultiplier.replace("x", "")).toFixed(2);
   const [cashoutData, setCashoutData] = useState([]); // To manage the queue of cashout data
