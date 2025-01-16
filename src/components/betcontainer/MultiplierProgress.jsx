@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { icon } from "../../utility/icon";
-import LinerAnimation from "./LinerAnimation";
+import LineInputSecond from "./LineInputSecond";
+import ThirdLinerInput from "./ThirdLinerInput";
 
 const MultiplierProgress = ({
   setAutoMultiplier,
@@ -14,7 +15,6 @@ const MultiplierProgress = ({
 }) => {
   const [sliderValue, setSliderValue] = useState(11);
   const [isActive, setIsActive] = useState(false);
-  const [currentImage, setCurrentImage] = useState(icon.groupA); // Default image
   const [iconToDisplay, setIconToDisplay] = useState(icon.groupA);
   const handleMouseDown = () => setIsActive(true);
   const handleMouseUp = () => setIsActive(false);
@@ -105,11 +105,23 @@ const MultiplierProgress = ({
                 height: "12px",
               }}
             >
-              <LinerAnimation
+              <div
+                className="white-bg"
+                style={{
+                  position: "absolute",
+                  top: "-4px",
+                  background: "#fff",
+                  width: `${sliderValue1}%`,
+                  height: "20px",
+
+                  transition: "width 0.3s ease",
+                }}
+              ></div>
+              {/* <LinerAnimation
                 sliderValue1={sliderValue1}
                 sliderValue={sliderValue}
                 isBetting={isBetting}
-              />
+              /> */}
               <input
                 type="range"
                 min="1"
@@ -159,6 +171,8 @@ const MultiplierProgress = ({
           </div>
         </div>
       </div>
+      <LineInputSecond />
+      <ThirdLinerInput />
       <div className="plus-section">
         <h1>ADD LINE</h1>
         <img alt="" src={icon.misc7} />

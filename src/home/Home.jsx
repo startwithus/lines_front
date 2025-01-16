@@ -106,7 +106,7 @@ const Home = () => {
       // });
       console.log("PB:", amount, autoValue);
       setIsBetting(false);
-    }, 500);
+    }, 1000);
   };
   useEffect(() => {
     if (!socket) return;
