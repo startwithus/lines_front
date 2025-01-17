@@ -25,6 +25,15 @@ const AmountSection = ({ handlePlacebet, amount, setAmount, isBetting }) => {
     return MIN_AMOUNT; // Default increment
   };
 
+  // Function to display the midpoint value temporarily before final value
+  const showIntermediateValue = (start, end, setFinalValue) => {
+    const midpoint = (start + end) / 2; // Calculate the midpoint
+    setAmount(midpoint.toFixed(2)); // Show the midpoint
+    setTimeout(() => {
+      setFinalValue(end.toFixed(2)); // Set the final value after a shorter delay
+    }, 200); // Reduced delay to 300ms for faster transition
+  };
+
   // Function to decrease progress
   const decreaseProgress = () => {
     let numericValue = parseFloat(amount);
@@ -32,9 +41,11 @@ const AmountSection = ({ handlePlacebet, amount, setAmount, isBetting }) => {
       numericValue = MIN_AMOUNT;
     } else if (numericValue > MIN_AMOUNT) {
       const decrement = getIncrement(numericValue) / 2; // Decrement is half the increment
-      numericValue = Math.max(numericValue - decrement, MIN_AMOUNT);
+      const targetValue = Math.max(numericValue - decrement, MIN_AMOUNT);
+      showIntermediateValue(numericValue, targetValue, setAmount);
+    } else {
+      setAmount(MIN_AMOUNT.toFixed(2));
     }
-    setAmount(numericValue.toFixed(2));
   };
 
   // Function to increase progress
@@ -44,9 +55,9 @@ const AmountSection = ({ handlePlacebet, amount, setAmount, isBetting }) => {
       numericValue = MIN_AMOUNT;
     } else {
       const increment = getIncrement(numericValue);
-      numericValue = Math.min(numericValue + increment, MAX_AMOUNT);
+      const targetValue = Math.min(numericValue + increment, MAX_AMOUNT);
+      showIntermediateValue(numericValue, targetValue, setAmount);
     }
-    setAmount(numericValue.toFixed(2));
   };
 
   return (

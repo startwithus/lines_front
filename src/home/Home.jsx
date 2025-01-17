@@ -26,7 +26,7 @@ const Home = () => {
   const [currentMax, setCurrentMax] = useState({});
   const autoValue = parseFloat(autoMultiplier.replace("x", "")).toFixed(2);
   const [cashoutData, setCashoutData] = useState([]); // To manage the queue of cashout data
-
+  console.log("home");
   let queryParams = {};
   try {
     queryParams = JSON.parse(
@@ -172,6 +172,7 @@ const Home = () => {
           sliderValue1={sliderValue1}
           setSliderValue1={setSliderValue1}
           isBetting={isBetting}
+          socket={socket}
         />
       </div>
     </div>
