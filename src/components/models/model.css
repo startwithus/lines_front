@@ -1,16 +1,14 @@
-/* GameInfo.css */
-
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: black;
+  background: black;
+  z-index: 1000;
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
 }
 
 .modal-content {
@@ -25,16 +23,13 @@
 }
 
 .close-modal {
-  background-color: black;
-  color: gray;
-  border: none;
-  border-radius: 4px;
-  /* padding: 8px 12px; */
-  cursor: pointer;
-  /* font-size: 16px; */
   position: absolute;
-  top: 0;
+  top: 10px;
   right: 10px;
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
 }
 
 .close-modal:hover {
@@ -44,24 +39,23 @@
 .fixed-header {
   position: fixed; /* Fix the element in place */
   top: 0; /* Position it at the top of the viewport */
-  left: 0;
-  width: 50%;
-  margin-top: 1rem;
+  position: fixed;
+  top: 0;
   background-color: black;
   text-align: center;
-  align-items: center;
+  margin-top: 1rem;
 }
 
 .responsive-divider {
   height: 2px;
   border: none;
   background-color: gray;
-  width: 100%; /* Adjust width to be relative */
-  margin: 0 auto; /* Center the divider */
+  width: 100%;
+  margin: 0 auto;
 }
 .info-line {
-  left: auto;
-  width: 40%;
+  /* left: auto; */
+  width: 51%;
 }
 .game-info-line h3 {
   font-size: 20px;
@@ -72,7 +66,7 @@
 
 .about-game {
   margin-bottom: 20px;
-  /* margin-top: 1rem; */
+  margin-top: 1rem;
 }
 
 .about-game h1 {
@@ -111,20 +105,28 @@
   margin: 5px 0;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .responsive-divider {
-    width: 90%; /* Increase width on smaller devices */
+    width: 58%;
   }
   .info-line {
-    width: 93%;
-    left: 10px;
+    /* width: 90%; */
+  }
+}
 
+@media (max-width: 768px) {
+  .responsive-divider {
+    width: 100%;
+  }
+  .info-line {
+    width: 90%;
+    left: 10px;
   }
 }
 
 @media (max-width: 480px) {
   .responsive-divider {
-    width: 95%; /* Maximize width for very small screens */
+    width: 100%;
   }
   .info-line {
     width: 70%;
@@ -132,29 +134,28 @@
   }
 }
 
-
-/* Scrollbar Styling */
+/* / Scrollbar Styling / */
 .modal-content::-webkit-scrollbar {
-  width: 8px; /* Width of the scrollbar */
+  width: 8px;
 }
 
 .modal-content::-webkit-scrollbar-track {
-  background: #1a1a1a; /* Background color of the scrollbar track */
+  background: #1a1a1a;
   border-radius: 8px;
 }
 
 .modal-content::-webkit-scrollbar-thumb {
-  background-color: green; /* Color of the scrollbar thumb */
+  background-color: green;
   border-radius: 4px;
 }
 
 .modal-content::-webkit-scrollbar-thumb:hover {
-  background-color: #00ff00; /* Brighter green on hover */
+  background-color: #00ff00;
 }
 
-/* For Firefox */
+/* / For Firefox / */
 .modal-content {
-  scrollbar-width: thin; /* Makes the scrollbar thinner */
-  scrollbar-color: green #1a1a1a; /* Thumb color and track color */
+  scrollbar-width: thin;
+  scrollbar-color: green #1a1a1a;
+  margin-top: 2rem;
 }
-

@@ -1,6 +1,6 @@
 import React from "react";
 
-const BalanceWinAmount = ({ info, cashoutData }) => {
+const BalanceWinAmount = ({ info, resultData }) => {
   return (
     <div style={{ height: "" }}>
       <div className="blance-info-container">
@@ -50,13 +50,7 @@ const BalanceWinAmount = ({ info, cashoutData }) => {
                   marginTop: "6px",
                 }}
               >
-                {cashoutData?.length > 0
-                  ? cashoutData?.map((el, i) => (
-                      <div className={`win-amount`} key={i}>
-                        {el?.winAmount}
-                      </div>
-                    ))
-                  : null}
+                {resultData?.winAmount}
               </p>
             </div>
           </div>

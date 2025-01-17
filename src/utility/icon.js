@@ -19,7 +19,9 @@ import misc7 from "../assests/misc-7.png";
 import betLoader from "../assests/loader.96576605.svg";
 import group3 from "../assests/Group 3.png";
 import group2 from "../assests/Group 2.png";
-
+import crossIcon from '../assests/misc-6.png';
+import turboIcon from '../assests/image 9.png';
+import unknownTurbo from '../assests/image 10.png'
 export const icon = {
   liner: liner,
   linerTwo: linerTwo,
@@ -40,6 +42,9 @@ export const icon = {
   misc: misc,
   misc7: misc7,
   betLoader: betLoader,
+  group3: group3,
   group2: group2,
-  group3: group3
+  crossIcon: crossIcon,
+  turboIcon: turboIcon,
+  unknownTurbo: unknownTurbo
 };

@@ -79,11 +79,12 @@ const AmountSection = ({ handlePlacebet, amount, setAmount, isBetting }) => {
         </div>
         <div className="bet">
           <button className="btn-bet" onClick={handlePlacebet}>
-            {isBetting ? (
+            {/* {isBetting ? (
               <img src={icon.betLoader} className="bet-icon" alt="Loading" />
             ) : (
               "Place Bet"
-            )}
+            )} */}
+            Place Bet
           </button>
         </div>
         <div className="btn-incress-decress">

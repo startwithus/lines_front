@@ -3,12 +3,12 @@ export const mobileWidth = 819;
 export default function isMobileFunction() {
   const windowWidth = window.innerWidth;
   const match = navigator.userAgent.match(
-      /(iPad)|(iPhone)|(iPod)|(android)|(Android)|(webOS)/i,
+    /(iPad)|(iPhone)|(iPod)|(android)|(Android)|(webOS)/i,
   );
   //Fix for iPad pro
   //TODO: find better solution
   if (windowWidth > mobileWidth && match && match.includes('iPad'))
-      return false;
+    return false;
   if (windowWidth <= mobileWidth) return true;
   return !!match;
 }
@@ -29,42 +29,27 @@ export const formateTime = (dateString) => {
     hour: "2-digit",
     minute: "2-digit",
 
-    hour12:true
+    hour12: true
   })
 
 }
 
-export const useLocalStorageHelper = () => {
-  const checkLocalStorage = () => {
-      try {
-          return localStorage && typeof localStorage !== 'undefined';
-      } catch (error) {
-          return false;
-      }
-  };
 
-  const check = checkLocalStorage();
+const RTP = 92;
+export function getMaxMult(ranges) {
+  let mult = 1;
+  for (let range of ranges) {
+    const singleMult = getMaxMultFromRange(range);
+    mult *= singleMult;
+  }
+  const finalMult = mult * (RTP / 100);
+  return Math.floor(finalMult * 100) / 100;
+}
 
-  const set = (key, value) => {
-      if (check) {
-          localStorage.setItem(key, value);
-      }
-  };
-
-  const get = (key) => {
-      if (check) {
-          return localStorage.getItem(key);
-      }
-      return null;
-  };
-
-  const remove = (key) => {
-      if (check) {
-          localStorage.removeItem(key);
-      }
-  };
-
-  return { set, get, remove };
-};
-
+export function getMaxMultFromRange(num) {
+  const range = 100;
+  const prob = (range - num) / range;
+  const mult = 1 / prob;
+  return mult;
+}
 

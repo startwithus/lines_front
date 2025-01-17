@@ -9,6 +9,7 @@ const NavbarContainer = () => {
   const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
   const [isActive, setIsActive] = useState(false);
   const [isMusicDisabled, setIsMusicDisabled] = useState(false); // State to disable music toggle
+  const [isTurbo, setIsTurbo] = useState(true); // State to toggle image
 
   const toggleSound = () => {
     const newSoundState = !isSoundOn;
@@ -17,6 +18,9 @@ const NavbarContainer = () => {
     if (!newSoundState) {
       setIsMusicOn(false); // Ensure music is turned off when sound is off
     }
+  };
+  const toggleTurbo = () => {
+    setIsTurbo((prev) => !prev); // Toggle between true and false
   };
 
   const toggleMusic = () => {
@@ -62,6 +66,18 @@ const NavbarContainer = () => {
             <img src={icon.unmuteIcon} alt="Music Off" />
           )}
           <span className="sound-text">MUSIC</span>
+        </li>
+
+        <li
+          className="MainNavbar__item"
+          onClick={toggleTurbo}
+          style={{ cursor: "pointer" }}
+        >
+          <img
+            src={isTurbo ? icon.turboIcon : icon.unknownTurbo} // Conditional rendering of the image
+            alt={isTurbo ? "Turbo Icon" : "Unknown Turbo Icon"}
+          />
+          <span className="sound-text">TURBO</span>
         </li>
         <li
           className="MainNavbar__item"

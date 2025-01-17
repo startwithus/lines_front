@@ -414,11 +414,16 @@ body {
   text-shadow: 0 0 5px rgba(0, 0, 0, 0.5); /* Optional for better visibility */
 }
 
+.crossIcon img {
+  width: 40px;
+  margin-left: -3rem;
+}
+
 @media (max-width: 768px) {
   .container {
     width: 100%;
     flex-direction: column-reverse;
-    height: var(--viewport-height, 100vh);
+    height: var(--viewport-height, 00vh);
   }
   .Pane__inner {
     flex-basis: 25%;
@@ -427,10 +432,18 @@ body {
   }
 
   .show-bet-graph-container {
-    flex-basis: 74%;
+    /* flex-basis: 74%; */
     height: 81%;
     width: 100%;
   }
+  .slider-wrapper {
+    
+  }
+
+  .current-value-progress img{
+    width: 100%;
+  }
+  
   .manual-side-container {
     height: 20%;
     /* / width: 100%; / */
@@ -463,6 +476,7 @@ body {
   .manual-side-container {
     /* height: 64%; */
   }
+  
 }
 
 @media (max-width: 1440px) {
@@ -473,5 +487,9 @@ body {
 
   .manual-btn {
     max-width: 150px;
+  }
+
+  .current-value-progress img{
+    width: 100%;
   }
 }

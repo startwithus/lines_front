@@ -1,6 +1,6 @@
 import React from "react";
 
-const LinerAnimation = ({ sliderValue1, isBetting }) => {
+const LinerAnimation = ({ sliderValue1, isBetting, sliderValue }) => {
   return (
     <>
       {/* {isBetting ? ( */}

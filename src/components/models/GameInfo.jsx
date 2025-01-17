@@ -7,16 +7,14 @@ const GameInfo = ({ toggleModal }) => {
     <div className="modal-overlay">
       <button className="close-modal" onClick={toggleModal}>
         <MdOutlineCancel style={{ fontSize: "32px" }} />
-
       </button>
       <div className="modal-content">
-        <div className="game-info-line ">
+        <div className="game-info-line">
           <div className="info-line fixed-header">
             <h3>GAME INFO - LINES</h3>
-            <div className="">
+            <div>
               <hr className="responsive-divider" />
             </div>
-
           </div>
 
           <div className="about-game">
@@ -66,7 +64,6 @@ const GameInfo = ({ toggleModal }) => {
               amount.
             </p>
             <div className="" style={{ textAlign: "center" }}>
-
               <img src={icon.linerThree} alt="" className="info-image" />
             </div>
             <p>
