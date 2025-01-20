@@ -23,7 +23,9 @@ const Home = () => {
   const [isBetting, setIsBetting] = useState(false);
   const [resultData, setResultData] = useState({});
   const [sliders, setSliders] = useState([50]); // Initial slider values
-  const [totalMultiplier, setTotalMultiplier] = useState(getMaxMult([50])); // Initial multiplier
+  const [totalMultiplier, setTotalMultiplier] = useState(getMaxMult([50]));
+
+  // Initial multiplier
   console.log(sliders);
   let queryParams = {};
   try {
@@ -52,33 +54,47 @@ const Home = () => {
         setInfo(data);
         setLoading(false);
       });
-      const handleResult = (data) => {
-        try {
-          setResultData(data);
+      socketInstance.on("result", (data) => {
+        console.log("Result", data);
+        setResultData(data);
+      });
+      // const handleResult = (data) => {
+      //   try {
+      //     setResultData(data);
 
-          const winningRange = data.winningRange || [];
-          if (winningRange.length > 0) {
-            // Clamp values between 2 and 98
-            const updatedSliders = winningRange.map((value) =>
-              Math.max(2, Math.min(98, value))
-            );
+      //     const winningRange = data.winningRange || [];
+      //     if (winningRange.length > 0) {
+      //       const updatedSliders = winningRange.map((value) =>
+      //         Math.max(2, Math.min(98, value))
+      //       );
 
-            // Update sliders separately
-            setSliders(updatedSliders);
+      //       setSliders(updatedSliders);
+      //     }
+      //   } catch (err) {
+      //     console.error(err);
+      //   }
+      // };
 
-            // Update total multiplier separately
-          }
-        } catch (err) {
-          console.error(err);
-        }
-      };
-
-      socketInstance.on("result", handleResult);
+      // socketInstance.on("result", handleResult);
       return () => {
         socketInstance.disconnect();
       };
     }
   }, [queryParams.id]);
+
+  let firstResult;
+  let secondResult;
+  let thirdResult;
+
+  if (resultData?.winningRange) {
+    firstResult = resultData?.winningRange[0] || [];
+    secondResult = resultData?.winningRange[1] || [];
+    thirdResult = resultData?.winningRange[2] || [];
+  }
+
+  console.log("Resultdata winning Range", firstResult);
+  console.log("Resultdata winning Range 1", secondResult);
+  console.log("Resultdata winning Range 2", thirdResult);
 
   const handlePlaceBet = () => {
     if (+amount > info.balance || +amount === 0) {
@@ -91,6 +107,9 @@ const Home = () => {
     setTimeout(() => {
       setIsBetting(false);
     }, 500);
+  };
+  const handleCanvasLoad = (status) => {
+    setLoading(!status);
   };
   // if socket not connected
   if (loading || !socketConnected) {
@@ -122,6 +141,7 @@ const Home = () => {
           amount={amount}
           setAmount={setAmount}
           isBetting={isBetting}
+          totalMultiplier={totalMultiplier}
         />
         <div className="main-navbar-container">
           <NavbarContainer />
@@ -135,6 +155,9 @@ const Home = () => {
           totalMultiplier={totalMultiplier}
           setTotalMultiplier={setTotalMultiplier}
           isBetting={isBetting}
+          firstResult={firstResult}
+          secondResult={secondResult}
+          thirdResult={thirdResult}
         />
       </div>
     </div>

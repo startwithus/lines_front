@@ -10,8 +10,10 @@ const MultiplierProgress = ({
   totalMultiplier,
   setTotalMultiplier,
   isBetting,
+  firstResult,
+  secondResult, // Accept secondResult prop
+  thirdResult, // Accept thirdResult prop
 }) => {
-  console.log(setSliders, "hiiiiiiiii");
   const [isActive, setIsActive] = useState(false);
 
   const handleMouseDown = () => setIsActive(true);
@@ -27,10 +29,10 @@ const MultiplierProgress = ({
     setSliders(updatedSliders);
     setTotalMultiplier(newTotalMultiplier);
   };
-  console.log(totalMultiplier);
+
   const handleAddSlider = () => {
     if (sliders.length < 3) {
-      const updatedSliders = [...sliders, 2]; // Add a new slider with a default value
+      const updatedSliders = [...sliders, 2];
       const newTotalMultiplier = getMaxMult(updatedSliders);
 
       setSliders(updatedSliders);
@@ -46,130 +48,147 @@ const MultiplierProgress = ({
     setTotalMultiplier(newTotalMultiplier);
   };
 
-  const renderSlider = (value, index) => (
-    <div className="lines-section" key={index}>
-      {index === 0 && (
-        <div
-          className="current-value-progress"
-          style={{
-            left: `calc(${value}% - ${value > 50 ? "100px" : "25px"})`,
-            top: "-30px",
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <span className="multi-img">
-            <img
-              src={icon.groupA}
-              alt="Group Icon"
-              style={{ width: "150px", height: "50px", textAlign: "center" }}
-            />
-          </span>
-          <p className="xvalue"> {totalMultiplier.toFixed(2)}</p>
-        </div>
-      )}
-      <div className="slider-scale">
-        <span>1</span>
-        <span>25</span>
-        <span>50</span>
-        <span>75</span>
-        <span>100</span>
-      </div>
-      <div className="tringle-container">
-        <div className="triangle-up"></div>
-        <div className="triangle-up1"></div>
-        <div className="triangle-up2"></div>
-        <div className="triangle-up3"></div>
-        <div className="triangle-up4"></div>
-      </div>
-      <div style={{ border: ".5rem solid #fff", borderRadius: ".5rem" }}>
-        <div
-          style={{
-            border: ".2rem solid black",
-            borderRadius: "3px",
-            position: "relative",
-          }}
-        >
+  const renderSlider = (value, index) => {
+    let resultWidth = "0"; // Default width for all sliders
+    if (index === 0) {
+      resultWidth = `${firstResult}%`; // First slider: use firstResult
+    } else if (index === 1 && secondResult) {
+      resultWidth = `${secondResult}%`; // Second slider: use secondResult
+    } else if (index === 2 && thirdResult) {
+      resultWidth = `${thirdResult}%`; // Third slider: use thirdResult
+    }
+
+    return (
+      <div className="lines-section" key={index}>
+        {index === 0 && (
           <div
-            className="slider-track"
+            className="current-value-progress"
             style={{
-              background: `linear-gradient(to right, red ${value}%, #4ace4a ${value}%)`,
-              height: "13px",
+              left: `calc(${value}% - ${value > 50 ? "100px" : "25px"})`,
+              top: "-30px",
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <span className="multi-img">
+              <img
+                src={
+                  totalMultiplier < 1.05 || totalMultiplier > 5000.0
+                    ? icon.group2
+                    : icon.groupA
+                }
+                alt="Group Icon"
+                style={{ width: "150px", height: "50px", textAlign: "center" }}
+              />
+            </span>
+            <p className="xvalue">{totalMultiplier.toFixed(2)}</p>
+          </div>
+        )}
+        <div className="slider-scale">
+          <span>1</span>
+          <span>25</span>
+          <span>50</span>
+          <span>75</span>
+          <span>100</span>
+        </div>
+        <div className="tringle-container">
+          <div className="triangle-up"></div>
+          <div className="triangle-up1"></div>
+          <div className="triangle-up2"></div>
+          <div className="triangle-up3"></div>
+          <div className="triangle-up4"></div>
+        </div>
+        <div style={{ border: ".5rem solid #fff", borderRadius: ".5rem" }}>
+          <div
+            style={{
+              border: ".2rem solid black",
+              borderRadius: "3px",
+              position: "relative",
             }}
           >
             <div
-              className="white-bg"
+              className="slider-track"
+              style={{
+                background: `linear-gradient(to right, red ${value}%, #4ace4a ${value}%)`,
+                height: "13px",
+              }}
+            >
+              {/* {isBetting && ( */}
+              <div
+                className="white-bg"
+                style={{
+                  position: "absolute",
+                  top: "-4px",
+                  background: "#fff",
+                  width: resultWidth, // Use result width based on slider index
+                  height: "20px",
+                  transition: "width 0.3s ease",
+                }}
+              ></div>
+              {/* )} */}
+
+              <input
+                type="range"
+                min="2"
+                max="98"
+                value={value}
+                onMouseDown={handleMouseDown}
+                onMouseUp={handleMouseUp}
+                onChange={(e) => handleSliderChange(index, e)}
+                className="slider"
+                style={{
+                  position: "absolute",
+                  top: "0",
+                  left: "0",
+                  background: "transparent",
+                }}
+              />
+            </div>
+            <img
+              src={isActive ? icon.scrollBar : icon.misc}
+              alt="Slider Thumb"
+              className="slider-thumb"
               style={{
                 position: "absolute",
                 top: "-4px",
-                background: "#fff",
-                width: `${value}%`,
-                height: "20px",
-                transition: "width 0.3s ease",
-              }}
-            ></div>
-
-            <input
-              type="range"
-              min="2"
-              max="98"
-              value={value}
-              // className="slider"
-              onMouseDown={handleMouseDown}
-              onMouseUp={handleMouseUp}
-              onChange={(e) => handleSliderChange(index, e)}
-              className="slider"
-              style={{
-                position: "absolute",
-                top: "0",
-                left: "0",
-                background: "transparent",
+                left: `calc(${value}% - 10px)`,
+                width: "30px",
+                height: "24px",
+                pointerEvents: "none",
               }}
             />
           </div>
+        </div>
+        {index !== 0 && !isBetting && (
           <img
-            src={isActive ? icon.scrollBar : icon.misc}
-            alt="Slider Thumb"
-            className="slider-thumb"
+            src={icon.crossIcon}
+            alt="Remove Slider"
+            onClick={() => handleRemoveSlider(index)}
             style={{
               position: "absolute",
-              top: "-4px",
-              left: `calc(${value}% - 10px)`,
-              width: "30px",
-              height: "24px",
-              pointerEvents: "none",
+              top: "250px",
+              left: "-40px",
+              cursor: "pointer",
+              width: "40px",
+              height: "40px",
             }}
           />
-        </div>
-      </div>
-      {index !== 0 && (
-        <img
-          src={icon.crossIcon} // Replace with actual cross icon path
-          alt="Remove Slider"
-          onClick={() => handleRemoveSlider(index)}
+        )}
+
+        <div
+          className="value-display"
           style={{
-            position: "absolute",
-            top: "250px",
-            left: "-40px",
-            cursor: "pointer",
-            width: "40px",
-            height: "40px",
+            left: `calc(${value}% - 170px)`,
+            marginTop: "2px",
           }}
-        />
-      )}{" "}
-      <div
-        className="value-display"
-        style={{
-          left: `calc(${value}% - 170px)`,
-          marginTop: "2px",
-        }}
-      >
-        <div className="">
-          {value <= 2 ? "2(MIN)" : value >= 98 ? "98(MAX)" : `${value}`}
+        >
+          <div className="">
+            {value <= 2 ? "2(MIN)" : value >= 98 ? "98(MAX)" : `${value}`}
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   return (
     <div className="slider-wrapper">
@@ -177,12 +196,13 @@ const MultiplierProgress = ({
         <img src={icon.line} alt="Lines" />
       </div>
       <div>{sliders.map((slider, index) => renderSlider(slider, index))}</div>
-      {sliders.length < 3 && (
-        <div className="plus-section" onClick={handleAddSlider}>
-          <h1>ADD LINE</h1>
-          <img src={icon.misc7} alt="Add Line" />
-        </div>
-      )}
+      {sliders.length < 3 &&
+        !isBetting && ( // Only show this section if not betting
+          <div className="plus-section" onClick={handleAddSlider}>
+            <h1>ADD LINE</h1>
+            <img src={icon.misc7} alt="Add Line" />
+          </div>
+        )}
     </div>
   );
 };
