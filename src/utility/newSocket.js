@@ -1,7 +1,7 @@
 // newSocket.js
 import { io } from "socket.io-client";
 
-const URL = "https://backend-limbo.maharaj365.in/";
+const URL = process.env.REACT_APP_NEW_BACKEND_SOCKET_URL_GAME;
 
 export const createSocket = (token, gameId) => {
   return io(URL, {

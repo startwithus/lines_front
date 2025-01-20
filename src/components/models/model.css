@@ -1,16 +1,14 @@
-/* GameInfo.css */
-
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: black;
+  background: black;
+  z-index: 1000;
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
 }
 
 .modal-content {
@@ -25,22 +23,40 @@
 }
 
 .close-modal {
-  background-color: #d9534f;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  padding: 8px 12px;
-  cursor: pointer;
-  font-size: 16px;
   position: absolute;
   top: 10px;
   right: 10px;
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
 }
 
 .close-modal:hover {
-  background-color: #c9302c;
+  color: green;
 }
 
+.fixed-header {
+  position: fixed; /* Fix the element in place */
+  top: 0; /* Position it at the top of the viewport */
+  position: fixed;
+  top: 0;
+  background-color: black;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.responsive-divider {
+  height: 2px;
+  border: none;
+  background-color: gray;
+  width: 100%;
+  margin: 0 auto;
+}
+.info-line {
+  /* left: auto; */
+  width: 51%;
+}
 .game-info-line h3 {
   font-size: 20px;
   color: var(--hg-text-primary);
@@ -48,18 +64,14 @@
   text-align: center;
 }
 
-.divider {
-  border: none;
-  border-top: 2px solid #ddd;
-  margin: 10px 0;
-}
-
 .about-game {
   margin-bottom: 20px;
+  margin-top: 1rem;
 }
 
 .about-game h1 {
   font-size: 18px;
+  font-weight: 700;
   color: var(--hg-bg-accent);
   margin-bottom: 10px;
 }
@@ -68,6 +80,7 @@
   font-size: 16px;
   color: #fff;
   margin-bottom: 5px;
+  margin-top: 1rem;
 }
 
 .about-game p {
@@ -80,7 +93,6 @@
   max-width: 100%;
   height: auto;
   margin: 10px 0;
- 
 }
 
 .GameInfo__edition {
@@ -91,4 +103,59 @@
 
 .GameInfo__edition p {
   margin: 5px 0;
+}
+
+@media (max-width: 1024px) {
+  .responsive-divider {
+    width: 58%;
+  }
+  .info-line {
+    /* width: 90%; */
+  }
+}
+
+@media (max-width: 768px) {
+  .responsive-divider {
+    width: 100%;
+  }
+  .info-line {
+    width: 90%;
+    left: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .responsive-divider {
+    width: 100%;
+  }
+  .info-line {
+    width: 70%;
+    left: 50px;
+  }
+}
+
+/* / Scrollbar Styling / */
+.modal-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+  background: #1a1a1a;
+  border-radius: 8px;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+  background-color: green;
+  border-radius: 4px;
+}
+
+.modal-content::-webkit-scrollbar-thumb:hover {
+  background-color: #00ff00;
+}
+
+/* / For Firefox / */
+.modal-content {
+  scrollbar-width: thin;
+  scrollbar-color: green #1a1a1a;
+  margin-top: 2rem;
 }

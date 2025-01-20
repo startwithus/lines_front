@@ -8,22 +8,23 @@ import { createSocket } from "../utility/newSocket";
 import { useLocation } from "react-router-dom";
 import Loader from "../components/loader/Loader";
 import UserNot from "../components/loader/UserNot";
+import { getMaxMult } from "../utility/helper";
 
 const Home = () => {
   const location = useLocation();
   const [socket, setSocket] = useState(null);
   const [info, setInfo] = useState({});
-  const [socketConnected, setSocketConnected] = useState(false);
   const [showBalance, setShowBalance] = useState(false);
+  const [socketConnected, setSocketConnected] = useState(false);
   const rawQuery = location.search.substring(1);
   const decodedQuery = decodeURIComponent(rawQuery);
   const [loading, setLoading] = useState(true);
   const [amount, setAmount] = useState("10.00");
-  const [autoMultiplier, setAutoMultiplier] = useState("2.00x");
   const [isBetting, setIsBetting] = useState(false);
-  const autoValue = parseFloat(autoMultiplier.replace("x", "")).toFixed(2);
-  const [cashoutData, setCashoutData] = useState([]); // To manage the queue of cashout data
-
+  const [resultData, setResultData] = useState({});
+  const [sliders, setSliders] = useState([50]); // Initial slider values
+  const [totalMultiplier, setTotalMultiplier] = useState(getMaxMult([50])); // Initial multiplier
+  console.log(sliders);
   let queryParams = {};
   try {
     queryParams = JSON.parse(
@@ -36,6 +37,7 @@ const Home = () => {
     queryParams = {};
   }
 
+  // socket connection
   useEffect(() => {
     if (queryParams.id) {
       const socketInstance = createSocket(queryParams.id, queryParams.game_id);
@@ -50,57 +52,43 @@ const Home = () => {
         setInfo(data);
         setLoading(false);
       });
-      // const handleBet = (data) => {
-      //   try {
-      //     setAllBetData((oldata) => [...new Set([data, ...oldata])]);
-      //     setCurrentMax(data);
-      //   } catch (err) {
-      //     console.error(err);
-      //   }
-      // };
-      const handleCashout = (data) => {
+      const handleResult = (data) => {
         try {
-          setCashoutData((oldata) => [...new Set([...oldata, data])]);
-          //     if (data) {
-          //       setCashModal(true);
-          //       if (sound) {
-          //         playCashoutSound();
-          //       }
-          //     }
+          setResultData(data);
+
+          const winningRange = data.winningRange || [];
+          if (winningRange.length > 0) {
+            // Clamp values between 2 and 98
+            const updatedSliders = winningRange.map((value) =>
+              Math.max(2, Math.min(98, value))
+            );
+
+            // Update sliders separately
+            setSliders(updatedSliders);
+
+            // Update total multiplier separately
+          }
         } catch (err) {
           console.error(err);
         }
       };
-      // socketInstance.on("bets", handleBet);
-      socketInstance.on("cashout", handleCashout);
-      // socketInstance.on("betError", (data) => {
-      //   setError(data);
-      //   setErrorModal(true);
-      // });
+
+      socketInstance.on("result", handleResult);
       return () => {
         socketInstance.disconnect();
       };
     }
   }, [queryParams.id]);
-  const handlePlacebet = () => {
-    // Check if the bet amount is valid
+
+  const handlePlaceBet = () => {
     if (+amount > info.balance || +amount === 0) {
       return setShowBalance(true);
     }
     if (isBetting) return;
-    setCashoutData([]); // Reset cashout data
     setIsBetting(true);
-    // if (sound) {
-    //   playBetSound();
-    // }
+    const dataToSend = sliders.join(",");
+    socket.emit("message", `PB:${amount}:${dataToSend}`);
     setTimeout(() => {
-      socket.emit("message", `PB:${amount}:${autoValue}`);
-
-      // Listen for "spin_result" and handle the response data
-      // socket.once("result", (data) => {
-      //   handleResultData(data);
-      // });
-      console.log("PB:", amount, autoValue);
       setIsBetting(false);
     }, 500);
   };
@@ -111,6 +99,7 @@ const Home = () => {
   if (Object.keys(info)?.length === 0 && !loading) {
     return <UserNot />;
   }
+
   return (
     <div className="container">
       <div className="Pane__inner">
@@ -123,11 +112,16 @@ const Home = () => {
             </div>
           </div>
         </div>
-        <BalanceWinAmount info={info} cashoutData={cashoutData} />
+        <BalanceWinAmount
+          info={info}
+          resultData={resultData}
+          isBetting={isBetting}
+        />
         <AmountSection
-          handlePlacebet={handlePlacebet}
+          handlePlacebet={handlePlaceBet}
           amount={amount}
           setAmount={setAmount}
+          isBetting={isBetting}
         />
         <div className="main-navbar-container">
           <NavbarContainer />
@@ -135,7 +129,13 @@ const Home = () => {
       </div>
 
       <div className="show-bet-graph-container">
-        <MultiplierProgress />
+        <MultiplierProgress
+          setSliders={setSliders}
+          sliders={sliders}
+          totalMultiplier={totalMultiplier}
+          setTotalMultiplier={setTotalMultiplier}
+          isBetting={isBetting}
+        />
       </div>
     </div>
   );
