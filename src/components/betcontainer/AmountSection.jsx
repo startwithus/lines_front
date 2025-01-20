@@ -1,19 +1,32 @@
 import React, { useState } from "react";
 import { icon } from "../../utility/icon";
 
-const AmountSection = ({ handlePlacebet, amount, setAmount, isBetting }) => {
+const AmountSection = ({
+  handlePlacebet,
+  amount,
+  setAmount,
+  isBetting,
+  totalMultiplier,
+}) => {
   const MIN_AMOUNT = 10;
   const MAX_AMOUNT = 20000;
 
-  const disableMin = Number(amount) === MIN_AMOUNT;
-  const disableMax = Number(amount) === MAX_AMOUNT;
+  const disableMin =
+    Number(amount) === MIN_AMOUNT ||
+    totalMultiplier < 1.05 ||
+    totalMultiplier > 5000.0;
+  const disableMax =
+    Number(amount) === MAX_AMOUNT ||
+    totalMultiplier < 1.05 ||
+    totalMultiplier > 5000.0;
+  const disableBet =
+    isBetting || totalMultiplier < 1.05 || totalMultiplier > 5000.0;
 
   const buttonStyle = (disabled) => ({
     cursor: disabled ? "not-allowed" : "pointer",
     opacity: disabled ? 0.5 : 1,
   });
 
-  // Function to determine increment value based on the range
   const getIncrement = (currentValue) => {
     if (currentValue >= 10 && currentValue < 100) {
       return 10;
@@ -25,28 +38,36 @@ const AmountSection = ({ handlePlacebet, amount, setAmount, isBetting }) => {
     return MIN_AMOUNT; // Default increment
   };
 
-  // Function to decrease progress
+  const showIntermediateValue = (start, end, setFinalValue) => {
+    const midpoint = (start + end) / 2;
+    setAmount(midpoint.toFixed(2));
+    setTimeout(() => {
+      setFinalValue(end.toFixed(2));
+    }, 200);
+  };
+
   const decreaseProgress = () => {
     let numericValue = parseFloat(amount);
     if (isNaN(numericValue) || amount === "") {
       numericValue = MIN_AMOUNT;
     } else if (numericValue > MIN_AMOUNT) {
-      const decrement = getIncrement(numericValue) / 2; // Decrement is half the increment
-      numericValue = Math.max(numericValue - decrement, MIN_AMOUNT);
+      const decrement = getIncrement(numericValue) / 2;
+      const targetValue = Math.max(numericValue - decrement, MIN_AMOUNT);
+      showIntermediateValue(numericValue, targetValue, setAmount);
+    } else {
+      setAmount(MIN_AMOUNT.toFixed(2));
     }
-    setAmount(numericValue.toFixed(2));
   };
 
-  // Function to increase progress
   const handleIncrease = () => {
     let numericValue = parseFloat(amount);
     if (isNaN(numericValue) || amount === "") {
       numericValue = MIN_AMOUNT;
     } else {
       const increment = getIncrement(numericValue);
-      numericValue = Math.min(numericValue + increment, MAX_AMOUNT);
+      const targetValue = Math.min(numericValue + increment, MAX_AMOUNT);
+      showIntermediateValue(numericValue, targetValue, setAmount);
     }
-    setAmount(numericValue.toFixed(2));
   };
 
   return (
@@ -59,9 +80,9 @@ const AmountSection = ({ handlePlacebet, amount, setAmount, isBetting }) => {
           <span
             className="bet-progressbar"
             style={{
-              width: `${(parseFloat(amount) / MAX_AMOUNT) * 100}%`, // Dynamically calculate width percentage
-              backgroundColor: "#4caf50", // Example color
-              height: "100%", // Ensure it fills the container
+              width: `${(parseFloat(amount) / MAX_AMOUNT) * 100}%`,
+              backgroundColor: "#4caf50",
+              height: "100%",
             }}
           ></span>
         </div>
@@ -77,14 +98,18 @@ const AmountSection = ({ handlePlacebet, amount, setAmount, isBetting }) => {
             <img src={icon.downIcon} alt="Decrease" className="icon-shadow" />
           </button>
         </div>
-        <div className="bet">
-          <button className="btn-bet" onClick={handlePlacebet}>
-            {/* {isBetting ? (
+        <div className="bet-button">
+          <button
+            className="btn-bet"
+            onClick={handlePlacebet}
+            disabled={disableBet}
+            style={buttonStyle(disableBet)}
+          >
+            {isBetting ? (
               <img src={icon.betLoader} className="bet-icon" alt="Loading" />
             ) : (
               "Place Bet"
-            )} */}
-            Place Bet
+            )}
           </button>
         </div>
         <div className="btn-incress-decress">

@@ -120,7 +120,8 @@ const Home = () => {
           amount={amount}
           setAmount={setAmount}
           isBetting={isBetting}
-          setIsBetting={setIsBetting}
+          totalMultiplier={totalMultiplier}
+
         />
         <div className="main-navbar-container">
           <NavbarContainer />

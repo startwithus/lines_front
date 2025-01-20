@@ -306,14 +306,7 @@ body {
   border: 2px solid white;
   pointer-events: auto;
 }
-.lines-container {
-  height: 70%;
-  display: flex;
-  justify-content: center;
-  /* color: var(--hg-text-primary); */
-  /* font-size: 5rem;
-  font-weight: 800; */
-}
+
 .lines-sections {
   width: 100%;
   position: relative;
@@ -437,13 +430,12 @@ body {
     width: 100%;
   }
   .slider-wrapper {
-    
   }
 
-  .current-value-progress img{
+  .current-value-progress img {
     width: 100%;
   }
-  
+
   .manual-side-container {
     height: 20%;
     /* / width: 100%; / */
@@ -451,6 +443,7 @@ body {
     margin: 0;
     border-radius: 4px;
     margin-top: 0.5rem;
+    display: none;
   }
   .blance-info-container {
     background: var(--hg-bg-user-panel);
@@ -476,7 +469,6 @@ body {
   .manual-side-container {
     /* height: 64%; */
   }
-  
 }
 
 @media (max-width: 1440px) {
@@ -489,7 +481,7 @@ body {
     max-width: 150px;
   }
 
-  .current-value-progress img{
+  .current-value-progress img {
     width: 100%;
   }
 }

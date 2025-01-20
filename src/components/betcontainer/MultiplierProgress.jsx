@@ -59,6 +59,7 @@ const MultiplierProgress = ({
     } else if (index === 2 && thirdResult) {
       resultWidth = `${thirdResult}%`; // Third slider: use thirdResult
     }
+    console.log(resultWidth)
 
     return (
       <div className="lines-section" key={index}>
@@ -110,7 +111,7 @@ const MultiplierProgress = ({
                 background: `linear-gradient(to right, red ${value}%, #4ace4a ${value}%)`,
                 height: "13px",
               }}
-             >
+            >
               {/* Dynamically render result widths based on slider index */}
 
               {/* {
@@ -152,9 +153,9 @@ const MultiplierProgress = ({
                     // borderRadius: "50%",
                     textShadow: "0 0 10px #FF0000"
 
-                   }}
-                 >
-                  {resultWidth.replace('%', '')}
+                  }}
+                >
+                  {resultWidth === undefined ? null : resultWidth.replace('%', '')}
 
                 </div>
               </div>

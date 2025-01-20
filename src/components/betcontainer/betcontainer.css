@@ -201,10 +201,17 @@
   font-size: 16px;
   color: white;
 }
+.c-default {
+  cursor: default;
+}
 .plus-section img {
   width: 80px;
   height: 80px;
   margin-top: 0.5rem;
+}
+.bet-icon {
+  width: 50px;
+  height: 40px;
 }
 /* resposive UI */
 @media (max-width: 768px) {
@@ -236,5 +243,8 @@
     /* / padding: 0.4em; / */
     border-radius: 4px;
     margin-top: 0.5rem;
+  }
+  .lines-container {
+    height: 35%;
   }
 }

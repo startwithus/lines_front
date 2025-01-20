@@ -1,6 +1,6 @@
 import React from "react";
 
-const BalanceWinAmount = ({ info, resultData }) => {
+const BalanceWinAmount = ({ info, resultData, isBetting }) => {
   return (
     <div style={{ height: "" }}>
       <div className="blance-info-container">
