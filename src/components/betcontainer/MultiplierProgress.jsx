@@ -32,7 +32,7 @@ const MultiplierProgress = ({
 
   const handleAddSlider = () => {
     if (sliders.length < 3) {
-      const updatedSliders = [...sliders, 2];
+      const updatedSliders = [...sliders, 50];
       const newTotalMultiplier = getMaxMult(updatedSliders);
 
       setSliders(updatedSliders);
@@ -126,7 +126,26 @@ const MultiplierProgress = ({
                 }}
               ></div>
               {/* )} */}
+              <div
+                style={{
+                  position: "absolute",
+                  top: "30%", // Center vertically within the background
+                  left: `calc(${resultWidth} - 5px)`, // Position near the end of the background
+                  transform: "translateY(-50%)", // Center text vertically with transform
+                  fontSize: "16px", // Slightly larger text for readability
+                  fontWeight: "900", // Make the value stand out
+                  color: "#000", // Use black for contrast against the background
+                  // padding: "2px",
+                  borderRadius: "4px", // Rounded corners for a modern look
+                  whiteSpace: "nowrap", // Prevent text wrapping
+                  transition: "left 0.3s ease-out, transform 0.3s ease-out", // Smooth transition for both position and scaling
 
+                  // borderRadius: "50%",
+                  textShadow: "0 0 10px #FF0000",
+                }}
+              >
+                {resultWidth.replace("%", "")}
+              </div>
               <input
                 type="range"
                 min="2"

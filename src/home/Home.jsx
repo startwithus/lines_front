@@ -79,18 +79,23 @@ const Home = () => {
       return () => {
         socketInstance.disconnect();
       };
+    } else {
+      console.error("Invalid socket ID or game ID in query params.");
     }
   }, [queryParams.id]);
 
-  let firstResult;
-  let secondResult;
-  let thirdResult;
+  // let firstResult;
+  // let secondResult;
+  // let thirdResult;
 
-  if (resultData?.winningRange) {
-    firstResult = resultData?.winningRange[0] || [];
-    secondResult = resultData?.winningRange[1] || [];
-    thirdResult = resultData?.winningRange[2] || [];
-  }
+  // if (resultData?.winningRange) {
+  //   firstResult = resultData?.winningRange?.[0] || [];
+  //   secondResult = resultData?.winningRange?.[1] || [];
+  //   thirdResult = resultData?.winningRange?.[2] || [];
+  // }
+  const firstResult = resultData?.winningRange?.[0] || [];
+  const secondResult = resultData?.winningRange?.[1] || [];
+  const thirdResult = resultData?.winningRange?.[2] || [];
 
   console.log("Resultdata winning Range", firstResult);
   console.log("Resultdata winning Range 1", secondResult);
