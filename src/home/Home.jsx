@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import NavbarContainer from "../components/models/NavbarContainer";
 import BalanceWinAmount from "../components/BalanceWinAmount";
 import MultiplierProgress from "../components/betcontainer/MultiplierProgress";
@@ -21,76 +21,80 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [amount, setAmount] = useState("10.00");
   const [isBetting, setIsBetting] = useState(false);
-  const [resultData, setResultData] = useState({})
-  const [sliders, setSliders] = useState([50]); // Initial slider values
-  const [totalMultiplier, setTotalMultiplier] = useState(getMaxMult([50])); // Initial multiplier
+  const [resultData, setResultData] = useState({});
+  const [sliders, setSliders] = useState([50]);
+  const [totalMultiplier, setTotalMultiplier] = useState(getMaxMult([50]));
+
+  // Parse query parameters from URL
   let queryParams = {};
   try {
     queryParams = JSON.parse(
       '{"' + decodedQuery.replace(/&/g, '","').replace(/=/g, '":"') + '"}',
-      function (key, value) {
-        return key === "" ? value : decodeURIComponent(value);
-      }
+      (key, value) => (key === "" ? value : decodeURIComponent(value))
     );
   } catch (e) {
-    queryParams = {};
+    console.error("Error parsing query params:", e);
   }
 
-  // socket connection 
+  // Socket connection setup
   useEffect(() => {
     if (queryParams.id) {
       const socketInstance = createSocket(queryParams.id, queryParams.game_id);
       setSocket(socketInstance);
+
       socketInstance.on("connect", () => {
         setSocketConnected(true);
       });
+
       socketInstance.on("disconnect", () => {
         setSocketConnected(false);
       });
+
       socketInstance.on("info", (data) => {
         setInfo(data);
         setLoading(false);
       });
-      const handleResult = (data) => {
-        try {
-          setResultData(data);
-          const winningRange = data.winningRange || [];
-          if (winningRange.length > 0) {
-            // Clamp values between 2 and 98
-            const updatedSliders = winningRange.map((value) =>
-              Math.max(2, Math.min(98, value))
-            );
-            setSliders(updatedSliders);
-            setTotalMultiplier(getMaxMult(updatedSliders));
-          }
 
-        } catch (err) {
-          console.error(err);
-        }
-      };
-      socketInstance.on("result", handleResult)
+      socketInstance.on("result", (data) => {
+        setResultData(data);
+      });
+
       return () => {
         socketInstance.disconnect();
       };
+    } else {
+      console.error("Invalid socket ID or game ID in query params.");
     }
   }, [queryParams.id]);
 
+  const firstResult = resultData?.winningRange?.[0] || [];
+  const secondResult = resultData?.winningRange?.[1] || [];
+  const thirdResult = resultData?.winningRange?.[2] || [];
 
   const handlePlaceBet = () => {
     if (+amount > info.balance || +amount === 0) {
-      return setShowBalance(true);
+      setShowBalance(true);
+      return;
     }
 
+    if (isBetting) return;
+
+    setIsBetting(true);
     const dataToSend = sliders.join(",");
     socket.emit("message", `PB:${amount}:${dataToSend}`);
 
+    setTimeout(() => {
+      setIsBetting(false);
 
+    }, 500);
   };
-  // if socket not connected
+
+  // Loader and error handling if socket not connected or user info missing
   if (loading || !socketConnected) {
     return <Loader message={"Connecting..."} />;
-  } // if user not connected
-  if (Object.keys(info)?.length === 0 && !loading) {
+  }
+
+  if (Object.keys(info).length === 0 && !loading) {
     return <UserNot />;
   }
 
@@ -106,12 +110,17 @@ const Home = () => {
             </div>
           </div>
         </div>
-        <BalanceWinAmount info={info} resultData={resultData} />
+        <BalanceWinAmount
+          info={info}
+          resultData={resultData}
+          isBetting={isBetting}
+        />
         <AmountSection
           handlePlacebet={handlePlaceBet}
           amount={amount}
           setAmount={setAmount}
           isBetting={isBetting}
+          setIsBetting={setIsBetting}
         />
         <div className="main-navbar-container">
           <NavbarContainer />
@@ -124,6 +133,10 @@ const Home = () => {
           sliders={sliders}
           totalMultiplier={totalMultiplier}
           setTotalMultiplier={setTotalMultiplier}
+          isBetting={isBetting}
+          firstResult={firstResult}
+          secondResult={secondResult}
+          thirdResult={thirdResult}
         />
       </div>
     </div>
