@@ -11,8 +11,10 @@ const MultiplierProgress = ({
   setTotalMultiplier,
   isBetting,
   firstResult,
-  secondResult, // Accept secondResult prop
-  thirdResult, // Accept thirdResult prop
+  secondResult,
+  thirdResult,
+  iconSrc,
+  isRefrece,
 }) => {
   const [isActive, setIsActive] = useState(false);
 
@@ -65,20 +67,13 @@ const MultiplierProgress = ({
             className="current-value-progress"
             style={{
               left: `calc(${value}% - ${value > 50 ? "100px" : "25px"})`,
-              top: "-30px",
-              display: "flex",
-              alignItems: "center",
             }}
           >
             <span className="multi-img">
               <img
-                src={
-                  totalMultiplier < 1.05 || totalMultiplier > 5000.0
-                    ? icon.group2
-                    : icon.groupA
-                }
+                src={iconSrc}
                 alt="Group Icon"
-                style={{ width: "150px", height: "50px", textAlign: "center" }}
+                style={{ width: "185px", height: "60px", textAlign: "center" }}
               />
             </span>
             <p className="xvalue">{totalMultiplier.toFixed(2)}</p>
@@ -113,39 +108,40 @@ const MultiplierProgress = ({
                 height: "13px",
               }}
             >
-              {/* {isBetting && ( */}
-              <div
-                className="white-bg"
-                style={{
-                  position: "absolute",
-                  top: "-4px",
-                  background: "#fff",
-                  width: resultWidth, // Use result width based on slider index
-                  height: "20px",
-                  transition: "width 0.3s ease",
-                }}
-              ></div>
-              {/* )} */}
-              <div
-                style={{
-                  position: "absolute",
-                  top: "30%", // Center vertically within the background
-                  left: `calc(${resultWidth} - 5px)`, // Position near the end of the background
-                  transform: "translateY(-50%)", // Center text vertically with transform
-                  fontSize: "16px", // Slightly larger text for readability
-                  fontWeight: "900", // Make the value stand out
-                  color: "#000", // Use black for contrast against the background
-                  // padding: "2px",
-                  borderRadius: "4px", // Rounded corners for a modern look
-                  whiteSpace: "nowrap", // Prevent text wrapping
-                  transition: "left 0.3s ease-out, transform 0.3s ease-out", // Smooth transition for both position and scaling
+              {isRefrece && (
+                <>
+                  <div
+                    className="white-bg"
+                    style={{
+                      position: "absolute",
+                      top: "-4px",
+                      background: "#fff",
+                      width: resultWidth,
+                      height: "20px",
+                      transition: "width 0.3s ease",
+                    }}
+                  ></div>
 
-                  // borderRadius: "50%",
-                  textShadow: "0 0 10px #FF0000",
-                }}
-              >
-                {resultWidth.replace("%", "")}
-              </div>
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: "30%",
+                      left: `calc(${resultWidth} - 5px)`,
+                      transform: "translateY(-50%)",
+                      fontSize: "16px",
+                      fontWeight: "900",
+                      color: "#000",
+                      borderRadius: "4px",
+                      whiteSpace: "nowrap",
+                      transition: "left 0.3s ease-out, transform 0.3s ease-out",
+                      textShadow: "0 0 10px rgb(9, 182, 38)",
+                    }}
+                  >
+                    {resultWidth.replace("%", "")}
+                  </div>
+                </>
+              )}
+
               <input
                 type="range"
                 min="2"

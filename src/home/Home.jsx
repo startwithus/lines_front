@@ -9,6 +9,7 @@ import { useLocation } from "react-router-dom";
 import Loader from "../components/loader/Loader";
 import UserNot from "../components/loader/UserNot";
 import { getMaxMult } from "../utility/helper";
+import { icon } from "../utility/icon";
 
 const Home = () => {
   const location = useLocation();
@@ -24,7 +25,9 @@ const Home = () => {
   const [resultData, setResultData] = useState({});
   const [sliders, setSliders] = useState([50]); // Initial slider values
   const [totalMultiplier, setTotalMultiplier] = useState(getMaxMult([50]));
-
+  const [statusData, setStatusData] = useState(false); // Initialize with false
+  const [iconSrc, setIconSrc] = useState(null);
+  const [isRefrece, setisRefrece] = useState(false);
   // Initial multiplier
   console.log(sliders);
   let queryParams = {};
@@ -83,6 +86,48 @@ const Home = () => {
       console.error("Invalid socket ID or game ID in query params.");
     }
   }, [queryParams.id]);
+  // let statusData;
+  // if (resultData?.isWin) {
+  //   statusData = resultData.isWin;
+  // }
+  // console.log(statusData, "statusData");
+  useEffect(() => {
+    // Update statusData based on resultData
+    if (resultData?.isWin) {
+      setStatusData(true); // Set to true if win
+      setIconSrc(icon.group3); // Set to group3 icon if win
+    } else {
+      setStatusData(false);
+      setIconSrc(icon.group2);
+    }
+  }, [resultData]);
+
+  useEffect(() => {
+    if (statusData === undefined || statusData === null) {
+      setIconSrc(icon.group2);
+    } else if (statusData) {
+      setIconSrc(icon.group3);
+    } else {
+      setIconSrc(
+        totalMultiplier < 1.05 || totalMultiplier > 5000.0
+          ? icon.group2
+          : icon.groupA
+      );
+    }
+  }, [statusData, totalMultiplier]);
+
+  useEffect(() => {
+    // Determine icon source based on totalMultiplier and statusData
+    if (statusData) {
+      setIconSrc(icon.group3); // If win, set to group3
+    } else {
+      setIconSrc(
+        totalMultiplier < 1.05 || totalMultiplier > 5000.0
+          ? icon.group2
+          : icon.groupA
+      );
+    }
+  }, [statusData, totalMultiplier]);
 
   // let firstResult;
   // let secondResult;
@@ -107,10 +152,12 @@ const Home = () => {
     }
     if (isBetting) return;
     setIsBetting(true);
+    setisRefrece(false);
     const dataToSend = sliders.join(",");
     socket.emit("message", `PB:${amount}:${dataToSend}`);
     setTimeout(() => {
       setIsBetting(false);
+      setisRefrece(true);
     }, 500);
   };
   const handleCanvasLoad = (status) => {
@@ -163,6 +210,8 @@ const Home = () => {
           firstResult={firstResult}
           secondResult={secondResult}
           thirdResult={thirdResult}
+          iconSrc={iconSrc}
+          isRefrece={isRefrece}
         />
       </div>
     </div>

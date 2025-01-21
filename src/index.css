@@ -122,7 +122,7 @@ body {
   background-color: var(--hg-bg-primary);
 }
 .manual-side-container {
-  height: 65%;
+  height: 59%;
   background: var(--hg-bg-user-panel);
   margin: 0 0.5em;
   padding: 0.5em;
@@ -236,18 +236,17 @@ body {
   width: 100%;
   display: flex;
   justify-content: center;
+  align-items: center;
   margin: 1rem;
 }
 .multi-img img {
-  width: 210px; /* Adjust the size as needed */
-  height: auto; /* Maintain aspect ratio */
   position: relative;
 }
 .xvalue {
   position: relative;
-  /* top: 1rem; */
-  left: -7rem;
-  font-size: 20px;
+  top: 0;
+  left: -8rem;
+  font-size: 30px;
   font-weight: 800;
   color: #fff;
 }
