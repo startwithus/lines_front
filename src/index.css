@@ -407,6 +407,10 @@ body {
   text-shadow: 0 0 5px rgba(0, 0, 0, 0.5); /* Optional for better visibility */
 }
 
+.white-bg.removed {
+  opacity: 0;
+}
+
 .crossIcon img {
   width: 40px;
   margin-left: -3rem;

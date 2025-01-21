@@ -10,16 +10,16 @@ const MultiplierProgress = ({
   totalMultiplier,
   setTotalMultiplier,
   isBetting,
-  betData,
   firstResult,
-  secondResult,  // Accept secondResult prop
-  thirdResult,   // Accept thirdResult prop
+  secondResult,
+  thirdResult,
+  iconSrc,
 }) => {
   const [isActive, setIsActive] = useState(false);
+  const [isThumbClicked, setIsThumbClicked] = useState(false);
 
   const handleMouseDown = () => setIsActive(true);
   const handleMouseUp = () => setIsActive(false);
-  console.log(sliders)
 
   const handleSliderChange = (index, e) => {
     const value = Math.max(2, Math.min(98, parseInt(e.target.value, 10))); // Clamp value between 2 and 98
@@ -30,6 +30,10 @@ const MultiplierProgress = ({
 
     setSliders(updatedSliders);
     setTotalMultiplier(newTotalMultiplier);
+  };
+
+  const handleThumbClick = () => {
+    setIsThumbClicked(!isThumbClicked);
   };
 
   const handleAddSlider = () => {
@@ -59,7 +63,6 @@ const MultiplierProgress = ({
     } else if (index === 2 && thirdResult) {
       resultWidth = `${thirdResult}%`; // Third slider: use thirdResult
     }
-    console.log(resultWidth)
 
     return (
       <div className="lines-section" key={index}>
@@ -75,12 +78,12 @@ const MultiplierProgress = ({
           >
             <span className="multi-img">
               <img
-                src={icon.groupA}
+                src={iconSrc}
                 alt="Group Icon"
                 style={{ width: "150px", height: "50px", textAlign: "center" }}
               />
             </span>
-            <p className="xvalue"> {totalMultiplier.toFixed(2)}</p>
+            <p className="xvalue">{totalMultiplier.toFixed(2)}</p>
           </div>
         )}
         <div className="slider-scale">
@@ -112,57 +115,39 @@ const MultiplierProgress = ({
                 height: "13px",
               }}
             >
-              {/* Dynamically render result widths based on slider index */}
-
-              {/* {
-                isBetting ? ( */}
-              <div
-                style={{
-                  position: "relative", // For positioning the animated elements
-                  height: "20px",
-                }}
-              >
-                {/* Animated white background */}
+              {!isThumbClicked && (
                 <div
                   className="white-bg"
                   style={{
                     position: "absolute",
                     top: "-4px",
                     background: "#fff",
-                    width: resultWidth, // Dynamically updated width
+                    width: resultWidth, // Use result width based on slider index
                     height: "20px",
-                    transition: "width 0.3s ease-out", // Smooth transition for width
+                    transition: "width 0.3s ease",
                   }}
                 ></div>
+              )}
+              <div
+                style={{
+                  position: "absolute",
+                  top: "30%", // Center vertically within the background
+                  left: `calc(${resultWidth} - 5px)`, // Position near the end of the background
+                  transform: "translateY(-50%)", // Center text vertically with transform
+                  fontSize: "16px", // Slightly larger text for readability
+                  fontWeight: "900", // Make the value stand out
+                  color: "#000", // Use black for contrast against the background
+                  // padding: "2px",
+                  borderRadius: "4px", // Rounded corners for a modern look
+                  whiteSpace: "nowrap", // Prevent text wrapping
+                  transition: "left 0.3s ease-out, transform 0.3s ease-out", // Smooth transition for both position and scaling
 
-                {/* Range value that moves with the white background */}
-                <div
-                  style={{
-                    position: "absolute",
-                    top: "30%", // Center vertically within the background
-                    left: `calc(${resultWidth} - 5px)`, // Position near the end of the background
-                    transform: "translateY(-50%)", // Center text vertically with transform
-                    fontSize: "16px", // Slightly larger text for readability
-                    fontWeight: "900", // Make the value stand out
-                    color: "#000", // Use black for contrast against the background
-                    // padding: "2px",
-                    borderRadius: "4px", // Rounded corners for a modern look
-                    whiteSpace: "nowrap", // Prevent text wrapping
-                    transition: "left 0.3s ease-out, transform 0.3s ease-out", // Smooth transition for both position and scaling
-                    background: "lightBlue",
-                    // borderRadius: "50%",
-                    textShadow: "0 0 10px #FF0000"
-
-                  }}
-                >
-                  {resultWidth === undefined ? null : resultWidth.replace('%', '')}
-
-                </div>
+                  // borderRadius: "50%",
+                  textShadow: "0 0 10px #FF0000",
+                }}
+              >
+                {resultWidth.replace("%", "")}
               </div>
-              {/* ) : null
-              } */}
-
-
               <input
                 type="range"
                 min="2"
@@ -192,26 +177,26 @@ const MultiplierProgress = ({
                 height: "24px",
                 pointerEvents: "none",
               }}
+              onClick={handleThumbClick} // Handle thumb click to toggle the white background visibility
             />
           </div>
         </div>
-        {
-          index !== 0 && (
-            <img
-              src={icon.crossIcon}
-              alt="Remove Slider"
-              onClick={() => handleRemoveSlider(index)}
-              style={{
-                position: "absolute",
-                top: "250px",
-                left: "-40px",
-                cursor: "pointer",
-                width: "40px",
-                height: "40px",
-              }}
-            />
-          )
-        }
+        {index !== 0 && !isBetting && (
+          <img
+            src={icon.crossIcon}
+            alt="Remove Slider"
+            onClick={() => handleRemoveSlider(index)}
+            style={{
+              position: "absolute",
+              top: "250px",
+              left: "-40px",
+              cursor: "pointer",
+              width: "40px",
+              height: "40px",
+            }}
+          />
+        )}
+
         <div
           className="value-display"
           style={{
@@ -223,7 +208,7 @@ const MultiplierProgress = ({
             {value <= 2 ? "2(MIN)" : value >= 98 ? "98(MAX)" : `${value}`}
           </div>
         </div>
-      </div >
+      </div>
     );
   };
 
@@ -233,15 +218,15 @@ const MultiplierProgress = ({
         <img src={icon.line} alt="Lines" />
       </div>
       <div>{sliders.map((slider, index) => renderSlider(slider, index))}</div>
-      {sliders.length < 3 && (
-        <div className="plus-section" onClick={handleAddSlider}>
-          <h1>ADD LINE</h1>
-          <img src={icon.misc7} alt="Add Line" />
-        </div>
-      )}
+      {sliders.length < 3 &&
+        !isBetting && ( // Only show this section if not betting
+          <div className="plus-section" onClick={handleAddSlider}>
+            <h1>ADD LINE</h1>
+            <img src={icon.misc7} alt="Add Line" />
+          </div>
+        )}
     </div>
   );
 };
 
 export default MultiplierProgress;
-

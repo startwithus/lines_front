@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import NavbarContainer from "../components/models/NavbarContainer";
 import BalanceWinAmount from "../components/BalanceWinAmount";
 import MultiplierProgress from "../components/betcontainer/MultiplierProgress";
@@ -9,6 +9,7 @@ import { useLocation } from "react-router-dom";
 import Loader from "../components/loader/Loader";
 import UserNot from "../components/loader/UserNot";
 import { getMaxMult } from "../utility/helper";
+import { icon } from "../utility/icon";
 
 const Home = () => {
   const location = useLocation();
@@ -22,40 +23,42 @@ const Home = () => {
   const [amount, setAmount] = useState("10.00");
   const [isBetting, setIsBetting] = useState(false);
   const [resultData, setResultData] = useState({});
-  const [sliders, setSliders] = useState([50]);
+  const [sliders, setSliders] = useState([50]); // Initial slider values
   const [totalMultiplier, setTotalMultiplier] = useState(getMaxMult([50]));
+  const [statusData, setStatusData] = useState(false); // Initialize with false
+  const [iconSrc, setIconSrc] = useState("");
 
-  // Parse query parameters from URL
+  // Initial multiplier
+  console.log(sliders);
   let queryParams = {};
   try {
     queryParams = JSON.parse(
       '{"' + decodedQuery.replace(/&/g, '","').replace(/=/g, '":"') + '"}',
-      (key, value) => (key === "" ? value : decodeURIComponent(value))
+      function (key, value) {
+        return key === "" ? value : decodeURIComponent(value);
+      }
     );
   } catch (e) {
-    console.error("Error parsing query params:", e);
+    queryParams = {};
   }
 
-  // Socket connection setup
+  // socket connection
   useEffect(() => {
     if (queryParams.id) {
       const socketInstance = createSocket(queryParams.id, queryParams.game_id);
       setSocket(socketInstance);
-
       socketInstance.on("connect", () => {
         setSocketConnected(true);
       });
-
       socketInstance.on("disconnect", () => {
         setSocketConnected(false);
       });
-
       socketInstance.on("info", (data) => {
         setInfo(data);
         setLoading(false);
       });
-
       socketInstance.on("result", (data) => {
+        console.log("Result", data);
         setResultData(data);
       });
 
@@ -67,34 +70,55 @@ const Home = () => {
     }
   }, [queryParams.id]);
 
+
+  useEffect(() => {
+    // Update statusData based on resultData
+    if (resultData?.isWin) {
+      setStatusData(true);
+    } else {
+      setStatusData(false);
+    }
+  }, [resultData]); // Re-run whenever resultData changes
+
+  useEffect(() => {
+    // Determine icon source based on statusData and totalMultiplier
+    if (!statusData) {
+      setIconSrc(icon.group2); // Icon for false status (not win)
+    } else if (statusData && totalMultiplier < 1.05 || totalMultiplier > 5000.0) {
+      setIconSrc(icon.group2); // Icon for out-of-range multiplier
+    } else {
+      setIconSrc(icon.group3); // Icon for win
+    }
+  }, [statusData, totalMultiplier]); // Re-run whenever statusData or totalMultiplier changes
+
+
+
+
   const firstResult = resultData?.winningRange?.[0] || [];
   const secondResult = resultData?.winningRange?.[1] || [];
   const thirdResult = resultData?.winningRange?.[2] || [];
 
+
   const handlePlaceBet = () => {
     if (+amount > info.balance || +amount === 0) {
-      setShowBalance(true);
-      return;
+      return setShowBalance(true);
     }
-
     if (isBetting) return;
-
     setIsBetting(true);
     const dataToSend = sliders.join(",");
     socket.emit("message", `PB:${amount}:${dataToSend}`);
-
     setTimeout(() => {
       setIsBetting(false);
-
     }, 500);
   };
-
-  // Loader and error handling if socket not connected or user info missing
+  const handleCanvasLoad = (status) => {
+    setLoading(!status);
+  };
+  // if socket not connected
   if (loading || !socketConnected) {
     return <Loader message={"Connecting..."} />;
-  }
-
-  if (Object.keys(info).length === 0 && !loading) {
+  } // if user not connected
+  if (Object.keys(info)?.length === 0 && !loading) {
     return <UserNot />;
   }
 
@@ -121,7 +145,6 @@ const Home = () => {
           setAmount={setAmount}
           isBetting={isBetting}
           totalMultiplier={totalMultiplier}
-
         />
         <div className="main-navbar-container">
           <NavbarContainer />
@@ -138,6 +161,7 @@ const Home = () => {
           firstResult={firstResult}
           secondResult={secondResult}
           thirdResult={thirdResult}
+          iconSrc={iconSrc}
         />
       </div>
     </div>
