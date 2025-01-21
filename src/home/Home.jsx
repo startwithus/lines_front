@@ -102,19 +102,19 @@ const Home = () => {
     }
   }, [resultData]);
 
-  useEffect(() => {
-    if (statusData === undefined || statusData === null) {
-      setIconSrc(icon.group2);
-    } else if (statusData) {
-      setIconSrc(icon.group3);
-    } else {
-      setIconSrc(
-        totalMultiplier < 1.05 || totalMultiplier > 5000.0
-          ? icon.group2
-          : icon.groupA
-      );
-    }
-  }, [statusData, totalMultiplier]);
+  // useEffect(() => {
+  //   if (statusData === undefined || statusData === null) {
+  //     setIconSrc(icon.group2);
+  //   } else if (statusData) {
+  //     setIconSrc(icon.group3);
+  //   } else {
+  //     setIconSrc(
+  //       totalMultiplier < 1.05 || totalMultiplier > 5000.0
+  //         ? icon.group2
+  //         : icon.groupA
+  //     );
+  //   }
+  // }, [statusData, totalMultiplier]);
 
   useEffect(() => {
     // Determine icon source based on totalMultiplier and statusData
@@ -126,7 +126,7 @@ const Home = () => {
           ? icon.group2
           : icon.groupA
       );
-    }
+    } // If bet button is clicked, show groupA icon
   }, [statusData, totalMultiplier]);
 
   // let firstResult;
