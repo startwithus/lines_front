@@ -17,10 +17,16 @@ const MultiplierProgress = ({
   isRefrece,
 }) => {
   const [isActive, setIsActive] = useState(false);
+  const [resultWidth, setResultWidth] = useState("100%"); // Initially full width for reference data
+  const [activeSliderIndex, setActiveSliderIndex] = useState(null);
+  
+  const handleMouseDown = (index) => {
+    setActiveSliderIndex(index); // Set the active slider index
+  };
 
-  const handleMouseDown = () => setIsActive(true);
-  const handleMouseUp = () => setIsActive(false);
-
+  const handleMouseUp = () => {
+    setActiveSliderIndex(null); // Reset the active slider index
+  };
   const handleSliderChange = (index, e) => {
     const value = Math.max(2, Math.min(98, parseInt(e.target.value, 10))); // Clamp value between 2 and 98
     const updatedSliders = [...sliders];
@@ -50,7 +56,10 @@ const MultiplierProgress = ({
   };
   console.log("isBetting:", isBetting);
 
+
   const renderSlider = (value, index) => {
+    const isActive = activeSliderIndex === index;
+
     let resultWidth = "0";
     if (index === 0) {
       resultWidth = `${firstResult}%`;
@@ -114,10 +123,11 @@ const MultiplierProgress = ({
                   min="2"
                   max="98"
                   value={value}
-                  onMouseDown={handleMouseDown}
+                  onMouseDown={() => handleMouseDown(index)}
                   onMouseUp={handleMouseUp}
                   onChange={(e) => handleSliderChange(index, e)}
-                  className="slider"
+                  className={`slider ${isActive ? "active" : ""}`} // Add "active" if isActive is true
+
                 />
               </div>
 

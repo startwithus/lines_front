@@ -92,6 +92,7 @@ const NavbarContainer = () => {
           className="MainNavbar__item"
           style={{ cursor: "pointer" }}
          >
+         
           <img
             src={icon.homeIcon} // Conditional rendering of the image
             alt={isTurbo ? "home" : "Unknown home Icon"}

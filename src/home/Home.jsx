@@ -70,49 +70,6 @@ const Home = () => {
       console.error("Invalid socket ID or game ID in query params.");
     }
   }, [queryParams.id]);
-  // let statusData;
-  // if (resultData?.isWin) {
-  //   statusData = resultData.isWin;
-  // }
-  // console.log(statusData, "statusData");
-  useEffect(() => {
-    // Update statusData based on resultData
-    if (resultData?.isWin) {
-      setStatusData(true); // Set to true if win
-      setIconSrc(icon.group3); // Set to group3 icon if win
-    } else {
-      setStatusData(false);
-      setIconSrc(icon.group2);
-    }
-  }, [resultData]);
-
-  // useEffect(() => {
-  //   if (statusData === undefined || statusData === null) {
-  //     setIconSrc(icon.group2);
-  //   } else if (statusData) {
-  //     setIconSrc(icon.group3);
-  //   } else {
-  //     setIconSrc(
-  //       totalMultiplier < 1.05 || totalMultiplier > 5000.0
-  //         ? icon.group2
-  //         : icon.groupA
-  //     );
-  //   }
-  // }, [statusData, totalMultiplier]);
-
-  useEffect(() => {
-    // Determine icon source based on totalMultiplier and statusData
-    if (statusData) {
-      setIconSrc(icon.group3); // If win, set to group3
-    } else {
-      setIconSrc(
-        totalMultiplier < 1.05 || totalMultiplier > 5000.0
-          ? icon.group2
-          : icon.groupA
-      );
-    } // If bet button is clicked, show groupA icon
-  }, [statusData, totalMultiplier]);
-
 
   useEffect(() => {
     // Update statusData based on resultData
@@ -173,10 +130,10 @@ const Home = () => {
         <div className="manual-side-container">
           <div className="manual-btn-container">
             <div className="manual-bg">
-              <div className="manual-btn">
+              <div className="manual-btn active">
                 <p>Manual</p>
               </div>
-              <div className="Auto-btn">
+              <div className="manual-btn disabled">
                 <p>Auto</p>
               </div>
             </div>
@@ -195,7 +152,10 @@ const Home = () => {
           totalMultiplier={totalMultiplier}
         />
         <div className="main-navbar-container">
-          <NavbarContainer />
+          <NavbarContainer
+            queryParams={queryParams}
+
+          />
         </div>
       </div>
 
