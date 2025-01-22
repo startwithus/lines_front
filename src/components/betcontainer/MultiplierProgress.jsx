@@ -43,21 +43,21 @@ const MultiplierProgress = ({
   };
 
   const handleRemoveSlider = (index) => {
-    const updatedSliders = sliders.filter((_, i) => i !== index); // Remove the slider at the specified index
+    const updatedSliders = sliders.filter((_, i) => i !== index);
     const newTotalMultiplier = getMaxMult(updatedSliders);
-
     setSliders(updatedSliders);
     setTotalMultiplier(newTotalMultiplier);
   };
+  console.log("isBetting:", isBetting);
 
   const renderSlider = (value, index) => {
-    let resultWidth = "0"; // Default width for all sliders
+    let resultWidth = "0";
     if (index === 0) {
-      resultWidth = `${firstResult}%`; // First slider: use firstResult
+      resultWidth = `${firstResult}%`;
     } else if (index === 1 && secondResult) {
-      resultWidth = `${secondResult}%`; // Second slider: use secondResult
+      resultWidth = `${secondResult}%`;
     } else if (index === 2 && thirdResult) {
-      resultWidth = `${thirdResult}%`; // Third slider: use thirdResult
+      resultWidth = `${thirdResult}%`;
     }
 
     return (
@@ -70,13 +70,9 @@ const MultiplierProgress = ({
             }}
           >
             <span className="multi-img">
-              <img
-                src={iconSrc}
-                alt="Group Icon"
-                style={{ width: "185px", height: "60px", textAlign: "center" }}
-              />
+              <img src={iconSrc} alt="Group Icon" />
             </span>
-            <p className="xvalue">{totalMultiplier.toFixed(2)}</p>
+            <p className="xvalue">{totalMultiplier.toFixed(2)}x</p>
           </div>
         )}
         <div className="slider-scale">
@@ -93,53 +89,22 @@ const MultiplierProgress = ({
           <div className="triangle-up3"></div>
           <div className="triangle-up4"></div>
         </div>
-        <div style={{ border: ".5rem solid #fff", borderRadius: ".5rem" }}>
-          <div
-            style={{
-              border: ".2rem solid black",
-              borderRadius: "3px",
-              position: "relative",
-            }}
-          >
+        <div className="white-border">
+          <div className="black-border">
             <div
               className="slider-track"
               style={{
                 background: `linear-gradient(to right, red ${value}%, #4ace4a ${value}%)`,
-                height: "13px",
               }}
             >
               {isRefrece && (
-                <>
-                  <div
-                    className="white-bg"
-                    style={{
-                      position: "absolute",
-                      top: "-4px",
-                      background: "#fff",
-                      width: resultWidth,
-                      height: "20px",
-                      transition: "width 0.3s ease",
-                    }}
-                  ></div>
-
-                  <div
-                    style={{
-                      position: "absolute",
-                      top: "30%",
-                      left: `calc(${resultWidth} - 5px)`,
-                      transform: "translateY(-50%)",
-                      fontSize: "16px",
-                      fontWeight: "900",
-                      color: "#000",
-                      borderRadius: "4px",
-                      whiteSpace: "nowrap",
-                      transition: "left 0.3s ease-out, transform 0.3s ease-out",
-                      textShadow: "0 0 10px rgb(9, 182, 38)",
-                    }}
-                  >
-                    {resultWidth.replace("%", "")}
-                  </div>
-                </>
+                <div
+                  className={`white-bg ${isRefrece ? "white-bg" : ""}`}
+                  style={{
+                    width: resultWidth,
+                    transition: "width 0.3s ease",
+                  }}
+                ></div>
               )}
 
               <input
@@ -151,50 +116,71 @@ const MultiplierProgress = ({
                 onMouseUp={handleMouseUp}
                 onChange={(e) => handleSliderChange(index, e)}
                 className="slider"
-                style={{
-                  position: "absolute",
-                  top: "0",
-                  left: "0",
-                  background: "transparent",
-                }}
               />
             </div>
+
             <img
               src={isActive ? icon.scrollBar : icon.misc}
               alt="Slider Thumb"
               className="slider-thumb"
               style={{
-                position: "absolute",
-                top: "-4px",
                 left: `calc(${value}% - 10px)`,
-                width: "30px",
-                height: "24px",
-                pointerEvents: "none",
               }}
             />
+            <>
+              {isRefrece && (
+                <div
+                  className="white-value-no"
+                  style={{
+                    left: `calc(${resultWidth} - 6px)`,
+                    transition: "left 0.3s ease-out, transform 0.3s ease-out",
+                  }}
+                >
+                  {resultWidth.replace("%", "")}
+                </div>
+              )}
+            </>
           </div>
         </div>
-        {index !== 0 && !isBetting && (
-          <img
-            src={icon.crossIcon}
-            alt="Remove Slider"
-            onClick={() => handleRemoveSlider(index)}
-            style={{
-              position: "absolute",
-              top: "250px",
-              left: "-40px",
-              cursor: "pointer",
-              width: "40px",
-              height: "40px",
-            }}
-          />
-        )}
+        <div className="">
+          {}
+          {index === 1 && sliders.length === 2 && !isBetting && (
+            <img
+              src={icon.crossIcon}
+              alt="Remove Slider"
+              onClick={() => handleRemoveSlider(1)} // Handle removal for the second slider
+              style={{
+                position: "absolute",
+                top: "370px", // Adjust the position vertically
+                left: "530px", // Position the icon on the left side of the second slider
+                cursor: "pointer",
+
+                height: "40px",
+              }}
+            />
+          )}
+
+          {index === 2 && sliders.length > 2 && !isBetting && (
+            <img
+              src={icon.crossIcon}
+              alt="Remove Slider"
+              onClick={() => handleRemoveSlider(2)} // Handle removal for the third slider
+              style={{
+                position: "absolute",
+                top: "478px", // Adjust the position vertically
+                left: "530px", // Position the icon on the left side of the third slider
+                cursor: "pointer",
+                width: "40px",
+                height: "40px",
+              }}
+            />
+          )}
+        </div>
 
         <div
           className="value-display"
           style={{
             left: `calc(${value}% - 170px)`,
-            marginTop: "2px",
           }}
         >
           <div className="">
@@ -206,11 +192,13 @@ const MultiplierProgress = ({
   };
 
   return (
-    <div className="slider-wrapper">
-      <div className="lines-container">
-        <img src={icon.line} alt="Lines" />
+    <>
+      <div className="slider-wrapper">
+        <div className="lines-container">
+          <img src={icon.line} alt="Lines" />
+        </div>
+        <div>{sliders.map((slider, index) => renderSlider(slider, index))}</div>
       </div>
-      <div>{sliders.map((slider, index) => renderSlider(slider, index))}</div>
       {sliders.length < 3 &&
         !isBetting && ( // Only show this section if not betting
           <div className="plus-section" onClick={handleAddSlider}>
@@ -218,7 +206,7 @@ const MultiplierProgress = ({
             <img src={icon.misc7} alt="Add Line" />
           </div>
         )}
-    </div>
+    </>
   );
 };
 

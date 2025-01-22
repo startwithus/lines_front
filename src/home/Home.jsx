@@ -178,7 +178,10 @@ const Home = () => {
           <div className="manual-btn-container">
             <div className="manual-bg">
               <div className="manual-btn">
-                <p>manual</p>
+                <p>Manual</p>
+              </div>
+              <div className="Auto-btn">
+                <p>Auto</p>
               </div>
             </div>
           </div>

@@ -108,7 +108,7 @@ const AmountSection = ({
             {isBetting ? (
               <img src={icon.betLoader} className="bet-icon" alt="Loading" />
             ) : (
-              "Place Bet"
+              "BET"
             )}
           </button>
         </div>
