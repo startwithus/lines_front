@@ -3,7 +3,8 @@ import { TiHome } from "react-icons/ti";
 import "../models/model.css";
 import GameInfo from "./GameInfo";
 import { icon } from "../../utility/icon";
-const NavbarContainer = () => {
+import { Link } from "react-router-dom";
+const NavbarContainer = ({ queryParams }) => {
   const [isSoundOn, setIsSoundOn] = useState(true);
   const [isMusicOn, setIsMusicOn] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
@@ -88,12 +89,15 @@ const NavbarContainer = () => {
           </span>
           <span className="sound-text">INFO</span>
         </li>
-        <li className="MainNavbar__item direction-icnon">
-          <span className="border-icon">
-            <TiHome className="icons-all" />
-          </span>
-          <span className="sound-text">HOME</span>
-        </li>
+        <Link to={`https://lobbydesign.ayodhya365.co/?id=${queryParams.id}`}>
+          <li className="MainNavbar__item" style={{ cursor: "pointer" }}>
+            <img
+              src={icon.homeIcon} // Conditional rendering of the image
+              alt={isTurbo ? "home" : "Unknown home Icon"}
+            />
+            <span className="sound-text">Home</span>
+          </li>
+        </Link>
       </ul>
       {/* {/ {/ Modal /} /} */}
       {isModalOpen && (

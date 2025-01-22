@@ -1,8 +1,10 @@
+@import url("https://fonts.cdnfonts.com/css/hacksaw");
+
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: var(--hg-typography-font-family);
+  font-family: "HacksawUI", sans-serif;
 }
 body {
   background-color: var(--hg-bg-primary);
@@ -54,6 +56,8 @@ body {
   --hg-dialog-border-width: 3px;
 }
 :root body {
+  --hg-typography-font-family: "HacksawUI", sans-serif;
+
   --hg-bg-tertiary: #2b2b2d;
   --hg-bg-tertiary-rgb: 43, 43, 45;
   --hg-text-primary: #ced4da;

@@ -92,10 +92,9 @@ const Home = () => {
   // }
   // console.log(statusData, "statusData");
   useEffect(() => {
-    // Update statusData based on resultData
     if (resultData?.isWin) {
-      setStatusData(true); // Set to true if win
-      setIconSrc(icon.group3); // Set to group3 icon if win
+      setStatusData(true);
+      setIconSrc(icon.group3);
     } else {
       setStatusData(false);
       setIconSrc(icon.group2);
@@ -117,16 +116,15 @@ const Home = () => {
   // }, [statusData, totalMultiplier]);
 
   useEffect(() => {
-    // Determine icon source based on totalMultiplier and statusData
-    if (statusData) {
-      setIconSrc(icon.group3); // If win, set to group3
+    if (statusData === true) {
+      setIconSrc(icon.group3);
     } else {
       setIconSrc(
         totalMultiplier < 1.05 || totalMultiplier > 5000.0
           ? icon.group2
           : icon.groupA
       );
-    } // If bet button is clicked, show groupA icon
+    }
   }, [statusData, totalMultiplier]);
 
   // let firstResult;
@@ -199,7 +197,7 @@ const Home = () => {
           totalMultiplier={totalMultiplier}
         />
         <div className="main-navbar-container">
-          <NavbarContainer />
+          <NavbarContainer queryParams={queryParams} />
         </div>
       </div>
 
@@ -215,6 +213,8 @@ const Home = () => {
           thirdResult={thirdResult}
           iconSrc={iconSrc}
           isRefrece={isRefrece}
+          statusData={statusData}
+          setisRefrece={setisRefrece}
         />
       </div>
     </div>

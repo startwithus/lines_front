@@ -92,8 +92,8 @@ const AmountSection = ({
           <button
             onClick={decreaseProgress}
             className="btn-decressincress"
-            disabled={disableMin}
-            style={buttonStyle(disableMin)}
+            disabled={disableMin || isBetting}
+            style={buttonStyle(disableMin || isBetting)}
           >
             <img src={icon.downIcon} alt="Decrease" className="icon-shadow" />
           </button>
@@ -116,8 +116,8 @@ const AmountSection = ({
           <button
             onClick={handleIncrease}
             className="btn-decressincress"
-            disabled={disableMax}
-            style={buttonStyle(disableMax)}
+            disabled={disableMax || isBetting}
+            style={buttonStyle(disableMax || isBetting)}
           >
             <img src={icon.upIcon} alt="Increase" className="icon-shadow" />
           </button>
