@@ -8,12 +8,12 @@ const BalanceWinAmount = ({ info, resultData, isBetting }) => {
           <div>
             <p
               style={{
-                fontSize: "11px",
+                fontSize: "10px",
                 Color: "#e9ecef",
                 textAlign: "center",
               }}
             >
-              Balance:
+              BALANCE:
             </p>
 
             <p
@@ -33,12 +33,12 @@ const BalanceWinAmount = ({ info, resultData, isBetting }) => {
             <div>
               <p
                 style={{
-                  fontSize: "11px",
+                  fontSize: "10px",
                   Color: "#e9ecef",
                   textAlign: "center",
                 }}
               >
-                Win
+                WIN
               </p>
             </div>
             <div className="">

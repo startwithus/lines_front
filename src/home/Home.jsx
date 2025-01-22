@@ -14,6 +14,7 @@ import { icon } from "../utility/icon";
 const Home = () => {
   const location = useLocation();
   const [socket, setSocket] = useState(null);
+  const [isManual, setIsManual] = useState(true);
   const [info, setInfo] = useState({});
   const [showBalance, setShowBalance] = useState(false);
   const [socketConnected, setSocketConnected] = useState(false);
@@ -26,8 +27,8 @@ const Home = () => {
   const [sliders, setSliders] = useState([50]); // Initial slider values
   const [totalMultiplier, setTotalMultiplier] = useState(getMaxMult([50]));
   const [statusData, setStatusData] = useState(false); // Initialize with false
-  const [iconSrc, setIconSrc] = useState("");
-
+  const [iconSrc, setIconSrc] = useState(null);
+  const [isRefrece, setisRefrece] = useState(false);
   // Initial multiplier
   console.log(sliders);
   let queryParams = {};
@@ -69,6 +70,48 @@ const Home = () => {
       console.error("Invalid socket ID or game ID in query params.");
     }
   }, [queryParams.id]);
+  // let statusData;
+  // if (resultData?.isWin) {
+  //   statusData = resultData.isWin;
+  // }
+  // console.log(statusData, "statusData");
+  useEffect(() => {
+    // Update statusData based on resultData
+    if (resultData?.isWin) {
+      setStatusData(true); // Set to true if win
+      setIconSrc(icon.group3); // Set to group3 icon if win
+    } else {
+      setStatusData(false);
+      setIconSrc(icon.group2);
+    }
+  }, [resultData]);
+
+  // useEffect(() => {
+  //   if (statusData === undefined || statusData === null) {
+  //     setIconSrc(icon.group2);
+  //   } else if (statusData) {
+  //     setIconSrc(icon.group3);
+  //   } else {
+  //     setIconSrc(
+  //       totalMultiplier < 1.05 || totalMultiplier > 5000.0
+  //         ? icon.group2
+  //         : icon.groupA
+  //     );
+  //   }
+  // }, [statusData, totalMultiplier]);
+
+  useEffect(() => {
+    // Determine icon source based on totalMultiplier and statusData
+    if (statusData) {
+      setIconSrc(icon.group3); // If win, set to group3
+    } else {
+      setIconSrc(
+        totalMultiplier < 1.05 || totalMultiplier > 5000.0
+          ? icon.group2
+          : icon.groupA
+      );
+    } // If bet button is clicked, show groupA icon
+  }, [statusData, totalMultiplier]);
 
 
   useEffect(() => {
@@ -105,10 +148,12 @@ const Home = () => {
     }
     if (isBetting) return;
     setIsBetting(true);
+    setisRefrece(false);
     const dataToSend = sliders.join(",");
     socket.emit("message", `PB:${amount}:${dataToSend}`);
     setTimeout(() => {
       setIsBetting(false);
+      setisRefrece(true);
     }, 500);
   };
   const handleCanvasLoad = (status) => {
@@ -128,8 +173,11 @@ const Home = () => {
         <div className="manual-side-container">
           <div className="manual-btn-container">
             <div className="manual-bg">
-              <div className="manual-btn">
-                <p>manual</p>
+              <div className="manual-btn active">
+                <p>Manual</p>
+              </div>
+              <div className="manual-btn disabled">
+                <p>Auto</p>
               </div>
             </div>
           </div>
@@ -162,6 +210,7 @@ const Home = () => {
           secondResult={secondResult}
           thirdResult={thirdResult}
           iconSrc={iconSrc}
+          isRefrece={isRefrece}
         />
       </div>
     </div>
