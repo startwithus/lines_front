@@ -88,11 +88,15 @@ const NavbarContainer = () => {
           </span>
           <span className="sound-text">INFO</span>
         </li>
-        <li className="MainNavbar__item direction-icnon">
-          <span className="border-icon">
-            <TiHome className="icons-all" />
-          </span>
-          <span className="sound-text">HOME</span>
+        <li
+          className="MainNavbar__item"
+          style={{ cursor: "pointer" }}
+         >
+          <img
+            src={icon.homeIcon} // Conditional rendering of the image
+            alt={isTurbo ? "home" : "Unknown home Icon"}
+          />
+          <span className="sound-text">Home</span>
         </li>
       </ul>
       {/* {/ {/ Modal /} /} */}

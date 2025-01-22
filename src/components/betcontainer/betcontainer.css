@@ -82,7 +82,7 @@
   transform: translateY(1px);
 }
 .btn-decressincress img {
-  width: 25px;
+  width: 20px;
 }
 /* navbar */
 .main-navbar-container {
@@ -116,7 +116,7 @@
   position: relative;
 }
 .MainNavbar__item img {
-  width: 25px;
+  width: 20px;
 }
 .sound-line {
   position: absolute;
@@ -130,7 +130,8 @@
 
 .border-icon {
   display: inline-block;
-  padding: 3px 5px 0px 4px;
+  padding: 0px 2px;
+  /* padding: 2px; */
   border: 2px solid #4ace4a;
   border-radius: 50%;
   position: relative;
@@ -145,6 +146,7 @@
 
 .icons-all {
   transition: all 0.3s ease;
+  font-size: 14px;
 }
 
 .icons-all.active {
@@ -152,8 +154,8 @@
 }
 
 .sound-text {
-  margin-top: 10px;
-  font-size: 8px;
+  margin-top: 6px;
+  font-size: 7px;
   font-weight: 600;
   color: var(--hg-text-primary);
 }
@@ -183,7 +185,6 @@
   width: 70px;
 }
 .slider-wrapper {
-  position: relative;
   width: 50%;
   height: 100px;
   margin: auto;
@@ -200,25 +201,50 @@
 }
 .plus-section {
   text-align: center;
-  /* margin-top: 7.6rem; */
+  margin-top: 20rem;
   /* background-color: red; */
 }
 .plus-section h1 {
-  font-size: 16px;
-  color: white;
+  font-size: 14px;
+  color: #fff;
+  font-weight: 800;
 }
 .c-default {
   cursor: default;
 }
 .plus-section img {
-  width: 80px;
-  height: 80px;
+  height: 65px;
   margin-top: 0.5rem;
 }
 .bet-icon {
   width: 500px;
   height: 40px;
 }
+.white-border {
+  border: 0.4rem solid #fff;
+  border-radius: 0.5rem;
+}
+.black-border {
+  border: 0.2rem solid black;
+  position: relative;
+  border-radius: 3px;
+}
+.white-bg {
+  position: absolute;
+  top: -4px;
+  background: #fff;
+  height: 20px;
+}
+.white-value-no {
+  position: absolute;
+  top: 5px;
+  transform: translateY(-50%);
+  font-weight: 900;
+  border-radius: 4px;
+  white-space: nowrap;
+  font-size: 19px;
+}
+
 /* resposive UI */
 @media (max-width: 768px) {
   .blance-info-container {
@@ -250,5 +276,8 @@
   }
   .lines-container {
     height: 35%;
+  }
+  .slider-wrapper {
+    width: 90%;
   }
 }

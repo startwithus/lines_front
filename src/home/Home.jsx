@@ -173,10 +173,10 @@ const Home = () => {
         <div className="manual-side-container">
           <div className="manual-btn-container">
             <div className="manual-bg">
-              <div className="manual-btn active">
+              <div className="manual-btn">
                 <p>Manual</p>
               </div>
-              <div className="manual-btn disabled">
+              <div className="Auto-btn">
                 <p>Auto</p>
               </div>
             </div>

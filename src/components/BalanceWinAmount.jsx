@@ -7,6 +7,7 @@ const BalanceWinAmount = ({ info, resultData, isBetting }) => {
         <div className="balance-info">
           <div>
             <p
+              className=""
               style={{
                 fontSize: "10px",
                 Color: "#e9ecef",
