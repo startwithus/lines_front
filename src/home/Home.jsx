@@ -28,7 +28,11 @@ const Home = () => {
   const [statusData, setStatusData] = useState(false);
   const [iconSrc, setIconSrc] = useState(icon.groupA);
   const [isRefrece, setisRefrece] = useState(false);
+  const [isbno, setsetisbno] = useState(false);
   const [isZoomOut, setIsZoomOut] = useState(false);
+  const [firstResult, setFirstResult] = useState([]);
+  const [secondResult, setSecondResult] = useState([]);
+  const [thirdResult, setThirdResult] = useState([]);
 
   // Initial multiplier
   console.log(sliders);
@@ -114,9 +118,12 @@ const Home = () => {
   //   secondResult = resultData?.winningRange?.[1] || [];
   //   thirdResult = resultData?.winningRange?.[2] || [];
   // }
-  const firstResult = resultData?.winningRange?.[0] || [];
-  const secondResult = resultData?.winningRange?.[1] || [];
-  const thirdResult = resultData?.winningRange?.[2] || [];
+  // Update results when resultData changes
+  useEffect(() => {
+    setFirstResult(resultData?.winningRange?.[0] || 0);
+    setSecondResult(resultData?.winningRange?.[1] || 0);
+    setThirdResult(resultData?.winningRange?.[2] || 0);
+  }, [resultData]);
   const handleResult = (data) => {
     setResultData(data);
   };
@@ -130,6 +137,8 @@ const Home = () => {
     // Start betting
     setIsBetting(true);
     setisRefrece(false);
+    setsetisbno(false);
+    setResultData(true);
 
     // Temporarily disable refreshing
     const dataToSend = sliders.join(",");
@@ -144,8 +153,11 @@ const Home = () => {
       });
       setIsBetting(false);
       setisRefrece(true);
+      setResultData(false);
+    }, 5);
+    setTimeout(() => {
+      setsetisbno(true);
     }, 500);
-
     // Stop betting after a defined period
   };
 
@@ -206,6 +218,7 @@ const Home = () => {
           thirdResult={thirdResult}
           iconSrc={iconSrc}
           isRefrece={isRefrece}
+          isbno={isbno}
           statusData={statusData}
           isZoomOut={isZoomOut}
         />

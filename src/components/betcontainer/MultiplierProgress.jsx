@@ -15,6 +15,7 @@ const MultiplierProgress = ({
   thirdResult,
   iconSrc,
   isRefrece,
+  isbno,
   statusData,
   isZoomOut,
 }) => {
@@ -124,14 +125,15 @@ const MultiplierProgress = ({
                   background: `linear-gradient(to right, red ${value}%, #4ace4a ${value}%)`,
                 }}
               >
-                <div
-                  className="white-bg"
-                  style={{
-                    width: resultWidth,
-                    transition: "width 0.5s linear",
-                  }}
-                ></div>
-
+                {isRefrece && (
+                  <div
+                    className="white-bg"
+                    style={{
+                      width: resultWidth,
+                      transition: "width 0.5s linear",
+                    }}
+                  ></div>
+                )}
                 <input
                   type="range"
                   min="2"
@@ -154,7 +156,7 @@ const MultiplierProgress = ({
                 }}
               />
               <>
-                {isRefrece && (
+                {isbno && (
                   <div
                     className="white-value-no"
                     style={{
