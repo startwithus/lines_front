@@ -162,6 +162,10 @@ const MultiplierProgress = ({
                     style={{
                       left: `calc(${resultWidth} - 6px)`,
                       transition: "left 0.3s ease-out",
+                      backgroundColor:
+                        parseFloat(resultWidth.replace("%", "")) < value
+                          ? "red"
+                          : "green",
                     }}
                   >
                     {resultWidth.replace("%", "")}

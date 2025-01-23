@@ -23,7 +23,7 @@ const Home = () => {
   const [amount, setAmount] = useState("10.00");
   const [isBetting, setIsBetting] = useState(false);
   const [resultData, setResultData] = useState({});
-  const [sliders, setSliders] = useState([50]); // Initial slider values
+  const [sliders, setSliders] = useState([50]);
   const [totalMultiplier, setTotalMultiplier] = useState(getMaxMult([50]));
   const [statusData, setStatusData] = useState(false);
   const [iconSrc, setIconSrc] = useState(icon.groupA);
@@ -151,11 +151,12 @@ const Home = () => {
       socket.once("result", (data) => {
         handleResult(data);
       });
-      setIsBetting(false);
+
       setisRefrece(true);
       setResultData(false);
     }, 5);
     setTimeout(() => {
+      setIsBetting(false);
       setsetisbno(true);
     }, 500);
     // Stop betting after a defined period
