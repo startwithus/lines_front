@@ -11,7 +11,12 @@ const NavbarContainer = ({ queryParams }) => {
   const [isActive, setIsActive] = useState(false);
   const [isMusicDisabled, setIsMusicDisabled] = useState(false); // State to disable music toggle
   const [isTurbo, setIsTurbo] = useState(true); // State to toggle image
+  const [showModal, setShowModal] = useState(false);
 
+  const handleNavigation = () => {
+    setShowModal(false);
+    window.location.href = `https://lobbydesign.ayodhya365.co/?id=${queryParams.id}`;
+  };
   const toggleSound = () => {
     const newSoundState = !isSoundOn;
     setIsSoundOn(newSoundState);
@@ -88,14 +93,38 @@ const NavbarContainer = ({ queryParams }) => {
           <span className="sound-text">INFO</span>
         </li>
 
-        <Link
-          to={`https://lobbydesign.ayodhya365.co/?id=${queryParams.id}`}
-          className="MainNavbar__item"
-          style={{ cursor: "pointer", textDecoration: "none" }}
-        >
-          <img src={icon.homeIcon} alt="Home Icon" />
-          <span className="sound-text">HOME</span>
-        </Link>
+        <>
+          <div
+            className="MainNavbar__item"
+            style={{ cursor: "pointer", textDecoration: "none" }}
+            onClick={() => setShowModal(true)}
+          >
+            <img src={icon.homeIcon} alt="Home Icon" />
+            <span className="sound-text">HOME</span>
+          </div>
+
+          {showModal && (
+            <div className="modal-overlay">
+              <div className="modal-home">
+                <p className="modal-text">Do you want return to the lobby?</p>
+                <div className="modal-actions">
+                  <button
+                    className="btn-text btn-cancel"
+                    onClick={() => setShowModal(false)}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    className="btn-text btn-confirm"
+                    onClick={handleNavigation}
+                  >
+                    Confirm
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+        </>
       </ul>
 
       {isModalOpen && (

@@ -114,13 +114,13 @@ body {
   display: flex;
   justify-content: center;
   padding: 1rem;
-  height: calc(100vh - 9px);
+  /* height: calc(100vh - 9px); */
   position: relative;
   margin: 0 auto;
   max-width: 1600px;
 }
 .Pane__inner {
-  height: 100%;
+  height: 595px;
   width: 250px;
   background-color: var(--hg-bg-primary);
 }
@@ -222,14 +222,14 @@ body {
   background-repeat: no-repeat, repeat;
   width: 74%;
   padding: 1rem 1rem 1rem 0.5rem;
-  height: 100%;
+  height: 579px;
   border-radius: 0.25rem;
 
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .value-display {
-  width: 100%;
+  width: 10px;
   display: flex;
   justify-content: center;
   position: relative;
@@ -237,6 +237,9 @@ body {
   font-size: 12px;
   font-weight: 800;
   margin: 0rem 0 1.2rem 0;
+}
+.value-sticky {
+  position: sticky;
 }
 .current-value-progress {
   width: 100%;
@@ -463,24 +466,24 @@ body {
 }
 
 @media (max-width: 1024px) {
-  .show-bet-graph-container {
+  /* .show-bet-graph-container {
     flex-basis: 74%;
     height: 93%;
-  }
+  } */
 
   .manual-btn {
     max-width: 150px;
   }
-  .manual-side-container {
+  /* .manual-side-container {
     height: 572px;
-  }
+  } */
 }
 
 @media (max-width: 1440px) {
-  .show-bet-graph-container {
+  /* .show-bet-graph-container {
     flex-basis: 74%;
     height: 100%;
-  }
+  } */
 
   .manual-btn {
     max-width: 150px;

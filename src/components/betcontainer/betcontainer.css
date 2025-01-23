@@ -193,8 +193,11 @@
   font-weight: 800; */
 }
 .plus-section {
-  text-align: center;
-  margin-top: 20rem;
+  height: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  /* margin-top: 20rem; */
   /* background-color: red; */
 }
 .plus-section h1 {

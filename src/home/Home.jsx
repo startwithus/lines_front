@@ -148,7 +148,7 @@ const Home = () => {
 
     // Start betting
     setIsBetting(true);
-    setisRefrece(false); // Temporarily disable refreshing
+    setisRefrece(true); // Temporarily disable refreshing
     const dataToSend = sliders.join(",");
 
     // Emit the betting event
@@ -157,7 +157,7 @@ const Home = () => {
     // Delay refreshing to avoid UI flickers
     setTimeout(() => {
       setisRefrece(true);
-    }, 700);
+    }, 500);
 
     // Stop betting after a defined period
     setTimeout(() => {

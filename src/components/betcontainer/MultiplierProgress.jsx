@@ -105,14 +105,15 @@ const MultiplierProgress = ({
                   background: `linear-gradient(to right, red ${value}%, #4ace4a ${value}%)`,
                 }}
               >
-                <div
-                  className="white-bg"
-                  style={{
-                    width: resultWidth,
-                    transition: "width 0.5s linear",
-                  }}
-                ></div>
-
+                {isRefrece && (
+                  <div
+                    className="white-bg"
+                    style={{
+                      width: resultWidth,
+                      transition: "width 0.5s linear",
+                    }}
+                  ></div>
+                )}
                 <input
                   type="range"
                   min="2"
@@ -173,10 +174,10 @@ const MultiplierProgress = ({
           <div
             className="value-display"
             style={{
-              left: `calc(${value}% - 170px)`,
+              left: `calc(${value}% - 0px)`,
             }}
           >
-            <div className="">
+            <div className="value-sticky">
               {value <= 2 ? "2(MIN)" : value >= 98 ? "98(MAX)" : `${value}`}
             </div>
           </div>
@@ -196,8 +197,14 @@ const MultiplierProgress = ({
       {sliders.length < 3 &&
         !isBetting && ( // Only show this section if not betting
           <div className="plus-section" onClick={handleAddSlider}>
-            <h1>ADD LINE</h1>
-            <img src={icon.misc7} alt="Add Line" />
+            <div>
+              <div>
+                <h1>ADD LINE</h1>
+              </div>
+              <div>
+                <img src={icon.misc7} alt="Add Line" />
+              </div>
+            </div>
           </div>
         )}
     </>
