@@ -7,6 +7,7 @@ const AmountSection = ({
   setAmount,
   isBetting,
   totalMultiplier,
+  setResultData,
 }) => {
   const MIN_AMOUNT = 10;
   const MAX_AMOUNT = 20000;
@@ -47,6 +48,7 @@ const AmountSection = ({
   };
 
   const decreaseProgress = () => {
+    setResultData(false);
     let numericValue = parseFloat(amount);
     if (isNaN(numericValue) || amount === "") {
       numericValue = MIN_AMOUNT;
@@ -60,6 +62,8 @@ const AmountSection = ({
   };
 
   const handleIncrease = () => {
+    setResultData(false);
+
     let numericValue = parseFloat(amount);
     if (isNaN(numericValue) || amount === "") {
       numericValue = MIN_AMOUNT;
@@ -87,39 +91,42 @@ const AmountSection = ({
           ></span>
         </div>
       </div>
-      <div className="btn-incress-decress">
-        <button
-          onClick={decreaseProgress}
-          className="btn-decressincress"
-          disabled={disableMin || isBetting}
-          style={buttonStyle(disableMin || isBetting)}
-         >
-          <img src={icon.downIcon} alt="Decrease" className="icon-shadow" />
-        </button>
-      </div>
-      <div className="bet-button">
-        <button
-          className="btn-bet"
-          onClick={handlePlacebet}
-          disabled={disableBet}
-          style={buttonStyle(disableBet)}
-        >
-          {isBetting ? (
-            <img src={icon.betLoader} className="bet-icon" alt="Loading" />
-          ) : (
-            "BET"
-          )}
-        </button>
-      </div>
-      <div className="btn-incress-decress">
-        <button
-          onClick={handleIncrease}
-          className="btn-decressincress"
-          disabled={disableMax || isBetting}
-          style={buttonStyle(disableMax || isBetting)}
-        >
-          <img src={icon.upIcon} alt="Increase" className="icon-shadow" />
-        </button>
+      <div className="select-bet-container">
+        <div className="btn-incress-decress">
+          <button
+            onClick={decreaseProgress}
+            className="btn-decressincress"
+            disabled={disableMin || isBetting}
+            style={buttonStyle(disableMin || isBetting)}
+          >
+            <img src={icon.downIcon} alt="Decrease" className="icon-shadow" />
+          </button>
+        </div>
+        <div className="bet-button">
+          <button
+            className="btn-bet"
+            onClick={handlePlacebet}
+            disabled={disableBet}
+            style={buttonStyle(disableBet)}
+          >
+            {isBetting ? (
+              <img src={icon.betLoader} className="bet-icon" alt="Loading" />
+            ) : (
+              "BET"
+            )}
+          </button>
+        </div>
+
+        <div className="btn-incress-decress">
+          <button
+            onClick={handleIncrease}
+            className="btn-decressincress"
+            disabled={disableMax || isBetting}
+            style={buttonStyle(disableMax || isBetting)}
+          >
+            <img src={icon.upIcon} alt="Increase" className="icon-shadow" />
+          </button>
+        </div>
       </div>
     </div>
   );

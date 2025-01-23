@@ -14,7 +14,6 @@ import { icon } from "../utility/icon";
 const Home = () => {
   const location = useLocation();
   const [socket, setSocket] = useState(null);
-  const [isManual, setIsManual] = useState(true);
   const [info, setInfo] = useState({});
   const [showBalance, setShowBalance] = useState(false);
   const [socketConnected, setSocketConnected] = useState(false);
@@ -29,6 +28,9 @@ const Home = () => {
   const [statusData, setStatusData] = useState(false); // Initialize with false
   const [iconSrc, setIconSrc] = useState(null);
   const [isRefrece, setisRefrece] = useState(false);
+  const [firstResult, setFirstResult] = useState([]);
+  const [secondResult, setSecondResult] = useState([]);
+  const [thirdResult, setThirdResult] = useState([]);
   // Initial multiplier
   console.log(sliders);
   let queryParams = {};
@@ -72,32 +74,35 @@ const Home = () => {
   }, [queryParams.id]);
 
   useEffect(() => {
-    // Update statusData based on resultData
     if (resultData?.isWin) {
       setStatusData(true);
+      setIconSrc(icon.group3);
     } else {
       setStatusData(false);
+      setIconSrc(icon.group2);
     }
-  }, [resultData]); // Re-run whenever resultData changes
+  }, [resultData]);
+
 
   useEffect(() => {
-    // Determine icon source based on statusData and totalMultiplier
-    if (!statusData) {
-      setIconSrc(icon.group2); // Icon for false status (not win)
-    } else if (statusData && totalMultiplier < 1.05 || totalMultiplier > 5000.0) {
-      setIconSrc(icon.group2); // Icon for out-of-range multiplier
+    if (statusData === true) {
+      setIconSrc(icon.group3);
     } else {
-      setIconSrc(icon.group3); // Icon for win
+      setIconSrc(
+        totalMultiplier < 1.05 || totalMultiplier > 5000.0
+          ? icon.group2
+          : icon.groupA
+      );
     }
-  }, [statusData, totalMultiplier]); // Re-run whenever statusData or totalMultiplier changes
+  }, [statusData, totalMultiplier]);
 
-
-
-
-  const firstResult = resultData?.winningRange?.[0] || [];
-  const secondResult = resultData?.winningRange?.[1] || [];
-  const thirdResult = resultData?.winningRange?.[2] || [];
-
+  useEffect(() => {
+    if (resultData?.winningRange) {
+      setFirstResult(resultData.winningRange[0] || []);
+      setSecondResult(resultData.winningRange[1] || []);
+      setThirdResult(resultData.winningRange[2] || []);
+    }
+  }, [resultData]);
 
   const handlePlaceBet = () => {
     if (+amount > info.balance || +amount === 0) {
@@ -128,16 +133,16 @@ const Home = () => {
     <div className="container">
       <div className="Pane__inner">
         <div className="manual-side-container">
-          <div className="manual-btn-container">
-            <div className="manual-bg">
-              <div className="manual-btn active">
-                <p>Manual</p>
-              </div>
-              <div className="manual-btn disabled">
-                <p>Auto</p>
-              </div>
+        <div className="manual-btn-container">
+          <div className="manual-bg">
+            <div className="manual-btn">
+              <p>Manual</p>
+            </div>
+            <div className="Auto-btn">
+              <p>Auto</p>
             </div>
           </div>
+        </div>
         </div>
         <BalanceWinAmount
           info={info}
@@ -150,12 +155,10 @@ const Home = () => {
           setAmount={setAmount}
           isBetting={isBetting}
           totalMultiplier={totalMultiplier}
+          setResultData={setResultData}
         />
         <div className="main-navbar-container">
-          <NavbarContainer
-            queryParams={queryParams}
-
-          />
+          <NavbarContainer queryParams={queryParams} />
         </div>
       </div>
 
@@ -171,6 +174,8 @@ const Home = () => {
           thirdResult={thirdResult}
           iconSrc={iconSrc}
           isRefrece={isRefrece}
+          statusData={statusData}
+          setisRefrece={setisRefrece}
         />
       </div>
     </div>

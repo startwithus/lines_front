@@ -1,4 +1,5 @@
 import React from "react";
+import { formatBalance } from "../utility/helper";
 
 const BalanceWinAmount = ({ info, resultData, isBetting }) => {
   return (
@@ -25,7 +26,7 @@ const BalanceWinAmount = ({ info, resultData, isBetting }) => {
                 marginTop: "6px",
               }}
             >
-              {info.balance}
+              {`${formatBalance(info.balance)}`}
             </p>
           </div>
         </div>

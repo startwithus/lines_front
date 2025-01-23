@@ -15,18 +15,18 @@ const MultiplierProgress = ({
   thirdResult,
   iconSrc,
   isRefrece,
+  statusData,
 }) => {
   const [isActive, setIsActive] = useState(false);
-  const [resultWidth, setResultWidth] = useState("100%"); // Initially full width for reference data
   const [activeSliderIndex, setActiveSliderIndex] = useState(null);
-  
   const handleMouseDown = (index) => {
-    setActiveSliderIndex(index); // Set the active slider index
+    setActiveSliderIndex(index);
   };
 
   const handleMouseUp = () => {
-    setActiveSliderIndex(null); // Reset the active slider index
+    setActiveSliderIndex(null);
   };
+
   const handleSliderChange = (index, e) => {
     const value = Math.max(2, Math.min(98, parseInt(e.target.value, 10))); // Clamp value between 2 and 98
     const updatedSliders = [...sliders];
@@ -54,8 +54,6 @@ const MultiplierProgress = ({
     setSliders(updatedSliders);
     setTotalMultiplier(newTotalMultiplier);
   };
-  console.log("isBetting:", isBetting);
-
 
   const renderSlider = (value, index) => {
     const isActive = activeSliderIndex === index;
@@ -71,7 +69,6 @@ const MultiplierProgress = ({
 
     return (
       <div className="" style={{ position: "sticky" }}>
-
         <div className="lines-section" key={index}>
           {index === 0 && (
             <div
@@ -79,7 +76,7 @@ const MultiplierProgress = ({
               style={{
                 left: `calc(${value}% - ${value > 50 ? "100px" : "25px"})`,
               }}
-            >
+             >
               <span className="multi-img">
                 <img src={iconSrc} alt="Group Icon" />
               </span>
@@ -108,15 +105,13 @@ const MultiplierProgress = ({
                   background: `linear-gradient(to right, red ${value}%, #4ace4a ${value}%)`,
                 }}
               >
-                {isRefrece && (
-                  <div
-                    className={`white-bg ${isRefrece ? "white-bg" : ""}`}
-                    style={{
-                      width: resultWidth,
-                      transition: "width 0.3s ease",
-                    }}
-                  ></div>
-                )}
+                <div
+                  className={`white-bg ${isRefrece ? "white-bg-active" : ""}`}
+                  style={{
+                    width: resultWidth,
+                    transition: resultWidth ? "width 0.5s linear" : "",
+                  }}
+                ></div>
 
                 <input
                   type="range"
@@ -126,8 +121,8 @@ const MultiplierProgress = ({
                   onMouseDown={() => handleMouseDown(index)}
                   onMouseUp={handleMouseUp}
                   onChange={(e) => handleSliderChange(index, e)}
+                  // className="slider"
                   className={`slider ${isActive ? "active" : ""}`} // Add "active" if isActive is true
-
                 />
               </div>
 
@@ -145,7 +140,7 @@ const MultiplierProgress = ({
                     className="white-value-no"
                     style={{
                       left: `calc(${resultWidth} - 6px)`,
-                      transition: "left 0.3s ease-out, transform 0.3s ease-out",
+                      transition: "left 0.3s ease-out",
                     }}
                   >
                     {resultWidth.replace("%", "")}
@@ -161,7 +156,7 @@ const MultiplierProgress = ({
                 className="cross-first"
                 src={icon.crossIcon}
                 alt="Remove Slider"
-                onClick={() => handleRemoveSlider(1)} // Handle removal for the second slider
+                onClick={() => handleRemoveSlider(1)}
                 style={{
                   position: "absolute",
                   top: "-80px",
@@ -178,7 +173,7 @@ const MultiplierProgress = ({
                 className="cross-second"
                 src={icon.crossIcon}
                 alt="Remove Slider"
-                onClick={() => handleRemoveSlider(2)} // Handle removal for the third slider
+                onClick={() => handleRemoveSlider(2)}
                 style={{
                   position: "absolute",
                   top: "-80px",
@@ -190,15 +185,16 @@ const MultiplierProgress = ({
               />
             )}
           </div>
-        </div>
-        <div
-          className="value-display"
-          style={{
-            left: `calc(${value}% - 170px)`,
-          }}
-        >
-          <div className="">
-            {value <= 2 ? "2(MIN)" : value >= 98 ? "98(MAX)" : `${value}`}
+
+          <div
+            className="value-display"
+            style={{
+              left: `calc(${value}% - 170px)`,
+            }}
+          >
+            <div className="">
+              {value <= 2 ? "2(MIN)" : value >= 98 ? "98(MAX)" : `${value}`}
+            </div>
           </div>
         </div>
       </div>
