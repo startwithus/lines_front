@@ -239,8 +239,23 @@
   font-size: 19px;
   transition: left 0.6s ease-in-out, transform 0.6s ease-in-out;
 }
-
+.cross-first,
+.cross-second {
+  position: absolute;
+  top: -80px;
+  left: -40px;
+  cursor: pointer;
+  height: 40px;
+}
+/* .cross-second {
+  position: absolute;
+  top: -80px;
+  left: -40px;
+  cursor: pointer;
+  height: 40px;
+} */
 /* resposive UI */
+
 @media (max-width: 768px) {
   .blance-info-container {
     display: flex;
@@ -276,5 +291,10 @@
   }
   .slider-wrapper {
     width: 90%;
+  }
+  .cross-first,
+  .cross-second {
+    top: -80px;
+    left: -28px;
   }
 }

@@ -105,15 +105,13 @@ const MultiplierProgress = ({
                   background: `linear-gradient(to right, red ${value}%, #4ace4a ${value}%)`,
                 }}
               >
-                {isRefrece && (
-                  <div
-                    className={`white-bg ${isRefrece ? "white-bg-active" : ""}`}
-                    style={{
-                      width: resultWidth,
-                      transition: resultWidth ? "width 0.5s linear" : "",
-                    }}
-                  ></div>
-                )}
+                <div
+                  className="white-bg"
+                  style={{
+                    width: resultWidth,
+                    transition: "width 0.5s linear",
+                  }}
+                ></div>
 
                 <input
                   type="range"
@@ -142,7 +140,7 @@ const MultiplierProgress = ({
                     className="white-value-no"
                     style={{
                       left: `calc(${resultWidth} - 6px)`,
-                      transition: "left 0.3s ease-out, transform 0.3s ease-out",
+                      transition: "left 0.3s ease-out",
                     }}
                   >
                     {resultWidth.replace("%", "")}
@@ -159,14 +157,6 @@ const MultiplierProgress = ({
                 src={icon.crossIcon}
                 alt="Remove Slider"
                 onClick={() => handleRemoveSlider(1)}
-                style={{
-                  position: "absolute",
-                  top: "-80px",
-                  left: "-40px",
-                  cursor: "pointer",
-
-                  height: "40px",
-                }}
               />
             )}
 
@@ -176,14 +166,6 @@ const MultiplierProgress = ({
                 src={icon.crossIcon}
                 alt="Remove Slider"
                 onClick={() => handleRemoveSlider(2)}
-                style={{
-                  position: "absolute",
-                  top: "-80px",
-                  left: "-40px",
-                  cursor: "pointer",
-
-                  height: "40px",
-                }}
               />
             )}
           </div>

@@ -140,24 +140,31 @@ const Home = () => {
   const secondResult = resultData?.winningRange?.[1] || [];
   const thirdResult = resultData?.winningRange?.[2] || [];
 
-  console.log("Resultdata winning Range", firstResult);
-  console.log("Resultdata winning Range 1", secondResult);
-  console.log("Resultdata winning Range 2", thirdResult);
-
   const handlePlaceBet = () => {
     if (+amount > info.balance || +amount === 0) {
       return setShowBalance(true);
     }
     if (isBetting) return;
+
+    // Start betting
     setIsBetting(true);
-    setisRefrece(false);
+    setisRefrece(false); // Temporarily disable refreshing
     const dataToSend = sliders.join(",");
+
+    // Emit the betting event
     socket.emit("message", `PB:${amount}:${dataToSend}`);
+
+    // Delay refreshing to avoid UI flickers
+    setTimeout(() => {
+      setisRefrece(true);
+    }, 700);
+
+    // Stop betting after a defined period
     setTimeout(() => {
       setIsBetting(false);
-      setisRefrece(true);
     }, 500);
   };
+
   const handleCanvasLoad = (status) => {
     setLoading(!status);
   };
@@ -195,6 +202,7 @@ const Home = () => {
           setAmount={setAmount}
           isBetting={isBetting}
           totalMultiplier={totalMultiplier}
+          setResultData={setResultData}
         />
         <div className="main-navbar-container">
           <NavbarContainer queryParams={queryParams} />

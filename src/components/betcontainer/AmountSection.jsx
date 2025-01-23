@@ -7,6 +7,7 @@ const AmountSection = ({
   setAmount,
   isBetting,
   totalMultiplier,
+  setResultData,
 }) => {
   const MIN_AMOUNT = 10;
   const MAX_AMOUNT = 20000;
@@ -47,6 +48,8 @@ const AmountSection = ({
   };
 
   const decreaseProgress = () => {
+    setResultData(false);
+
     let numericValue = parseFloat(amount);
     if (isNaN(numericValue) || amount === "") {
       numericValue = MIN_AMOUNT;
@@ -60,6 +63,8 @@ const AmountSection = ({
   };
 
   const handleIncrease = () => {
+    setResultData(false);
+
     let numericValue = parseFloat(amount);
     if (isNaN(numericValue) || amount === "") {
       numericValue = MIN_AMOUNT;
@@ -112,6 +117,7 @@ const AmountSection = ({
             )}
           </button>
         </div>
+
         <div className="btn-incress-decress">
           <button
             onClick={handleIncrease}
