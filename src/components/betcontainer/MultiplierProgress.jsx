@@ -16,9 +16,12 @@ const MultiplierProgress = ({
   iconSrc,
   isRefrece,
   statusData,
+  isZoomOut,
 }) => {
   const [isActive, setIsActive] = useState(false);
   const [activeSliderIndex, setActiveSliderIndex] = useState(null);
+  const [triggerBounce, setTriggerBounce] = useState(false);
+
   const handleMouseDown = (index) => {
     setActiveSliderIndex(index);
   };
@@ -78,11 +81,27 @@ const MultiplierProgress = ({
               }}
             >
               <span className="multi-img">
-                <img src={iconSrc} alt="Group Icon" />
+                <img
+                  src={iconSrc}
+                  alt=""
+                  className={isZoomOut ? "zoom-in-out-element" : ""}
+                />
+                {/* <img
+                  src={
+                    totalMultiplier < 1.05 || totalMultiplier > 5000.0
+                      ? icon.group2
+                      : icon.groupA
+                  }
+                  alt="Icon"
+                  className={isZoomOut ? "zoom-in-out-element" : ""}
+                /> */}
               </span>
-              <p className="xvalue">{totalMultiplier.toFixed(2)}x</p>
+              <p className={`xvalue ${triggerBounce ? "bounce" : ""}`}>
+                {totalMultiplier.toFixed(2)}x
+              </p>
             </div>
           )}
+
           <div className="slider-scale">
             <span>1</span>
             <span>25</span>
@@ -105,15 +124,14 @@ const MultiplierProgress = ({
                   background: `linear-gradient(to right, red ${value}%, #4ace4a ${value}%)`,
                 }}
               >
-                {isRefrece && (
-                  <div
-                    className="white-bg"
-                    style={{
-                      width: resultWidth,
-                      transition: "width 0.5s linear",
-                    }}
-                  ></div>
-                )}
+                <div
+                  className="white-bg"
+                  style={{
+                    width: resultWidth,
+                    transition: "width 0.5s linear",
+                  }}
+                ></div>
+
                 <input
                   type="range"
                   min="2"

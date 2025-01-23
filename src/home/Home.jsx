@@ -26,8 +26,10 @@ const Home = () => {
   const [sliders, setSliders] = useState([50]); // Initial slider values
   const [totalMultiplier, setTotalMultiplier] = useState(getMaxMult([50]));
   const [statusData, setStatusData] = useState(false);
-  const [iconSrc, setIconSrc] = useState(null);
+  const [iconSrc, setIconSrc] = useState(icon.groupA);
   const [isRefrece, setisRefrece] = useState(false);
+  const [isZoomOut, setIsZoomOut] = useState(false);
+
   // Initial multiplier
   console.log(sliders);
   let queryParams = {};
@@ -86,46 +88,22 @@ const Home = () => {
       console.error("Invalid socket ID or game ID in query params.");
     }
   }, [queryParams.id]);
-  // let statusData;
-  // if (resultData?.isWin) {
-  //   statusData = resultData.isWin;
-  // }
-  // console.log(statusData, "statusData");
+
   useEffect(() => {
-    if (resultData?.isWin) {
+    if (resultData?.isWin === true) {
       setStatusData(true);
       setIconSrc(icon.group3);
-    } else {
+    } else if (resultData?.isWin === false) {
       setStatusData(false);
       setIconSrc(icon.group2);
-    }
-  }, [resultData]);
-
-  // useEffect(() => {
-  //   if (statusData === undefined || statusData === null) {
-  //     setIconSrc(icon.group2);
-  //   } else if (statusData) {
-  //     setIconSrc(icon.group3);
-  //   } else {
-  //     setIconSrc(
-  //       totalMultiplier < 1.05 || totalMultiplier > 5000.0
-  //         ? icon.group2
-  //         : icon.groupA
-  //     );
-  //   }
-  // }, [statusData, totalMultiplier]);
-
-  useEffect(() => {
-    if (statusData === true) {
-      setIconSrc(icon.group3);
+    } else if (totalMultiplier < 1.05 || totalMultiplier > 5000.0) {
+      setStatusData(false);
+      setIconSrc(icon.group2); // Use group2 if totalMultiplier is out of range
     } else {
-      setIconSrc(
-        totalMultiplier < 1.05 || totalMultiplier > 5000.0
-          ? icon.group2
-          : icon.groupA
-      );
+      setStatusData(false); // Default case
+      setIconSrc(icon.groupA);
     }
-  }, [statusData, totalMultiplier]);
+  }, [resultData, totalMultiplier]);
 
   // let firstResult;
   // let secondResult;
@@ -139,16 +117,21 @@ const Home = () => {
   const firstResult = resultData?.winningRange?.[0] || [];
   const secondResult = resultData?.winningRange?.[1] || [];
   const thirdResult = resultData?.winningRange?.[2] || [];
-
+  const handleResult = (data) => {
+    setResultData(data);
+  };
   const handlePlaceBet = () => {
     if (+amount > info.balance || +amount === 0) {
       return setShowBalance(true);
     }
     if (isBetting) return;
-
+    setStatusData(false);
+    setIconSrc(icon.groupA);
     // Start betting
     setIsBetting(true);
-    setisRefrece(true); // Temporarily disable refreshing
+    setisRefrece(false);
+
+    // Temporarily disable refreshing
     const dataToSend = sliders.join(",");
 
     // Emit the betting event
@@ -156,13 +139,14 @@ const Home = () => {
 
     // Delay refreshing to avoid UI flickers
     setTimeout(() => {
+      socket.once("result", (data) => {
+        handleResult(data);
+      });
+      setIsBetting(false);
       setisRefrece(true);
     }, 500);
 
     // Stop betting after a defined period
-    setTimeout(() => {
-      setIsBetting(false);
-    }, 500);
   };
 
   const handleCanvasLoad = (status) => {
@@ -202,6 +186,8 @@ const Home = () => {
           setAmount={setAmount}
           isBetting={isBetting}
           totalMultiplier={totalMultiplier}
+          setStatusData={setStatusData}
+          setIconSrc={setIconSrc}
         />
         <div className="main-navbar-container">
           <NavbarContainer queryParams={queryParams} />
@@ -221,7 +207,7 @@ const Home = () => {
           iconSrc={iconSrc}
           isRefrece={isRefrece}
           statusData={statusData}
-          setisRefrece={setisRefrece}
+          isZoomOut={isZoomOut}
         />
       </div>
     </div>
