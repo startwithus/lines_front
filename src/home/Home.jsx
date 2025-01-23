@@ -31,6 +31,8 @@ const Home = () => {
   const [firstResult, setFirstResult] = useState([]);
   const [secondResult, setSecondResult] = useState([]);
   const [thirdResult, setThirdResult] = useState([]);
+  const [isZoomOut, setIsZoomOut] = useState(false);
+
   // Initial multiplier
   console.log(sliders);
   let queryParams = {};
@@ -84,9 +86,13 @@ const Home = () => {
   }, [resultData]);
 
 
+
   useEffect(() => {
     if (statusData === true) {
       setIconSrc(icon.group3);
+      setIsZoomOut(true);
+
+      setTimeout(() => setIsZoomOut(false), 500);
     } else {
       setIconSrc(
         totalMultiplier < 1.05 || totalMultiplier > 5000.0
@@ -133,16 +139,16 @@ const Home = () => {
     <div className="container">
       <div className="Pane__inner">
         <div className="manual-side-container">
-        <div className="manual-btn-container">
-          <div className="manual-bg">
-            <div className="manual-btn">
-              <p>Manual</p>
-            </div>
-            <div className="Auto-btn">
-              <p>Auto</p>
+          <div className="manual-btn-container">
+            <div className="manual-bg">
+              <div className="manual-btn">
+                <p>Manual</p>
+              </div>
+              <div className="Auto-btn">
+                <p>Auto</p>
+              </div>
             </div>
           </div>
-        </div>
         </div>
         <BalanceWinAmount
           info={info}
@@ -176,6 +182,7 @@ const Home = () => {
           isRefrece={isRefrece}
           statusData={statusData}
           setisRefrece={setisRefrece}
+          isZoomOut={isZoomOut}
         />
       </div>
     </div>

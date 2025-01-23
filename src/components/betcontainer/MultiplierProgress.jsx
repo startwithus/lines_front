@@ -16,12 +16,15 @@ const MultiplierProgress = ({
   iconSrc,
   isRefrece,
   statusData,
+  isZoomOut
 }) => {
   const [isActive, setIsActive] = useState(false);
   const [activeSliderIndex, setActiveSliderIndex] = useState(null);
   const handleMouseDown = (index) => {
     setActiveSliderIndex(index);
   };
+
+
 
   const handleMouseUp = () => {
     setActiveSliderIndex(null);
@@ -68,7 +71,7 @@ const MultiplierProgress = ({
     }
 
     return (
-      <div className="" style={{ position: "sticky" }}>
+      <div className="" style={{ position: "relative" }}>
         <div className="lines-section" key={index}>
           {index === 0 && (
             <div
@@ -76,9 +79,13 @@ const MultiplierProgress = ({
               style={{
                 left: `calc(${value}% - ${value > 50 ? "100px" : "25px"})`,
               }}
-             >
+            >
               <span className="multi-img">
-                <img src={iconSrc} alt="Group Icon" />
+                <img
+                  src={iconSrc}
+                  alt="Icon"
+                  className={isZoomOut ? "zoom-in-out-element" : ""}
+                />
               </span>
               <p className="xvalue">{totalMultiplier.toFixed(2)}x</p>
             </div>

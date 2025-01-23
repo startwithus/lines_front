@@ -10,7 +10,7 @@ const AmountSection = ({
   setResultData,
 }) => {
   const MIN_AMOUNT = 10;
-  const MAX_AMOUNT = 20000;
+  const MAX_AMOUNT = 10000;
 
   const disableMin =
     Number(amount) === MIN_AMOUNT ||

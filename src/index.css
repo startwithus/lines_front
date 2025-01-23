@@ -418,11 +418,25 @@ body {
   text-shadow: 0 0 5px rgba(0, 0, 0, 0.5); /* Optional for better visibility */
 }
 
-
-
 .crossIcon img {
   width: 40px;
   margin-left: -3rem;
+}
+
+.zoom-in-out-element {
+  animation: zoom-in-zoom-out 1s ease infinite;
+}
+
+@keyframes zoom-in-zoom-out {
+  0% {
+    scale: 50%;
+  }
+  50% {
+    scale: 100%;
+  }
+  100% {
+    scale: 50%;
+  }
 }
 
 @media (max-width: 768px) {
@@ -475,7 +489,6 @@ body {
   .manual-btn {
     max-width: 150px;
   }
-
 }
 
 @media only screen and (min-width: 1024px) and (max-device-width: 1440px) {
@@ -502,7 +515,6 @@ body {
   .manual-btn {
     max-width: 150px;
   }
-
 }
 
 /* @media
