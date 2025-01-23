@@ -25,7 +25,7 @@ const Home = () => {
   const [resultData, setResultData] = useState({});
   const [sliders, setSliders] = useState([50]); // Initial slider values
   const [totalMultiplier, setTotalMultiplier] = useState(getMaxMult([50]));
-  const [statusData, setStatusData] = useState(false); // Initialize with false
+  const [statusData, setStatusData] = useState(false);
   const [iconSrc, setIconSrc] = useState(null);
   const [isRefrece, setisRefrece] = useState(false);
   // Initial multiplier
@@ -202,7 +202,6 @@ const Home = () => {
           setAmount={setAmount}
           isBetting={isBetting}
           totalMultiplier={totalMultiplier}
-          setResultData={setResultData}
         />
         <div className="main-navbar-container">
           <NavbarContainer queryParams={queryParams} />
