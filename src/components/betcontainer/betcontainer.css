@@ -236,10 +236,10 @@
   position: absolute;
   top: 5px;
   transform: translateY(-50%);
-  font-weight: 900;
+  font-weight: 700;
   border-radius: 4px;
   white-space: nowrap;
-  font-size: 19px;
+  font-size: 20px;
   transition: left 0.6s ease-in-out, transform 0.6s ease-in-out;
 }
 .cross-first,
