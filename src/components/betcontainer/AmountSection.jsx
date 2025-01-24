@@ -51,7 +51,7 @@ const AmountSection = ({
   };
 
   const decreaseProgress = () => {
-    setIconSrc(icon.groupA);
+    setResultData(false);
     let numericValue = parseFloat(amount);
     if (isNaN(numericValue) || amount === "") {
       numericValue = MIN_AMOUNT;
@@ -78,10 +78,14 @@ const AmountSection = ({
   };
 
   const handleMinClick = () => {
+    setResultData(false);
+
     setAmount(MIN_AMOUNT.toFixed(2)); // Set amount to MIN_AMOUNT
   };
 
   const handleMaxClick = () => {
+    setResultData(false);
+
     setAmount(MAX_AMOUNT.toFixed(2)); // Set amount to MAX_AMOUNT
   };
 

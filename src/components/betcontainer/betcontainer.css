@@ -237,7 +237,11 @@
   background: #fff;
   height: 20px;
 }
-
+.min-progress-max {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
 .white-value-no {
   position: absolute;
   top: 5px;
@@ -255,6 +259,10 @@
   left: -40px;
   cursor: pointer;
   height: 40px;
+}
+.min-progress-max button {
+  font-size: 12px;
+  font-weight: 600;
 }
 /* .cross-second {
   position: absolute;

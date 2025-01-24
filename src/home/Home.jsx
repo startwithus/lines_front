@@ -206,6 +206,7 @@ const Home = () => {
           isbno={isbno}
           statusData={statusData}
           setIconSrc={setIconSrc}
+          setResultData={setResultData}
         />
       </div>
     </div>
