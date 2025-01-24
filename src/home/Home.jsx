@@ -207,7 +207,6 @@ const Home = () => {
           <NavbarContainer queryParams={queryParams} />
         </div>
       </div>
-
       <div className="show-bet-graph-container">
         <MultiplierProgress
           setSliders={setSliders}
