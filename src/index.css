@@ -246,18 +246,20 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 2rem;
+  margin-top: 2rem;
 }
 .multi-img img {
   position: relative;
-  width: 202px;
+  /* width: 202px; */
   height: 63px;
-  text-align: center;
+  /* text-align: center; */
 }
 .xvalue {
-  position: relative;
-  top: -3px;
-  left: -147px;
+  position: absolute;
+  /* top: -3px; */
+  /* left: -147px; */
+  display: flex;
+  text-align: center;
   font-size: 30px;
   font-weight: 800;
   color: #fff;
@@ -273,10 +275,11 @@ body {
 .slider-scale {
   display: flex;
   justify-content: space-between;
-  margin: 0.2rem 0.5rem;
+  margin: 0.2rem 6px;
   color: #fff;
   font-size: 14px;
   font-weight: 800;
+  width: 100%;
 }
 .slider {
   -webkit-appearance: none;

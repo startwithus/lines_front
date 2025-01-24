@@ -50,6 +50,7 @@ const AmountSection = ({
   };
 
   const decreaseProgress = () => {
+    setIconSrc(icon.groupA);
     let numericValue = parseFloat(amount);
     if (isNaN(numericValue) || amount === "") {
       numericValue = MIN_AMOUNT;
@@ -78,17 +79,23 @@ const AmountSection = ({
       <div className="action-pet">
         <p>{amount}</p>
       </div>
-      <div className="progress-bar-container">
-        <div className="progress-bar">
-          <span
-            className="bet-progressbar"
-            style={{
-              width: `${(parseFloat(amount) / MAX_AMOUNT) * 100}%`,
-              backgroundColor: "#4caf50",
-              height: "100%",
-            }}
-          ></span>
+      <div className="min-progress-max">
+        <button>MIN</button>
+
+        <div className="progress-bar-container">
+          <div className="progress-bar">
+            <span
+              className="bet-progressbar"
+              style={{
+                width: `${(parseFloat(amount) / MAX_AMOUNT) * 100}%`,
+                backgroundColor: "#4caf50",
+                height: "100%",
+              }}
+            ></span>
+          </div>
         </div>
+
+        <button>Max</button>
       </div>
       <div className="select-bet-container">
         <div className="btn-incress-decress">

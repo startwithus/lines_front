@@ -16,8 +16,8 @@ const MultiplierProgress = ({
   iconSrc,
   isRefrece,
   isbno,
+  setIconSrc,
   statusData,
-  isZoomOut,
 }) => {
   const [isActive, setIsActive] = useState(false);
   const [activeSliderIndex, setActiveSliderIndex] = useState(null);
@@ -25,6 +25,7 @@ const MultiplierProgress = ({
 
   const handleMouseDown = (index) => {
     setActiveSliderIndex(index);
+    setIconSrc(icon.groupA);
   };
 
   const handleMouseUp = () => {
@@ -85,7 +86,7 @@ const MultiplierProgress = ({
                 <img
                   src={iconSrc}
                   alt=""
-                  className={isZoomOut ? "zoom-in-out-element" : ""}
+                  className={statusData ? "zoom-in-out-element" : ""}
                 />
                 {/* <img
                   src={
@@ -160,7 +161,7 @@ const MultiplierProgress = ({
                   <div
                     className="white-value-no"
                     style={{
-                      left: `calc(${resultWidth} - 6px)`,
+                      left: `calc(${resultWidth} - 7px)`,
                       transition: "left 0.3s ease-out",
                       textShadow:
                         parseFloat(resultWidth.replace("%", "")) < value
@@ -219,20 +220,23 @@ const MultiplierProgress = ({
           <img src={icon.line} alt="Lines" />
         </div>
         <div>{sliders.map((slider, index) => renderSlider(slider, index))}</div>
+
+        <div className="add-section">
+          {sliders.length < 3 &&
+            !isBetting && ( // Only show this section if not betting
+              <div className="plus-section" onClick={handleAddSlider}>
+                <div>
+                  <div>
+                    <h1>ADD LINE</h1>
+                  </div>
+                  <div>
+                    <img src={icon.misc7} alt="Add Line" />
+                  </div>
+                </div>
+              </div>
+            )}
+        </div>
       </div>
-      {sliders.length < 3 &&
-        !isBetting && ( // Only show this section if not betting
-          <div className="plus-section" onClick={handleAddSlider}>
-            <div>
-              <div>
-                <h1>ADD LINE</h1>
-              </div>
-              <div>
-                <img src={icon.misc7} alt="Add Line" />
-              </div>
-            </div>
-          </div>
-        )}
     </>
   );
 };
