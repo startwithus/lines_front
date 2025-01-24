@@ -16,8 +16,8 @@ const MultiplierProgress = ({
   iconSrc,
   isRefrece,
   isbno,
+  setIconSrc,
   statusData,
-  isZoomOut,
 }) => {
   const [isActive, setIsActive] = useState(false);
   const [activeSliderIndex, setActiveSliderIndex] = useState(null);
@@ -25,6 +25,7 @@ const MultiplierProgress = ({
 
   const handleMouseDown = (index) => {
     setActiveSliderIndex(index);
+    setIconSrc(icon.groupA);
   };
 
 
@@ -162,7 +163,7 @@ const MultiplierProgress = ({
                   <div
                     className="white-value-no"
                     style={{
-                      left: `calc(${resultWidth} - 6px)`,
+                      left: `calc(${resultWidth} - 7px)`,
                       transition: "left 0.3s ease-out",
                       textShadow:
                         parseFloat(resultWidth.replace("%", "")) < value
@@ -222,7 +223,7 @@ const MultiplierProgress = ({
         </div>
         <div>{sliders.map((slider, index) => renderSlider(slider, index))}</div>
 
-        <div className="" style={{ textAlign: "center", display: "flex", justifyContent: "center" }}>
+        <div className="add-section">
           {sliders.length < 3 &&
             !isBetting && ( // Only show this section if not betting
               <div className="plus-section" onClick={handleAddSlider}>
@@ -238,8 +239,6 @@ const MultiplierProgress = ({
             )}
         </div>
       </div>
-
-
     </>
   );
 };

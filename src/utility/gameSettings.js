@@ -17,9 +17,9 @@
 //     html5: false,
 //     volume: 0.5,
 //     loop: true,
-//     onloaderror: (error) => { },
-//     onload: () => { },
-//     onplayerror: (error) => { },
+//     onloaderror: (error) => {},
+//     onload: () => {},
+//     onplayerror: (error) => {},
 //   });
 
 //   placeBetSound = new Howl({
@@ -27,9 +27,9 @@
 //     html5: false,
 //     volume: 1,
 //     loop: false,
-//     onloaderror: (error) => { },
-//     onload: () => { },
-//     onplayerror: (error) => { },
+//     onloaderror: (error) => {},
+//     onload: () => {},
+//     onplayerror: (error) => {},
 //   });
 
 //   cashoutSound = new Howl({
@@ -37,22 +37,20 @@
 //     html5: false,
 //     volume: 1,
 //     loop: false,
-//     onloaderror: (error) => { },
-//     onload: () => { },
-//     onplayerror: (error) => { },
+//     onloaderror: (error) => {},
+//     onload: () => {},
+//     onplayerror: (error) => {},
 //   });
-
 
 //   carRideSound = new Howl({
 //     src: [RideSound],
 //     html5: false,
 //     volume: 0.7,
 //     loop: false,
-//     onloaderror: (error) => { },
-//     onload: () => { },
-//     onplayerror: (error) => { },
+//     onloaderror: (error) => {},
+//     onload: () => {},
+//     onplayerror: (error) => {},
 //   });
-
 // }
 // export function setBgMusicVolume(volume) {
 //   if (bgMusic) {
@@ -75,9 +73,6 @@
 //     bgMusic.pause();
 //   }
 // }
-
-
-
 
 // export function playBetSound() {
 //   if (placeBetSound && !placeBetSound.playing()) {
@@ -115,8 +110,6 @@
 //   }
 // }
 
-
-
 // export function playSound() {
 //   if (sound) {
 //     placeBetSound.mute(false);
@@ -130,8 +123,6 @@
 //   cashoutSound.mute(true);
 //   carRideSound.mute(true);
 // }
-
-
 
 // export const setMuted = (muted) => {
 //   Howler.mute(muted);

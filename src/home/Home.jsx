@@ -33,6 +33,7 @@ const Home = () => {
   const [firstResult, setFirstResult] = useState([]);
   const [secondResult, setSecondResult] = useState([]);
   const [thirdResult, setThirdResult] = useState([]);
+  const [isRefresh, setIsRefresh] = useState(false);
 
   // Initial multiplier
   console.log(sliders);
@@ -115,8 +116,7 @@ const Home = () => {
       return setShowBalance(true);
     }
     if (isBetting) return;
-    setStatusData(false);
-    setIconSrc(icon.groupA);
+
     // Start betting
     setIsBetting(true);
     setisRefrece(false);
@@ -182,7 +182,7 @@ const Home = () => {
           setAmount={setAmount}
           isBetting={isBetting}
           totalMultiplier={totalMultiplier}
-          setStatusData={setStatusData}
+          setTotalMultiplier={setTotalMultiplier}
           setIconSrc={setIconSrc}
           setResultData={setResultData}
         />
@@ -205,7 +205,7 @@ const Home = () => {
           isRefrece={isRefrece}
           isbno={isbno}
           statusData={statusData}
-          isZoomOut={isZoomOut}
+          setIconSrc={setIconSrc}
         />
       </div>
     </div>

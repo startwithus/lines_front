@@ -33,10 +33,15 @@
   font-weight: 600;
   font-size: 14px;
 }
-.progress-bar-container {
-  margin: 0.25rem auto;
-  max-width: calc(75% - 2rem);
+.min-progress-max {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
 }
+.progress-bar-container {
+  max-width: calc(75% - 1rem);
+}
+
 .progress-bar {
   background: var(--hg-bg-primary);
   border-radius: 1rem;
@@ -183,7 +188,11 @@
   margin: auto;
   margin-top: 1rem;
 }
-
+.add-section {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
 .lines-container {
   height: 70%;
   display: flex;
@@ -196,7 +205,6 @@
   height: 80%;
   display: flex;
   align-items: end;
-
 }
 .plus-section h1 {
   font-size: 14px;

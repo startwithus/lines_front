@@ -73,7 +73,7 @@ const NavbarContainer = ({ queryParams }) => {
           <span className="sound-text">MUSIC</span>
         </li>
 
-        <li
+        {/* <li
           className="MainNavbar__item"
           onClick={toggleTurbo}
           style={{ cursor: "pointer" }}
@@ -83,7 +83,7 @@ const NavbarContainer = ({ queryParams }) => {
             alt={isTurbo ? "Turbo Icon" : "Unknown Turbo Icon"}
           />
           <span className="sound-text">TURBO</span>
-        </li>
+        </li> */}
 
         <li
           className="MainNavbar__item"
