@@ -94,8 +94,6 @@ const NavbarContainer = ({ queryParams }) => {
           <span className="sound-text">INFO</span>
         </li>
 
-      
-
         <>
           <div
             className="MainNavbar__item"
@@ -111,10 +109,16 @@ const NavbarContainer = ({ queryParams }) => {
               <div className="modal-home">
                 <p className="modal-text">Do you want return to the lobby?</p>
                 <div className="modal-actions">
-                  <button className="btn-text btn-cancel" onClick={() => setShowModal(false)}>
+                  <button
+                    className="btn-text btn-cancel"
+                    onClick={() => setShowModal(false)}
+                  >
                     Cancel
                   </button>
-                  <button className="btn-text btn-confirm" onClick={handleNavigation}>
+                  <button
+                    className="btn-text btn-confirm"
+                    onClick={handleNavigation}
+                  >
                     Confirm
                   </button>
                 </div>

@@ -7,7 +7,10 @@ const AmountSection = ({
   setAmount,
   isBetting,
   totalMultiplier,
-  setResultData,
+  setisRefrece,
+  setStatusData,
+  setIconSrc,
+  setResultData
 }) => {
   const MIN_AMOUNT = 10;
   const MAX_AMOUNT = 10000;

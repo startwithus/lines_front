@@ -23,15 +23,16 @@ const Home = () => {
   const [amount, setAmount] = useState("10.00");
   const [isBetting, setIsBetting] = useState(false);
   const [resultData, setResultData] = useState({});
-  const [sliders, setSliders] = useState([50]); // Initial slider values
+  const [sliders, setSliders] = useState([50]);
   const [totalMultiplier, setTotalMultiplier] = useState(getMaxMult([50]));
-  const [statusData, setStatusData] = useState(false); // Initialize with false
-  const [iconSrc, setIconSrc] = useState(null);
+  const [statusData, setStatusData] = useState(false);
+  const [iconSrc, setIconSrc] = useState(icon.groupA);
   const [isRefrece, setisRefrece] = useState(false);
+  const [isbno, setsetisbno] = useState(false);
+  const [isZoomOut, setIsZoomOut] = useState(false);
   const [firstResult, setFirstResult] = useState([]);
   const [secondResult, setSecondResult] = useState([]);
   const [thirdResult, setThirdResult] = useState([]);
-  const [isZoomOut, setIsZoomOut] = useState(false);
 
   // Initial multiplier
   console.log(sliders);
@@ -76,54 +77,74 @@ const Home = () => {
   }, [queryParams.id]);
 
   useEffect(() => {
-    if (resultData?.isWin) {
+    if (resultData?.isWin === true) {
       setStatusData(true);
       setIconSrc(icon.group3);
-    } else {
+    } else if (resultData?.isWin === false) {
       setStatusData(false);
       setIconSrc(icon.group2);
-    }
-  }, [resultData]);
-
-
-
-  useEffect(() => {
-    if (statusData === true) {
-      setIconSrc(icon.group3);
-      setIsZoomOut(true);
-
-      setTimeout(() => setIsZoomOut(false), 500);
+    } else if (totalMultiplier < 1.05 || totalMultiplier > 5000.0) {
+      setStatusData(false);
+      setIconSrc(icon.group2); // Use group2 if totalMultiplier is out of range
     } else {
-      setIconSrc(
-        totalMultiplier < 1.05 || totalMultiplier > 5000.0
-          ? icon.group2
-          : icon.groupA
-      );
+      setStatusData(false); // Default case
+      setIconSrc(icon.groupA);
     }
-  }, [statusData, totalMultiplier]);
+  }, [resultData, totalMultiplier]);
 
+  // let firstResult;
+  // let secondResult;
+  // let thirdResult;
+
+  // if (resultData?.winningRange) {
+  //   firstResult = resultData?.winningRange?.[0] || [];
+  //   secondResult = resultData?.winningRange?.[1] || [];
+  //   thirdResult = resultData?.winningRange?.[2] || [];
+  // }
+  // Update results when resultData changes
   useEffect(() => {
-    if (resultData?.winningRange) {
-      setFirstResult(resultData.winningRange[0] || []);
-      setSecondResult(resultData.winningRange[1] || []);
-      setThirdResult(resultData.winningRange[2] || []);
-    }
+    setFirstResult(resultData?.winningRange?.[0] || 0);
+    setSecondResult(resultData?.winningRange?.[1] || 0);
+    setThirdResult(resultData?.winningRange?.[2] || 0);
   }, [resultData]);
-
+  const handleResult = (data) => {
+    setResultData(data);
+  };
   const handlePlaceBet = () => {
     if (+amount > info.balance || +amount === 0) {
       return setShowBalance(true);
     }
     if (isBetting) return;
+    setStatusData(false);
+    setIconSrc(icon.groupA);
+    // Start betting
     setIsBetting(true);
     setisRefrece(false);
+    setsetisbno(false);
+    setResultData(true);
+
+    // Temporarily disable refreshing
     const dataToSend = sliders.join(",");
+
+    // Emit the betting event
     socket.emit("message", `PB:${amount}:${dataToSend}`);
+
+    // Delay refreshing to avoid UI flickers
+    setTimeout(() => {
+      socket.once("result", (data) => {
+        handleResult(data);
+      });
+
+      setisRefrece(true);
+      setResultData(false);
+    }, 5);
     setTimeout(() => {
       setIsBetting(false);
-      setisRefrece(true);
+      setsetisbno(true);
     }, 500);
+    // Stop betting after a defined period
   };
+
   const handleCanvasLoad = (status) => {
     setLoading(!status);
   };
@@ -161,6 +182,8 @@ const Home = () => {
           setAmount={setAmount}
           isBetting={isBetting}
           totalMultiplier={totalMultiplier}
+          setStatusData={setStatusData}
+          setIconSrc={setIconSrc}
           setResultData={setResultData}
         />
         <div className="main-navbar-container">
@@ -180,8 +203,8 @@ const Home = () => {
           thirdResult={thirdResult}
           iconSrc={iconSrc}
           isRefrece={isRefrece}
+          isbno={isbno}
           statusData={statusData}
-          setisRefrece={setisRefrece}
           isZoomOut={isZoomOut}
         />
       </div>

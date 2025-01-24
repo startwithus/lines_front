@@ -15,11 +15,14 @@ const MultiplierProgress = ({
   thirdResult,
   iconSrc,
   isRefrece,
+  isbno,
   statusData,
-  isZoomOut
+  isZoomOut,
 }) => {
   const [isActive, setIsActive] = useState(false);
   const [activeSliderIndex, setActiveSliderIndex] = useState(null);
+  const [triggerBounce, setTriggerBounce] = useState(false);
+
   const handleMouseDown = (index) => {
     setActiveSliderIndex(index);
   };
@@ -79,17 +82,29 @@ const MultiplierProgress = ({
               style={{
                 left: `calc(${value}% - ${value > 50 ? "100px" : "25px"})`,
               }}
-            >
+             >
               <span className="multi-img">
                 <img
                   src={iconSrc}
+                  alt=""
+                  className={statusData ? "zoom-in-out-element" : ""}
+                />
+                {/* <img
+                  src={
+                    totalMultiplier < 1.05 || totalMultiplier > 5000.0
+                      ? icon.group2
+                      : icon.groupA
+                  }
                   alt="Icon"
                   className={isZoomOut ? "zoom-in-out-element" : ""}
-                />
+                /> */}
               </span>
-              <p className="xvalue">{totalMultiplier.toFixed(2)}x</p>
+              <p className={`xvalue ${triggerBounce ? "bounce" : ""}`}>
+                {totalMultiplier.toFixed(2)}x
+              </p>
             </div>
           )}
+
           <div className="slider-scale">
             <span>1</span>
             <span>25</span>
@@ -112,14 +127,15 @@ const MultiplierProgress = ({
                   background: `linear-gradient(to right, red ${value}%, #4ace4a ${value}%)`,
                 }}
               >
-                <div
-                  className={`white-bg ${isRefrece ? "white-bg-active" : ""}`}
-                  style={{
-                    width: resultWidth,
-                    transition: resultWidth ? "width 0.5s linear" : "",
-                  }}
-                ></div>
-
+                {isRefrece && (
+                  <div
+                    className="white-bg"
+                    style={{
+                      width: resultWidth,
+                      transition: "width 0.5s linear",
+                    }}
+                  ></div>
+                )}
                 <input
                   type="range"
                   min="2"
@@ -142,12 +158,18 @@ const MultiplierProgress = ({
                 }}
               />
               <>
-                {isRefrece && (
+                {isbno && (
                   <div
                     className="white-value-no"
                     style={{
                       left: `calc(${resultWidth} - 6px)`,
                       transition: "left 0.3s ease-out",
+                      textShadow:
+                        parseFloat(resultWidth.replace("%", "")) < value
+                          ? "-1px -1px 0 red, 1px -1px 0 red, -3px 2px 1px red, 1px 1px 0 red"
+                          : "-1px -1px 0 #4ace4a, 1px -1px 0 #4ace4a, -3px 2px 1px #4ace4a, 1px 1px 0 #4ace4a",
+
+                      color: "black", // Text color
                     }}
                   >
                     {resultWidth.replace("%", "")}
@@ -164,14 +186,6 @@ const MultiplierProgress = ({
                 src={icon.crossIcon}
                 alt="Remove Slider"
                 onClick={() => handleRemoveSlider(1)}
-                style={{
-                  position: "absolute",
-                  top: "-80px",
-                  left: "-40px",
-                  cursor: "pointer",
-
-                  height: "40px",
-                }}
               />
             )}
 
@@ -181,14 +195,6 @@ const MultiplierProgress = ({
                 src={icon.crossIcon}
                 alt="Remove Slider"
                 onClick={() => handleRemoveSlider(2)}
-                style={{
-                  position: "absolute",
-                  top: "-80px",
-                  left: "-40px",
-                  cursor: "pointer",
-
-                  height: "40px",
-                }}
               />
             )}
           </div>
@@ -196,10 +202,10 @@ const MultiplierProgress = ({
           <div
             className="value-display"
             style={{
-              left: `calc(${value}% - 170px)`,
+              left: `calc(${value}% - 0px)`,
             }}
           >
-            <div className="">
+            <div className="value-sticky">
               {value <= 2 ? "2(MIN)" : value >= 98 ? "98(MAX)" : `${value}`}
             </div>
           </div>
@@ -215,14 +221,25 @@ const MultiplierProgress = ({
           <img src={icon.line} alt="Lines" />
         </div>
         <div>{sliders.map((slider, index) => renderSlider(slider, index))}</div>
+
+        <div className="" style={{ textAlign: "center", display: "flex", justifyContent: "center" }}>
+          {sliders.length < 3 &&
+            !isBetting && ( // Only show this section if not betting
+              <div className="plus-section" onClick={handleAddSlider}>
+                <div>
+                  <div>
+                    <h1>ADD LINE</h1>
+                  </div>
+                  <div>
+                    <img src={icon.misc7} alt="Add Line" />
+                  </div>
+                </div>
+              </div>
+            )}
+        </div>
       </div>
-      {sliders.length < 3 &&
-        !isBetting && ( // Only show this section if not betting
-          <div className="plus-section" onClick={handleAddSlider}>
-            <h1>ADD LINE</h1>
-            <img src={icon.misc7} alt="Add Line" />
-          </div>
-        )}
+
+
     </>
   );
 };
