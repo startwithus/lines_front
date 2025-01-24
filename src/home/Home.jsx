@@ -201,6 +201,7 @@ const Home = () => {
           totalMultiplier={totalMultiplier}
           setTotalMultiplier={setTotalMultiplier}
           setIconSrc={setIconSrc}
+          setResultData={setResultData}
         />
         <div className="main-navbar-container">
           <NavbarContainer queryParams={queryParams} />

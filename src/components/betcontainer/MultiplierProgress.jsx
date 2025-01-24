@@ -86,7 +86,7 @@ const MultiplierProgress = ({
                 <img
                   src={iconSrc}
                   alt=""
-                  className={statusData ? "zoom-in-out-element" : ""}
+                  // className={statusData ? "zoom-in-out-element" : ""}
                 />
                 {/* <img
                   src={

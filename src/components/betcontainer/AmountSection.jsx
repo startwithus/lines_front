@@ -10,6 +10,7 @@ const AmountSection = ({
   setisRefrece,
   setStatusData,
   setIconSrc,
+  setResultData,
 }) => {
   const MIN_AMOUNT = 10;
   const MAX_AMOUNT = 10000;
@@ -64,6 +65,8 @@ const AmountSection = ({
   };
 
   const handleIncrease = () => {
+    setResultData(false);
+
     let numericValue = parseFloat(amount);
     if (isNaN(numericValue) || amount === "") {
       numericValue = MIN_AMOUNT;
@@ -74,28 +77,48 @@ const AmountSection = ({
     }
   };
 
+  const handleMinClick = () => {
+    setAmount(MIN_AMOUNT.toFixed(2)); // Set amount to MIN_AMOUNT
+  };
+
+  const handleMaxClick = () => {
+    setAmount(MAX_AMOUNT.toFixed(2)); // Set amount to MAX_AMOUNT
+  };
+
   return (
     <div className="action-pet-container">
       <div className="action-pet">
         <p>{amount}</p>
       </div>
       <div className="min-progress-max">
-        <button>MIN</button>
-
-        <div className="progress-bar-container">
-          <div className="progress-bar">
-            <span
-              className="bet-progressbar"
-              style={{
-                width: `${(parseFloat(amount) / MAX_AMOUNT) * 100}%`,
-                backgroundColor: "#4caf50",
-                height: "100%",
-              }}
-            ></span>
-          </div>
+        <div className="">
+          <button
+            onClick={handleMinClick}
+            disabled={disableMin} // Disable when amount is at MIN_AMOUNT
+            style={buttonStyle(disableMin)}
+          >
+            MIN
+          </button>
         </div>
-
-        <button>Max</button>
+        <div className="progress-bar">
+          <span
+            className="bet-progressbar"
+            style={{
+              width: `${(parseFloat(amount) / MAX_AMOUNT) * 100}%`,
+              backgroundColor: "#4caf50",
+              height: "100%",
+            }}
+          ></span>
+        </div>
+        <div className="">
+          <button
+            onClick={handleMaxClick}
+            disabled={disableMax} // Disable when amount is at MAX_AMOUNT
+            style={buttonStyle(disableMax)}
+          >
+            MAX
+          </button>
+        </div>
       </div>
       <div className="select-bet-container">
         <div className="btn-incress-decress">
