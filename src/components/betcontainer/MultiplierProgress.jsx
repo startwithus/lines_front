@@ -18,6 +18,7 @@ const MultiplierProgress = ({
   isbno,
   setIconSrc,
   statusData,
+  setResultData,
 }) => {
   const [isActive, setIsActive] = useState(false);
   const [activeSliderIndex, setActiveSliderIndex] = useState(null);
@@ -26,10 +27,12 @@ const MultiplierProgress = ({
   const handleMouseDown = (index) => {
     setActiveSliderIndex(index);
     setIconSrc(icon.groupA);
+    setResultData(false);
   };
 
   const handleMouseUp = () => {
     setActiveSliderIndex(null);
+    setResultData(false);
   };
 
   const handleSliderChange = (index, e) => {
@@ -47,7 +50,7 @@ const MultiplierProgress = ({
     if (sliders.length < 3) {
       const updatedSliders = [...sliders, 50];
       const newTotalMultiplier = getMaxMult(updatedSliders);
-
+      setResultData(false);
       setSliders(updatedSliders);
       setTotalMultiplier(newTotalMultiplier);
     }
@@ -58,6 +61,7 @@ const MultiplierProgress = ({
     const newTotalMultiplier = getMaxMult(updatedSliders);
     setSliders(updatedSliders);
     setTotalMultiplier(newTotalMultiplier);
+    setResultData(false);
   };
 
   const renderSlider = (value, index) => {
