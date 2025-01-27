@@ -19,11 +19,22 @@ const NavbarContainer = ({ queryParams }) => {
   const { sound, setSound, music, setMusic } = useContext(SoundContext);
 
   // Toggle sound state
+  // const toggleSound = () => {
+  //   const newSoundState = !isSoundOn;
+  //   setIsSoundOn(newSoundState);
+  //   setIsMusicDisabled(!newSoundState);
+  //   if (newSoundState) setIsMusicOn(true); // Turn music on when sound is re-enabled
+  // };
+
   const toggleSound = () => {
     const newSoundState = !isSoundOn;
     setIsSoundOn(newSoundState);
     setIsMusicDisabled(!newSoundState);
-    if (!newSoundState) setIsMusicOn(true);
+
+    if (!newSoundState) {
+      setIsMusicOn(false); // Pause music when sound is turned off
+      pauseBgMusic();
+    }
   };
 
   // Handle win sound toggle
@@ -39,16 +50,28 @@ const NavbarContainer = ({ queryParams }) => {
 
   // Toggle music
   const toggleMusic = () => {
-    if (!isMusicDisabled) setIsMusicOn((prev) => !prev);
+    if (!isMusicDisabled) {
+      setIsMusicOn((prev) => {
+        const newMusicState = !prev;
+        if (newMusicState) {
+          playBgMusic(); // Play music only if enabled
+        } else {
+          pauseBgMusic(); // Pause music when toggled off
+        }
+        return newMusicState;
+      });
+    }
   };
 
   const toggleMusicSound = () => {
-    if (music) {
-      setMusic(false);
-      playBgMusic();
-    } else {
-      setMusic(true);
-      pauseBgMusic();
+    if (!isMusicDisabled) {
+      if (music) {
+        setMusic(false);
+        pauseBgMusic();
+      } else {
+        setMusic(true);
+        playBgMusic();
+      }
     }
   };
 
@@ -82,8 +105,10 @@ const NavbarContainer = ({ queryParams }) => {
         <li
           className={`MainNavbar__item ${isMusicDisabled ? "disabled" : ""}`}
           onClick={() => {
-            toggleMusic();
-            toggleMusicSound();
+            if (!isMusicDisabled) {
+              toggleMusic();
+              toggleMusicSound();
+            }
           }}
           style={{
             cursor: isMusicDisabled ? "not-allowed" : "pointer",

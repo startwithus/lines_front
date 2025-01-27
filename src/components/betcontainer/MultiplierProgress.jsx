@@ -196,8 +196,8 @@ const MultiplierProgress = ({
                       transition: "left 0.3s ease-out",
                       textShadow:
                         parseFloat(resultWidth.replace("%", "")) < value
-                          ? "-1px -1px 0 red, 1px -1px 0 red, -3px 2px 1px red, 1px 1px 0 red"
-                          : "-1px -1px 0 #4ace4a, 1px -1px 0 #4ace4a, -3px 2px 1px #4ace4a, 1px 1px 0 #4ace4a",
+                          ? "-1px -1px 0 red, 1px -1px 0 red, -0px 2px 1px red, 1px 1px 0 red"
+                          : "-1px -1px 0 #4ace4a, 1px -1px 0 #4ace4a, -0px 2px 1px #4ace4a, 1px 1px 0 #4ace4a",
 
                       color: "black", // Text color
                     }}
