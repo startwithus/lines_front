@@ -125,8 +125,8 @@ const AmountSection = ({
         <div className="">
           <button
             onClick={handleMinClick}
-            disabled={disableMin} // Disable when amount is at MIN_AMOUNT
-            style={buttonStyle(disableMin)}
+            disabled={disableMin || isBetting || autobet} // Disable when amount is at MIN_AMOUNT
+            style={buttonStyle(disableMin || isBetting || autobet)}
           >
             MIN
           </button>
@@ -144,8 +144,8 @@ const AmountSection = ({
         <div className="min-">
           <button
             onClick={handleMaxClick}
-            disabled={disableMax} // Disable when amount is at MAX_AMOUNT
-            style={buttonStyle(disableMax)}
+            disabled={disableMax || isBetting || autobet} // Disable when amount is at MAX_AMOUNT
+            style={buttonStyle(disableMax || isBetting || autobet)}
           >
             MAX
           </button>
@@ -156,8 +156,8 @@ const AmountSection = ({
           <button
             onClick={decreaseProgress}
             className="btn-decressincress"
-            disabled={disableMin || isBetting}
-            style={buttonStyle(disableMin || isBetting)}
+            disabled={disableMin || isBetting || autobet}
+            style={buttonStyle(disableMin || isBetting || autobet)}
           >
             <img src={icon.downIcon} alt="Decrease" className="icon-shadow" />
           </button>
@@ -166,12 +166,48 @@ const AmountSection = ({
           {autobetTab === 1 ? (
             <>
               {autobet ? (
-                <button className="btn-bet" onClick={handleStop}>
-                  Stop
+                <button
+                  className="btn-bet"
+                  style={{
+                    cursor:
+                      totalMultiplier < 1.05 || totalMultiplier > 5000.0
+                        ? "not-allowed"
+                        : "pointer",
+                    opacity:
+                      totalMultiplier < 1.05 || totalMultiplier > 5000.0
+                        ? 0.5
+                        : 1, // Visual feedback for disabled state
+                  }}
+                  onClick={() => {
+                    if (totalMultiplier >= 1.05 && totalMultiplier <= 5000.0) {
+                      handleStop(); // Call handleStop only if conditions are met
+                    }
+                  }}
+                  disabled={totalMultiplier < 1.05 || totalMultiplier > 5000.0} // Disable button when conditions are not met
+                >
+                  STOP AUTOPLAY
                 </button>
               ) : (
-                <button className="btn-bet" onClick={handleStart}>
-                  Start
+                <button
+                  className="btn-bet"
+                  style={{
+                    cursor:
+                      totalMultiplier < 1.05 || totalMultiplier > 5000.0
+                        ? "not-allowed"
+                        : "pointer",
+                    opacity:
+                      totalMultiplier < 1.05 || totalMultiplier > 5000.0
+                        ? 0.5
+                        : 1, // Visual feedback for disabled state
+                  }}
+                  onClick={() => {
+                    if (totalMultiplier >= 1.05 && totalMultiplier <= 5000.0) {
+                      handleStart(); // Call handleStart only if conditions are met
+                    }
+                  }}
+                  disabled={totalMultiplier < 1.05 || totalMultiplier > 5000.0} // Disable button when conditions are not met
+                >
+                  START AUTOPLAY
                 </button>
               )}
             </>
@@ -195,8 +231,8 @@ const AmountSection = ({
           <button
             onClick={handleIncrease}
             className="btn-decressincress"
-            disabled={disableMax || isBetting}
-            style={buttonStyle(disableMax || isBetting)}
+            disabled={disableMax || isBetting || autobet}
+            style={buttonStyle(disableMax || isBetting || autobet)}
           >
             <img src={icon.upIcon} alt="Increase" className="icon-shadow" />
           </button>

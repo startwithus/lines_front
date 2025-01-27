@@ -199,7 +199,10 @@ const Home = () => {
     }, 500);
     // Stop betting after a defined period
   };
-
+  const buttonStyle = (disabled) => ({
+    cursor: disabled ? "not-allowed" : "pointer",
+    opacity: disabled ? 0.5 : 1,
+  });
   const handleCanvasLoad = (status) => {
     setLoading(!status);
   };
@@ -220,22 +223,76 @@ const Home = () => {
               <div
                 className={`manual-btn ${
                   autobetTab === 0 ? "manual-btn-active" : ""
-                }`}
+                } ${
+                  isBetting ||
+                  autobet ||
+                  totalMultiplier < 1.05 ||
+                  totalMultiplier > 5000.0
+                    ? "manual-btn-disabled"
+                    : ""
+                }`} // Add disabled class when conditions are met
                 style={{
                   color: autobetTab === 0 ? "black" : "white",
+                  cursor:
+                    isBetting ||
+                    autobet ||
+                    totalMultiplier < 1.05 ||
+                    totalMultiplier > 5000.0
+                      ? "not-allowed"
+                      : "pointer", // Disable cursor when conditions are met
+                  opacity:
+                    isBetting ||
+                    autobet ||
+                    totalMultiplier < 1.05 ||
+                    totalMultiplier > 5000.0
+                      ? 0.5
+                      : 1, // Visual feedback for disabled state
                 }}
-                onClick={() => setAutobetTab(0)}
+                onClick={() =>
+                  !isBetting &&
+                  !autobet &&
+                  totalMultiplier >= 1.05 &&
+                  totalMultiplier <= 5000.0 &&
+                  setAutobetTab(0)
+                } // Prevent click if conditions are met
               >
                 <p>Manual</p>
               </div>
               <div
                 className={`manual-btn ${
                   autobetTab === 1 ? "manual-btn-active" : ""
-                }`}
+                } ${
+                  isBetting ||
+                  autobet ||
+                  totalMultiplier < 1.05 ||
+                  totalMultiplier > 5000.0
+                    ? "manual-btn-disabled"
+                    : ""
+                }`} // Add disabled class when conditions are met
                 style={{
                   color: autobetTab === 1 ? "black" : "white",
+                  cursor:
+                    isBetting ||
+                    autobet ||
+                    totalMultiplier < 1.05 ||
+                    totalMultiplier > 5000.0
+                      ? "not-allowed"
+                      : "pointer", // Disable cursor when conditions are met
+                  opacity:
+                    isBetting ||
+                    autobet ||
+                    totalMultiplier < 1.05 ||
+                    totalMultiplier > 5000.0
+                      ? 0.5
+                      : 1, // Visual feedback for disabled state
                 }}
-                onClick={() => setAutobetTab(1)}
+                onClick={() =>
+                  !isBetting &&
+                  !autobet &&
+                  totalMultiplier >= 1.05 &&
+                  totalMultiplier <= 5000.0 &&
+                  setAutobetTab(1)
+                } // Prevent click if conditions are met
               >
                 <p>Auto</p>
               </div>

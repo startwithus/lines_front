@@ -129,7 +129,15 @@ const MultiplierProgress = ({
                   className={isZoomOut ? "zoom-in-out-element" : ""}
                 /> */}
               </span>
-              <p className={`xvalue ${triggerBounce ? "bounce" : ""}`}>
+              <p
+                className={`xvalue ${triggerBounce ? "bounce" : ""}`}
+                style={{
+                  color:
+                    totalMultiplier < 1.05 || totalMultiplier > 5000.0
+                      ? "#343a40"
+                      : "white",
+                }}
+              >
                 {totalMultiplier.toFixed(2)}x
               </p>
             </div>

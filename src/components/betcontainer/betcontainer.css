@@ -308,10 +308,11 @@
     height: 30%;
   }
   .current-value-progress {
-    margin: 14px 0;
+    margin: 10px 0;
   }
   .slider-wrapper {
     width: 90%;
+    margin-top: 0px;
   }
   .cross-first,
   .cross-second {
