@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import io from "socket.io-client";
+import { SoundContext } from "../../context/SoundContext";
 import { getMaxMult } from "../../utility/helper";
 import { icon } from "../../utility/icon";
+import { pauseClickSound, playClickSound } from '../../utility/gameSettings';
 
 const MultiplierProgress = ({
   sliders,
@@ -23,6 +25,7 @@ const MultiplierProgress = ({
   const [isActive, setIsActive] = useState(false);
   const [activeSliderIndex, setActiveSliderIndex] = useState(null);
   const [triggerBounce, setTriggerBounce] = useState(false);
+  const { sound, setSound } = useContext(SoundContext);
 
   const handleMouseDown = (index) => {
     setActiveSliderIndex(index);
@@ -50,8 +53,14 @@ const MultiplierProgress = ({
 
   const handleAddSlider = () => {
     if (sliders.length < 3) {
+      if (sound) {
+        setSound(false);
+        pauseClickSound();
+      }
+
       const updatedSliders = [...sliders, 50];
       const newTotalMultiplier = getMaxMult(updatedSliders);
+
       setResultData(false);
       setSliders(updatedSliders);
       setTotalMultiplier(newTotalMultiplier);
@@ -87,12 +96,12 @@ const MultiplierProgress = ({
               style={{
                 left: `calc(${value}% - ${value > 50 ? "100px" : "25px"})`,
               }}
-             >
+            >
               <span className="multi-img">
                 <img
                   src={iconSrc}
-                  alt=""
-                  // className={statusData ? "zoom-in-out-element" : ""}
+                  alt="Icon"
+                // className={`base-class ${statusData ? "zoom-in-out-element" : ""}`}
                 />
                 {/* <img
                   src={
@@ -167,12 +176,12 @@ const MultiplierProgress = ({
                   <div
                     className="white-value-no"
                     style={{
-                      left: `calc(${resultWidth} - 7px)`,
+                      left: `calc(${resultWidth} - 1px)`,
                       transition: "left 0.3s ease-out",
                       textShadow:
                         parseFloat(resultWidth.replace("%", "")) < value
-                          ? "-1px -1px 0 red, 1px -1px 0 red, -3px 2px 1px red, 1px 1px 0 red"
-                          : "-1px -1px 0 #4ace4a, 1px -1px 0 #4ace4a, -3px 2px 1px #4ace4a, 1px 1px 0 #4ace4a",
+                          ? "-1px -1px 0 red, 1px -1px 0 red, -1px 2px 1px red, 1px 1px 0 red"
+                          : "-1px -1px 0 #4ace4a, 1px -1px 0 #4ace4a, -1px 2px 1px #4ace4a, 1px 1px 0 #4ace4a",
 
                       color: "black", // Text color
                     }}

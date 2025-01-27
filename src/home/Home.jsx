@@ -10,6 +10,8 @@ import Loader from "../components/loader/Loader";
 import UserNot from "../components/loader/UserNot";
 import { getMaxMult } from "../utility/helper";
 import { icon } from "../utility/icon";
+import { SoundContext } from "../context/SoundContext";
+import { playLossSound, playWinSound, playWhiteLine, pauseWhiteLine } from "../utility/gameSettings"
 
 const Home = () => {
   const location = useLocation();
@@ -34,6 +36,7 @@ const Home = () => {
   const [secondResult, setSecondResult] = useState([]);
   const [thirdResult, setThirdResult] = useState([]);
   const [isRefresh, setIsRefresh] = useState(false);
+  const { sound } = useContext(SoundContext)
 
   // Initial multiplier
   console.log(sliders);
@@ -79,9 +82,17 @@ const Home = () => {
 
   useEffect(() => {
     if (resultData?.isWin === true) {
+      if (sound) {
+        playWinSound();
+
+      }
       setStatusData(true);
       setIconSrc(icon.group3);
     } else if (resultData?.isWin === false) {
+      if (sound) {
+        playLossSound()
+
+      }
       setStatusData(false);
       setIconSrc(icon.group2);
     } else if (totalMultiplier < 1.05 || totalMultiplier > 5000.0) {
@@ -93,22 +104,23 @@ const Home = () => {
     }
   }, [resultData, totalMultiplier]);
 
-  // let firstResult;
-  // let secondResult;
-  // let thirdResult;
 
-  // if (resultData?.winningRange) {
-  //   firstResult = resultData?.winningRange?.[0] || [];
-  //   secondResult = resultData?.winningRange?.[1] || [];
-  //   thirdResult = resultData?.winningRange?.[2] || [];
-  // }
-  // Update results when resultData changes
   useEffect(() => {
     setFirstResult(resultData?.winningRange?.[0] || 0);
     setSecondResult(resultData?.winningRange?.[1] || 0);
     setThirdResult(resultData?.winningRange?.[2] || 0);
   }, [resultData]);
+
+  // if (sound) {
+
+  //   playWhiteLine();
+  // }
+  // else {
+  //   pauseWhiteLine()
+  // }
+
   const handleResult = (data) => {
+
     setResultData(data);
   };
   const handlePlaceBet = () => {
@@ -175,6 +187,8 @@ const Home = () => {
           info={info}
           resultData={resultData}
           isBetting={isBetting}
+          showBalance={showBalance}
+          statusData={statusData}
         />
         <AmountSection
           handlePlacebet={handlePlaceBet}

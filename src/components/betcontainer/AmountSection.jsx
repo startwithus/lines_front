@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { SoundContext } from "../../context/SoundContext";
 import { icon } from "../../utility/icon";
-
+import { playButtonSound } from '../../utility/gameSettings'
 const AmountSection = ({
   handlePlacebet,
   amount,
@@ -14,6 +15,7 @@ const AmountSection = ({
 }) => {
   const MIN_AMOUNT = 10;
   const MAX_AMOUNT = 10000;
+  const { sound } = useContext(SoundContext)
 
   const disableMin =
     Number(amount) === MIN_AMOUNT ||
@@ -51,6 +53,9 @@ const AmountSection = ({
   };
 
   const decreaseProgress = () => {
+    if (sound) {
+      playButtonSound()
+    }
     setResultData(false);
     let numericValue = parseFloat(amount);
     if (isNaN(numericValue) || amount === "") {
@@ -65,6 +70,9 @@ const AmountSection = ({
   };
 
   const handleIncrease = () => {
+    if (sound) {
+      playButtonSound()
+    }
     setResultData(false);
 
     let numericValue = parseFloat(amount);
@@ -78,12 +86,18 @@ const AmountSection = ({
   };
 
   const handleMinClick = () => {
+    if (sound) {
+      playButtonSound()
+    }
     setResultData(false);
 
     setAmount(MIN_AMOUNT.toFixed(2)); // Set amount to MIN_AMOUNT
   };
 
   const handleMaxClick = () => {
+    if (sound) {
+      playButtonSound()
+    }
     setResultData(false);
 
     setAmount(MAX_AMOUNT.toFixed(2)); // Set amount to MAX_AMOUNT

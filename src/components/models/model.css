@@ -114,19 +114,6 @@
   animation: fadeIn 0.3s ease-in-out;
 }
 
-<<<<<<< HEAD
-.modal-home {
-  background: #333;
-  border-radius: 8px;
-  width: 400px;
-  padding: 20px;
-  text-align: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  animation: fadeIn 0.3s ease-in-out;
-}
-
-=======
->>>>>>> cdc9b0eb0135fc9b93ac64da2ecd6b85789fb276
 .modal-text {
   font-size: 16px;
   color: white;
@@ -150,10 +137,6 @@
   gap: 10px;
 }
 
-<<<<<<< HEAD
-/* Confirm Button */
-=======
->>>>>>> cdc9b0eb0135fc9b93ac64da2ecd6b85789fb276
 .btn-confirm {
   background-color: #4caf50;
   color: white;
@@ -163,10 +146,6 @@
   background-color: #45a049;
 }
 
-<<<<<<< HEAD
-/* Cancel Button */
-=======
->>>>>>> cdc9b0eb0135fc9b93ac64da2ecd6b85789fb276
 .btn-cancel {
   background-color: #f44336;
   color: white;
@@ -176,10 +155,6 @@
   background-color: #d32f2f;
 }
 
-<<<<<<< HEAD
-/* Fade In Animation */
-=======
->>>>>>> cdc9b0eb0135fc9b93ac64da2ecd6b85789fb276
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -190,16 +165,56 @@
     transform: scale(1);
   }
 }
-<<<<<<< HEAD
-
-=======
->>>>>>> cdc9b0eb0135fc9b93ac64da2ecd6b85789fb276
 @media (max-width: 1024px) {
   .responsive-divider {
     width: 58%;
   }
   .info-line {
     /* width: 90%; */
+  }
+}
+
+.win-amount-section {
+  display: block;
+  position: fixed;
+  left: 50%;
+  top: 6%;
+  width: 300px;
+  height: 45px;
+  max-height: 45px;
+  transform: translate(-50%, -50%);
+  background: url("../../assests/win-modal.svg") no-repeat;
+  background-color: green;
+  background-size: cover;
+  border-radius: 0.25rem;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: growIn 0.5s ease forwards, growOut 0.5s ease 3.5s forwards; /* Animation sequence */
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
+}
+@keyframes growIn {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -200%);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+@keyframes growOut {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -200%);
   }
 }
 
