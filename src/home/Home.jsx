@@ -10,6 +10,13 @@ import Loader from "../components/loader/Loader";
 import UserNot from "../components/loader/UserNot";
 import { getMaxMult } from "../utility/helper";
 import { icon } from "../utility/icon";
+import { SoundContext } from "../context/SoundContext";
+import {
+  playLossSound,
+  playWinSound,
+  playWhiteLine,
+  pauseWhiteLine,
+} from "../utility/gameSettings";
 
 const Home = () => {
   const location = useLocation();
@@ -34,7 +41,9 @@ const Home = () => {
   const [secondResult, setSecondResult] = useState([]);
   const [thirdResult, setThirdResult] = useState([]);
   const [isRefresh, setIsRefresh] = useState(false);
-
+  const [autobetTab, setAutobetTab] = useState(0);
+  const [autobet, setAutobet] = useState(0);
+  const { sound } = useContext(SoundContext);
   // Initial multiplier
   console.log(sliders);
   let queryParams = {};
@@ -96,9 +105,15 @@ const Home = () => {
 
   useEffect(() => {
     if (resultData?.isWin === true) {
+      if (sound) {
+        playWinSound();
+      }
       setStatusData(true);
       setIconSrc(icon.group3);
     } else if (resultData?.isWin === false) {
+      if (sound) {
+        playLossSound();
+      }
       setStatusData(false);
       setIconSrc(icon.group2);
     } else if (totalMultiplier < 1.05 || totalMultiplier > 5000.0) {
@@ -120,11 +135,34 @@ const Home = () => {
   //   thirdResult = resultData?.winningRange?.[2] || [];
   // }
   // Update results when resultData changes
+  // useEffect(() => {
+  //   setFirstResult(resultData?.winningRange?.[0] || 0);
+  //   setSecondResult(resultData?.winningRange?.[1] || 0);
+  //   setThirdResult(resultData?.winningRange?.[2] || 0);
+  // }, [resultData]);
   useEffect(() => {
-    setFirstResult(resultData?.winningRange?.[0] || 0);
-    setSecondResult(resultData?.winningRange?.[1] || 0);
-    setThirdResult(resultData?.winningRange?.[2] || 0);
+    if (sound) {
+      playWhiteLine();
+    } else {
+      pauseWhiteLine();
+    }
+    setFirstResult(
+      resultData?.winningRange?.[0] !== undefined
+        ? resultData.winningRange[0]
+        : "0"
+    );
+    setSecondResult(
+      resultData?.winningRange?.[1] !== undefined
+        ? resultData.winningRange[1]
+        : "0"
+    );
+    setThirdResult(
+      resultData?.winningRange?.[2] !== undefined
+        ? resultData.winningRange[2]
+        : "0"
+    );
   }, [resultData]);
+
   const handleResult = (data) => {
     setResultData(data);
   };
@@ -179,10 +217,26 @@ const Home = () => {
         <div className="manual-side-container">
           <div className="manual-btn-container">
             <div className="manual-bg">
-              <div className="manual-btn">
+              <div
+                className={`manual-btn ${
+                  autobetTab === 0 ? "manual-btn-active" : ""
+                }`}
+                style={{
+                  color: autobetTab === 0 ? "black" : "white",
+                }}
+                onClick={() => setAutobetTab(0)}
+              >
                 <p>Manual</p>
               </div>
-              <div className="Auto-btn">
+              <div
+                className={`manual-btn ${
+                  autobetTab === 1 ? "manual-btn-active" : ""
+                }`}
+                style={{
+                  color: autobetTab === 1 ? "black" : "white",
+                }}
+                onClick={() => setAutobetTab(1)}
+              >
                 <p>Auto</p>
               </div>
             </div>
@@ -192,12 +246,16 @@ const Home = () => {
           info={info}
           resultData={resultData}
           isBetting={isBetting}
+          statusData={statusData}
         />
         <AmountSection
           handlePlacebet={handlePlaceBet}
           amount={amount}
           setAmount={setAmount}
+          autobetTab={autobetTab}
           isBetting={isBetting}
+          setAutobet={setAutobet}
+          autobet={autobet}
           totalMultiplier={totalMultiplier}
           setTotalMultiplier={setTotalMultiplier}
           setIconSrc={setIconSrc}

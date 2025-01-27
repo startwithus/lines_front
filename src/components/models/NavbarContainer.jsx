@@ -1,42 +1,64 @@
-import React, { useState } from "react";
-import { TiHome } from "react-icons/ti";
+import React, { useContext, useState } from "react";
+import { icon } from "../../utility/icon";
 import "../models/model.css";
 import GameInfo from "./GameInfo";
-import { icon } from "../../utility/icon";
-import { Link } from "react-router-dom";
-const NavbarContainer = ({ queryParams }) => {
-  const [isSoundOn, setIsSoundOn] = useState(true);
-  const [isMusicOn, setIsMusicOn] = useState(true);
-  const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
-  const [isActive, setIsActive] = useState(false);
-  const [isMusicDisabled, setIsMusicDisabled] = useState(false); // State to disable music toggle
-  const [isTurbo, setIsTurbo] = useState(true); // State to toggle image
-  const [showModal, setShowModal] = useState(false);
+import { SoundContext } from "../../context/SoundContext";
+import {
+  pauseSound,
+  playSound,
+  playBgMusic,
+  pauseBgMusic,
+} from "../../utility/gameSettings";
 
-  const handleNavigation = () => {
-    setShowModal(false);
-    window.location.href = `https://lobbydesign.ayodhya365.co/?id=${queryParams.id}`;
-  };
+const NavbarContainer = ({ queryParams }) => {
+  const [isSoundOn, setIsSoundOn] = useState(false);
+  const [isMusicOn, setIsMusicOn] = useState(false);
+  const [isMusicDisabled, setIsMusicDisabled] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showLobbyModal, setShowLobbyModal] = useState(false);
+  const { sound, setSound, music, setMusic } = useContext(SoundContext);
+
+  // Toggle sound state
   const toggleSound = () => {
     const newSoundState = !isSoundOn;
     setIsSoundOn(newSoundState);
-    setIsMusicDisabled(!newSoundState); // Disable music toggle when sound is turned off
-    if (!newSoundState) {
-      setIsMusicOn(false); // Ensure music is turned off when sound is off
-    }
-  };
-  const toggleTurbo = () => {
-    setIsTurbo((prev) => !prev); // Toggle between true and false
+    setIsMusicDisabled(!newSoundState);
+    if (!newSoundState) setIsMusicOn(true);
   };
 
+  // Handle win sound toggle
+  const toggleSoundWin = () => {
+    if (sound) {
+      setSound(false);
+      pauseSound();
+    } else {
+      setSound(true);
+      playSound();
+    }
+  };
+
+  // Toggle music
   const toggleMusic = () => {
-    if (!isMusicDisabled) {
-      setIsMusicOn(!isMusicOn);
+    if (!isMusicDisabled) setIsMusicOn((prev) => !prev);
+  };
+
+  const toggleMusicSound = () => {
+    if (music) {
+      setMusic(false);
+      playBgMusic();
+    } else {
+      setMusic(true);
+      pauseBgMusic();
     }
   };
 
-  const toggleModal = () => {
-    setIsModalOpen((prev) => !prev); // Toggle modal visibility
+  // Toggle game info modal
+  const toggleInfoModal = () => setIsModalOpen((prev) => !prev);
+
+  // Handle navigation to lobby
+  const handleLobbyNavigation = () => {
+    setShowLobbyModal(false);
+    window.location.href = `https://lobbydesign.ayodhya365.co/?id=${queryParams.id}`;
   };
 
   return (
@@ -44,7 +66,10 @@ const NavbarContainer = ({ queryParams }) => {
       <ul className="MainNavbar__list">
         <li
           className="MainNavbar__item"
-          onClick={toggleSound}
+          onClick={() => {
+            toggleSoundWin();
+            toggleSound();
+          }}
           style={{ cursor: "pointer" }}
         >
           <img
@@ -56,11 +81,13 @@ const NavbarContainer = ({ queryParams }) => {
 
         <li
           className={`MainNavbar__item ${isMusicDisabled ? "disabled" : ""}`}
-          onClick={toggleMusic}
+          onClick={() => {
+            toggleMusic();
+            toggleMusicSound();
+          }}
           style={{
             cursor: isMusicDisabled ? "not-allowed" : "pointer",
             opacity: isMusicDisabled ? 0.5 : 1,
-            color: isMusicDisabled ? "gray" : "inherit",
           }}
         >
           <img
@@ -72,64 +99,50 @@ const NavbarContainer = ({ queryParams }) => {
           <span className="sound-text">MUSIC</span>
         </li>
 
-        {/* <li
-          className="MainNavbar__item"
-          onClick={toggleTurbo}
-          style={{ cursor: "pointer" }}
-        >
-          <img
-            src={isTurbo ? icon.turboIcon : icon.unknownTurbo}
-            alt={isTurbo ? "Turbo Icon" : "Unknown Turbo Icon"}
-          />
-          <span className="sound-text">TURBO</span>
-        </li> */}
-
         <li
           className="MainNavbar__item"
-          onClick={toggleModal}
+          onClick={toggleInfoModal}
           style={{ cursor: "pointer" }}
         >
           <img src={icon.infoIcon} alt="Info Icon" />
           <span className="sound-text">INFO</span>
         </li>
 
-        <>
-          <div
-            className="MainNavbar__item"
-            style={{ cursor: "pointer", textDecoration: "none" }}
-            onClick={() => setShowModal(true)}
-          >
-            <img src={icon.homeIcon} alt="Home Icon" />
-            <span className="sound-text">HOME</span>
-          </div>
-
-          {showModal && (
-            <div className="modal-overlay">
-              <div className="modal-home">
-                <p className="modal-text">Do you want return to the lobby?</p>
-                <div className="modal-actions">
-                  <button
-                    className="btn-text btn-cancel"
-                    onClick={() => setShowModal(false)}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    className="btn-text btn-confirm"
-                    onClick={handleNavigation}
-                  >
-                    Confirm
-                  </button>
-                </div>
-              </div>
-            </div>
-          )}
-        </>
+        <li
+          className="MainNavbar__item"
+          onClick={() => setShowLobbyModal(true)}
+          style={{ cursor: "pointer" }}
+        >
+          <img src={icon.homeIcon} alt="Home Icon" />
+          <span className="sound-text">HOME</span>
+        </li>
       </ul>
 
       {isModalOpen && (
         <div className="game-info-modal">
-          <GameInfo toggleModal={toggleModal} />
+          <GameInfo toggleModal={toggleInfoModal} />
+        </div>
+      )}
+
+      {showLobbyModal && (
+        <div className="modal-overlay">
+          <div className="modal-home">
+            <p className="modal-text">Do you want to return to the lobby?</p>
+            <div className="modal-actions">
+              <button
+                className="btn-text btn-cancel"
+                onClick={() => setShowLobbyModal(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className="btn-text btn-confirm"
+                onClick={handleLobbyNavigation}
+              >
+                Confirm
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>

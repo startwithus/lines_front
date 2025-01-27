@@ -305,7 +305,10 @@
     margin-top: 0.5rem;
   }
   .lines-container {
-    height: 35%;
+    height: 30%;
+  }
+  .current-value-progress {
+    margin: 14px 0;
   }
   .slider-wrapper {
     width: 90%;

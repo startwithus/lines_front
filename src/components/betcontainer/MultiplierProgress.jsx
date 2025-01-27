@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import io from "socket.io-client";
 import { getMaxMult } from "../../utility/helper";
 import { icon } from "../../utility/icon";
+import { SoundContext } from "../../context/SoundContext";
+import { playClickSound } from "../../utility/gameSettings";
+// import { playButtonSound } from '../../utility/gameSettings
 
 const MultiplierProgress = ({
   sliders,
@@ -23,6 +26,7 @@ const MultiplierProgress = ({
   const [isActive, setIsActive] = useState(false);
   const [activeSliderIndex, setActiveSliderIndex] = useState(null);
   const [triggerBounce, setTriggerBounce] = useState(false);
+  const { sound } = useContext(SoundContext);
 
   const handleMouseDown = (index) => {
     setActiveSliderIndex(index);
@@ -47,6 +51,9 @@ const MultiplierProgress = ({
   };
 
   const handleAddSlider = () => {
+    if (sound) {
+      playClickSound();
+    }
     if (sliders.length < 3) {
       const updatedSliders = [...sliders, 50];
       const newTotalMultiplier = getMaxMult(updatedSliders);
@@ -57,6 +64,9 @@ const MultiplierProgress = ({
   };
 
   const handleRemoveSlider = (index) => {
+    if (sound) {
+      playClickSound();
+    }
     const updatedSliders = sliders.filter((_, i) => i !== index);
     const newTotalMultiplier = getMaxMult(updatedSliders);
     setSliders(updatedSliders);
@@ -67,12 +77,29 @@ const MultiplierProgress = ({
   const renderSlider = (value, index) => {
     const isActive = activeSliderIndex === index;
 
-    let resultWidth = "0";
-    if (index === 0) {
+    // let resultWidth = "0";
+    // if (index === 0) {
+    //   resultWidth = `${firstResult}%`;
+    // } else if (index === 1 && secondResult) {
+    //   resultWidth = `${secondResult}%`;
+    // } else if (index === 2 && thirdResult) {
+    //   resultWidth = `${thirdResult}%`;
+    // }
+    let resultWidth = "";
+
+    if (index === 0 && firstResult !== undefined && firstResult !== null) {
       resultWidth = `${firstResult}%`;
-    } else if (index === 1 && secondResult) {
+    } else if (
+      index === 1 &&
+      secondResult !== undefined &&
+      secondResult !== null
+    ) {
       resultWidth = `${secondResult}%`;
-    } else if (index === 2 && thirdResult) {
+    } else if (
+      index === 2 &&
+      thirdResult !== undefined &&
+      thirdResult !== null
+    ) {
       resultWidth = `${thirdResult}%`;
     }
 
@@ -165,7 +192,7 @@ const MultiplierProgress = ({
                   <div
                     className="white-value-no"
                     style={{
-                      left: `calc(${resultWidth} - 7px)`,
+                      left: `calc(${resultWidth} - 0px)`,
                       transition: "left 0.3s ease-out",
                       textShadow:
                         parseFloat(resultWidth.replace("%", "")) < value
@@ -205,7 +232,7 @@ const MultiplierProgress = ({
           <div
             className="value-display"
             style={{
-              left: `calc(${value}% - 0px)`,
+              left: `calc(${value}% - 5px)`,
             }}
           >
             <div className="value-sticky">

@@ -165,6 +165,49 @@
     transform: scale(1);
   }
 }
+.win-amount-section {
+  display: block;
+  position: fixed;
+  left: 50%;
+  top: 6%;
+  width: 300px;
+  height: 45px;
+  max-height: 45px;
+  transform: translate(-50%, -50%);
+  background: url("../../assests/win-model.svg") no-repeat;
+  background-color: green;
+  background-size: cover;
+  border-radius: 0.25rem;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: growIn 0.5s ease forwards, growOut 0.5s ease 3.5s forwards;
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
+}
+@keyframes growIn {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -200%);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+@keyframes growOut {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -200%);
+  }
+}
 @media (max-width: 1024px) {
   .responsive-divider {
     width: 58%;

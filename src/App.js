@@ -64,16 +64,16 @@ const App = () => {
     };
   }, []);
   return (
-    // <SoundProvider>
-    <BrowserRouter>
-      <Routes>
-        <Route
-          path="/"
-          element={<Home shouldShowRotateImage={shouldShowRotateImage} />}
-        />
-      </Routes>
-    </BrowserRouter>
-    // </SoundProvider>
+    <SoundProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route
+            path="/"
+            element={<Home shouldShowRotateImage={shouldShowRotateImage} />}
+          />
+        </Routes>
+      </BrowserRouter>
+    </SoundProvider>
   );
 };
 

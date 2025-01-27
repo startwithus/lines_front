@@ -1,20 +1,25 @@
-import React, { useState } from "react";
+import React, { use, useContext, useEffect, useRef, useState } from "react";
 import { icon } from "../../utility/icon";
-
+import { SoundContext } from "../../context/SoundContext";
+import { playButtonSound } from "../../utility/gameSettings";
 const AmountSection = ({
   handlePlacebet,
   amount,
+  autobetTab,
   setAmount,
   isBetting,
+  autobet,
+  setAutobet,
   totalMultiplier,
   setisRefrece,
   setStatusData,
   setIconSrc,
   setResultData,
 }) => {
+  const { sound } = useContext(SoundContext);
   const MIN_AMOUNT = 10;
   const MAX_AMOUNT = 10000;
-
+  const autoBetInterval = useRef(null);
   const disableMin =
     Number(amount) === MIN_AMOUNT ||
     totalMultiplier < 1.05 ||
@@ -30,7 +35,24 @@ const AmountSection = ({
     cursor: disabled ? "not-allowed" : "pointer",
     opacity: disabled ? 0.5 : 1,
   });
-
+  useEffect(() => {
+    if (autobet) {
+      clearInterval(autoBetInterval.current);
+      autoBetInterval.current = setInterval(() => handlePlacebet(), 1500);
+    } else {
+      clearInterval(autoBetInterval.current);
+    }
+  }, [autobet, handlePlacebet]);
+  const handleStart = () => {
+    if (autobetTab === 1) {
+      setAutobet(true);
+    }
+  };
+  const handleStop = () => {
+    if (autobetTab === 1) {
+      setAutobet(false);
+    }
+  };
   const getIncrement = (currentValue) => {
     if (currentValue >= 10 && currentValue < 100) {
       return 10;
@@ -51,7 +73,9 @@ const AmountSection = ({
   };
 
   const decreaseProgress = () => {
-    setResultData(false);
+    if (sound) {
+      playButtonSound();
+    }
     let numericValue = parseFloat(amount);
     if (isNaN(numericValue) || amount === "") {
       numericValue = MIN_AMOUNT;
@@ -65,8 +89,9 @@ const AmountSection = ({
   };
 
   const handleIncrease = () => {
-    setResultData(false);
-
+    if (sound) {
+      playButtonSound();
+    }
     let numericValue = parseFloat(amount);
     if (isNaN(numericValue) || amount === "") {
       numericValue = MIN_AMOUNT;
@@ -78,14 +103,16 @@ const AmountSection = ({
   };
 
   const handleMinClick = () => {
-    setResultData(false);
-
+    if (sound) {
+      playButtonSound();
+    }
     setAmount(MIN_AMOUNT.toFixed(2)); // Set amount to MIN_AMOUNT
   };
 
   const handleMaxClick = () => {
-    setResultData(false);
-
+    if (sound) {
+      playButtonSound();
+    }
     setAmount(MAX_AMOUNT.toFixed(2)); // Set amount to MAX_AMOUNT
   };
 
@@ -114,7 +141,7 @@ const AmountSection = ({
             }}
           ></span>
         </div>
-        <div className="">
+        <div className="min-">
           <button
             onClick={handleMaxClick}
             disabled={disableMax} // Disable when amount is at MAX_AMOUNT
@@ -136,18 +163,32 @@ const AmountSection = ({
           </button>
         </div>
         <div className="bet-button">
-          <button
-            className="btn-bet"
-            onClick={handlePlacebet}
-            disabled={disableBet}
-            style={buttonStyle(disableBet)}
-          >
-            {isBetting ? (
-              <img src={icon.betLoader} className="bet-icon" alt="Loading" />
-            ) : (
-              "BET"
-            )}
-          </button>
+          {autobetTab === 1 ? (
+            <>
+              {autobet ? (
+                <button className="btn-bet" onClick={handleStop}>
+                  Stop
+                </button>
+              ) : (
+                <button className="btn-bet" onClick={handleStart}>
+                  Start
+                </button>
+              )}
+            </>
+          ) : (
+            <button
+              className="btn-bet"
+              onClick={handlePlacebet}
+              disabled={disableBet}
+              style={buttonStyle(disableBet)}
+            >
+              {isBetting ? (
+                <img src={icon.betLoader} className="bet-icon" alt="Loading" />
+              ) : (
+                "BET"
+              )}
+            </button>
+          )}
         </div>
 
         <div className="btn-incress-decress">
