@@ -33,11 +33,7 @@
   font-weight: 600;
   font-size: 14px;
 }
-.min-progress-max {
-  display: flex;
-  justify-content: space-between;
-  gap: 8px;
-}
+
 .progress-bar-container {
   max-width: calc(75% - 1rem);
 }
@@ -205,6 +201,8 @@
   height: 80%;
   display: flex;
   align-items: end;
+  /* margin-top: 20rem; */
+  /* background-color: red; */
 }
 .plus-section h1 {
   font-size: 14px;
@@ -241,6 +239,7 @@
   display: flex;
   justify-content: space-between;
   gap: 8px;
+  align-items: center;
 }
 .white-value-no {
   position: absolute;
@@ -263,6 +262,11 @@
 .min-progress-max button {
   font-size: 12px;
   font-weight: 600;
+  width: 50px;
+  color: #000;
+  border: none;
+  padding: 4px;
+  border-radius: 5px;
 }
 /* .cross-second {
   position: absolute;
@@ -283,7 +287,7 @@
     background: var(--hg-bg-user-panel);
     margin: 0;
     border-radius: 4px;
-    margin-top: 0.5rem;
+    margin-top: 0.2rem;
   }
 
   .action-pet-container {
@@ -291,7 +295,7 @@
     margin: 0;
     /* / padding: 12px; / */
     border-radius: 0.25rem;
-    margin-top: 0.5rem;
+    margin-top: 0.2rem;
   }
   .select-bet-container {
     gap: 20px;
@@ -301,13 +305,17 @@
     margin: 0;
     /* / padding: 0.4em; / */
     border-radius: 4px;
-    margin-top: 0.5rem;
+    margin-top: 0.2rem;
   }
   .lines-container {
-    height: 35%;
+    height: 30%;
+  }
+  .current-value-progress {
+    margin: 10px 0;
   }
   .slider-wrapper {
     width: 90%;
+    margin-top: 0px;
   }
   .cross-first,
   .cross-second {

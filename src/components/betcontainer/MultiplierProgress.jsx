@@ -1,9 +1,10 @@
 import React, { useContext, useState } from "react";
 import io from "socket.io-client";
-import { SoundContext } from "../../context/SoundContext";
 import { getMaxMult } from "../../utility/helper";
 import { icon } from "../../utility/icon";
-import { pauseClickSound, playClickSound } from '../../utility/gameSettings';
+import { SoundContext } from "../../context/SoundContext";
+import { playClickSound } from "../../utility/gameSettings";
+// import { playButtonSound } from '../../utility/gameSettings
 
 const MultiplierProgress = ({
   sliders,
@@ -21,19 +22,19 @@ const MultiplierProgress = ({
   setIconSrc,
   statusData,
   setResultData,
+  isTurbo,
+  autobet,
 }) => {
   const [isActive, setIsActive] = useState(false);
   const [activeSliderIndex, setActiveSliderIndex] = useState(null);
   const [triggerBounce, setTriggerBounce] = useState(false);
-  const { sound, setSound } = useContext(SoundContext);
+  const { sound } = useContext(SoundContext);
 
   const handleMouseDown = (index) => {
     setActiveSliderIndex(index);
-    setIconSrc(icon.groupA);
+
     setResultData(false);
   };
-
-
 
   const handleMouseUp = () => {
     setActiveSliderIndex(null);
@@ -52,15 +53,12 @@ const MultiplierProgress = ({
   };
 
   const handleAddSlider = () => {
+    if (sound) {
+      playClickSound();
+    }
     if (sliders.length < 3) {
-      if (sound) {
-        setSound(false);
-        pauseClickSound();
-      }
-
       const updatedSliders = [...sliders, 50];
       const newTotalMultiplier = getMaxMult(updatedSliders);
-
       setResultData(false);
       setSliders(updatedSliders);
       setTotalMultiplier(newTotalMultiplier);
@@ -68,6 +66,9 @@ const MultiplierProgress = ({
   };
 
   const handleRemoveSlider = (index) => {
+    if (sound) {
+      playClickSound();
+    }
     const updatedSliders = sliders.filter((_, i) => i !== index);
     const newTotalMultiplier = getMaxMult(updatedSliders);
     setSliders(updatedSliders);
@@ -78,17 +79,34 @@ const MultiplierProgress = ({
   const renderSlider = (value, index) => {
     const isActive = activeSliderIndex === index;
 
+    // let resultWidth = "0";
+    // if (index === 0) {
+    //   resultWidth = `${firstResult}%`;
+    // } else if (index === 1 && secondResult) {
+    //   resultWidth = `${secondResult}%`;
+    // } else if (index === 2 && thirdResult) {
+    //   resultWidth = `${thirdResult}%`;
+    // }
     let resultWidth = "0";
-    if (index === 0) {
+
+    if (index === 0 && firstResult !== undefined && firstResult !== null) {
       resultWidth = `${firstResult}%`;
-    } else if (index === 1 && secondResult) {
+    } else if (
+      index === 1 &&
+      secondResult !== undefined &&
+      secondResult !== null
+    ) {
       resultWidth = `${secondResult}%`;
-    } else if (index === 2 && thirdResult) {
+    } else if (
+      index === 2 &&
+      thirdResult !== undefined &&
+      thirdResult !== null
+    ) {
       resultWidth = `${thirdResult}%`;
     }
 
     return (
-      <div className="" style={{ position: "relative" }}>
+      <div className="" style={{ position: "sticky" }}>
         <div className="lines-section" key={index}>
           {index === 0 && (
             <div
@@ -100,8 +118,8 @@ const MultiplierProgress = ({
               <span className="multi-img">
                 <img
                   src={iconSrc}
-                  alt="Icon"
-                // className={`base-class ${statusData ? "zoom-in-out-element" : ""}`}
+                  alt=""
+                  // className={statusData ? "zoom-in-out-element" : ""}
                 />
                 {/* <img
                   src={
@@ -113,7 +131,15 @@ const MultiplierProgress = ({
                   className={isZoomOut ? "zoom-in-out-element" : ""}
                 /> */}
               </span>
-              <p className={`xvalue ${triggerBounce ? "bounce" : ""}`}>
+              <p
+                className={`xvalue ${triggerBounce ? "bounce" : ""}`}
+                style={{
+                  color:
+                    totalMultiplier < 1.05 || totalMultiplier > 5000.0
+                      ? "#343a40"
+                      : "#fff",
+                }}
+              >
                 {totalMultiplier.toFixed(2)}x
               </p>
             </div>
@@ -146,7 +172,7 @@ const MultiplierProgress = ({
                     className="white-bg"
                     style={{
                       width: resultWidth,
-                      transition: "width 0.5s linear",
+                      transition: isTurbo ? "none" : "width 0.5s linear",
                     }}
                   ></div>
                 )}
@@ -176,12 +202,12 @@ const MultiplierProgress = ({
                   <div
                     className="white-value-no"
                     style={{
-                      left: `calc(${resultWidth} - 1px)`,
+                      left: `calc(${resultWidth} - 0px)`,
                       transition: "left 0.3s ease-out",
                       textShadow:
                         parseFloat(resultWidth.replace("%", "")) < value
-                          ? "-1px -1px 0 red, 1px -1px 0 red, -1px 2px 1px red, 1px 1px 0 red"
-                          : "-1px -1px 0 #4ace4a, 1px -1px 0 #4ace4a, -1px 2px 1px #4ace4a, 1px 1px 0 #4ace4a",
+                          ? "-1px -1px 0 red, 1px -1px 0 red, -0px 2px 1px red, 1px 1px 0 red"
+                          : "-1px -1px 0 #4ace4a, 1px -1px 0 #4ace4a, -0px 2px 1px #4ace4a, 1px 1px 0 #4ace4a",
 
                       color: "black", // Text color
                     }}
@@ -216,7 +242,7 @@ const MultiplierProgress = ({
           <div
             className="value-display"
             style={{
-              left: `calc(${value}% - 0px)`,
+              left: `calc(${value}% - 5px)`,
             }}
           >
             <div className="value-sticky">

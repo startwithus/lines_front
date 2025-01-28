@@ -1,35 +1,37 @@
 import React, { useState, useEffect } from "react";
 import { formatBalance } from "../utility/helper";
 
-const BalanceWinAmount = ({ info, resultData, isBetting, statusData, showBalance }) => {
+const BalanceWinAmount = ({
+  info,
+  resultData,
+  isBetting,
+  statusData,
+  showBalance,
+}) => {
   const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
-    let timer;
-
-    if (statusData || (info.balance && info.balance < 10)) {
+    if (statusData) {
       setShowPopup(true);
 
       // Automatically hide the popup after 2 seconds
-      timer = setTimeout(() => {
+      const timer = setTimeout(() => {
         setShowPopup(false);
-      }, 2000);
-    }
+      }, 1000);
 
-    // Cleanup the timer on component unmount or if dependencies change
-    return () => clearTimeout(timer);
-  }, [statusData, info.balance]);
+      // Cleanup the timer on component unmount or if statusData changes
+      return () => clearTimeout(timer);
+    }
+  }, [statusData]);
 
   return (
     <div style={{ height: "" }}>
-      {/* Popup */}
       {showPopup && (
         <div className="win-amount-section">
-          {info.balance < 10 ? "Balance is less than 10" : `Win Amount: ${resultData?.winAmount}`}
+          Win Amount: {resultData?.winAmount}
         </div>
       )}
 
-      {/* Balance and Win Amount Info */}
       <div className="blance-info-container">
         <div className="balance-info">
           <div>

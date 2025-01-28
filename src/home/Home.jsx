@@ -11,7 +11,13 @@ import UserNot from "../components/loader/UserNot";
 import { getMaxMult } from "../utility/helper";
 import { icon } from "../utility/icon";
 import { SoundContext } from "../context/SoundContext";
-import { playLossSound, playWinSound, playWhiteLine, pauseWhiteLine } from "../utility/gameSettings"
+import NotEnoughBalance from "../components/error/NotEnoughBalance";
+import {
+  playLossSound,
+  playWinSound,
+  playWhiteLine,
+  pauseWhiteLine,
+} from "../utility/gameSettings";
 
 const Home = () => {
   const location = useLocation();
@@ -36,7 +42,10 @@ const Home = () => {
   const [secondResult, setSecondResult] = useState([]);
   const [thirdResult, setThirdResult] = useState([]);
   const [isRefresh, setIsRefresh] = useState(false);
-  const { sound } = useContext(SoundContext)
+  const [autobetTab, setAutobetTab] = useState(0);
+  const [autobet, setAutobet] = useState(0);
+  const { sound } = useContext(SoundContext);
+  const [isTurbo, setIsTurbo] = useState(false); // Added Turbo state
 
   // Initial multiplier
   console.log(sliders);
@@ -71,7 +80,24 @@ const Home = () => {
         console.log("Result", data);
         setResultData(data);
       });
+      // const handleResult = (data) => {
+      //   try {
+      //     setResultData(data);
 
+      //     const winningRange = data.winningRange || [];
+      //     if (winningRange.length > 0) {
+      //       const updatedSliders = winningRange.map((value) =>
+      //         Math.max(2, Math.min(98, value))
+      //       );
+
+      //       setSliders(updatedSliders);
+      //     }
+      //   } catch (err) {
+      //     console.error(err);
+      //   }
+      // };
+
+      // socketInstance.on("result", handleResult);
       return () => {
         socketInstance.disconnect();
       };
@@ -84,14 +110,12 @@ const Home = () => {
     if (resultData?.isWin === true) {
       if (sound) {
         playWinSound();
-
       }
       setStatusData(true);
       setIconSrc(icon.group3);
     } else if (resultData?.isWin === false) {
       if (sound) {
-        playLossSound()
-
+        playLossSound();
       }
       setStatusData(false);
       setIconSrc(icon.group2);
@@ -104,23 +128,45 @@ const Home = () => {
     }
   }, [resultData, totalMultiplier]);
 
+  // let firstResult;
+  // let secondResult;
+  // let thirdResult;
 
+  // if (resultData?.winningRange) {
+  //   firstResult = resultData?.winningRange?.[0] || [];
+  //   secondResult = resultData?.winningRange?.[1] || [];
+  //   thirdResult = resultData?.winningRange?.[2] || [];
+  // }
+  // Update results when resultData changes
+  // useEffect(() => {
+  //   setFirstResult(resultData?.winningRange?.[0] || 0);
+  //   setSecondResult(resultData?.winningRange?.[1] || 0);
+  //   setThirdResult(resultData?.winningRange?.[2] || 0);
+  // }, [resultData]);
   useEffect(() => {
-    setFirstResult(resultData?.winningRange?.[0] || 0);
-    setSecondResult(resultData?.winningRange?.[1] || 0);
-    setThirdResult(resultData?.winningRange?.[2] || 0);
+    if (sound) {
+      playWhiteLine();
+    } else {
+      pauseWhiteLine();
+    }
+    setFirstResult(
+      resultData?.winningRange?.[0] !== undefined
+        ? resultData.winningRange[0]
+        : "0"
+    );
+    setSecondResult(
+      resultData?.winningRange?.[1] !== undefined
+        ? resultData.winningRange[1]
+        : "0"
+    );
+    setThirdResult(
+      resultData?.winningRange?.[2] !== undefined
+        ? resultData.winningRange[2]
+        : "0"
+    );
   }, [resultData]);
 
-  // if (sound) {
-
-  //   playWhiteLine();
-  // }
-  // else {
-  //   pauseWhiteLine()
-  // }
-
   const handleResult = (data) => {
-
     setResultData(data);
   };
   const handlePlaceBet = () => {
@@ -156,7 +202,10 @@ const Home = () => {
     }, 500);
     // Stop betting after a defined period
   };
-
+  const buttonStyle = (disabled) => ({
+    cursor: disabled ? "not-allowed" : "pointer",
+    opacity: disabled ? 0.5 : 1,
+  });
   const handleCanvasLoad = (status) => {
     setLoading(!status);
   };
@@ -169,61 +218,146 @@ const Home = () => {
   }
 
   return (
-    <div className="container">
-      <div className="Pane__inner">
-        <div className="manual-side-container">
-          <div className="manual-btn-container">
-            <div className="manual-bg">
-              <div className="manual-btn">
-                <p>Manual</p>
-              </div>
-              <div className="Auto-btn">
-                <p>Auto</p>
+    <>
+      <div className="container">
+        <div className="Pane__inner">
+          <div className="manual-side-container">
+            <div className="manual-btn-container">
+              <div className="manual-bg">
+                <div
+                  className={`manual-btn ${
+                    autobetTab === 0 ? "manual-btn-active" : ""
+                  } ${
+                    isBetting ||
+                    autobet ||
+                    totalMultiplier < 1.05 ||
+                    totalMultiplier > 5000.0
+                      ? "manual-btn-disabled"
+                      : ""
+                  }`} // Add disabled class when conditions are met
+                  style={{
+                    color: autobetTab === 0 ? "black" : "white",
+                    cursor:
+                      isBetting ||
+                      autobet ||
+                      totalMultiplier < 1.05 ||
+                      totalMultiplier > 5000.0
+                        ? "not-allowed"
+                        : "pointer", // Disable cursor when conditions are met
+                    opacity:
+                      isBetting ||
+                      autobet ||
+                      totalMultiplier < 1.05 ||
+                      totalMultiplier > 5000.0
+                        ? 0.5
+                        : 1, // Visual feedback for disabled state
+                  }}
+                  onClick={() =>
+                    !isBetting &&
+                    !autobet &&
+                    totalMultiplier >= 1.05 &&
+                    totalMultiplier <= 5000.0 &&
+                    setAutobetTab(0)
+                  } // Prevent click if conditions are met
+                >
+                  <p>Manual</p>
+                </div>
+                <div
+                  className={`manual-btn ${
+                    autobetTab === 1 ? "manual-btn-active" : ""
+                  } ${
+                    isBetting ||
+                    autobet ||
+                    totalMultiplier < 1.05 ||
+                    totalMultiplier > 5000.0
+                      ? "manual-btn-disabled"
+                      : ""
+                  }`} // Add disabled class when conditions are met
+                  style={{
+                    color: autobetTab === 1 ? "black" : "white",
+                    cursor:
+                      isBetting ||
+                      autobet ||
+                      totalMultiplier < 1.05 ||
+                      totalMultiplier > 5000.0
+                        ? "not-allowed"
+                        : "pointer", // Disable cursor when conditions are met
+                    opacity:
+                      isBetting ||
+                      autobet ||
+                      totalMultiplier < 1.05 ||
+                      totalMultiplier > 5000.0
+                        ? 0.5
+                        : 1, // Visual feedback for disabled state
+                  }}
+                  onClick={() =>
+                    !isBetting &&
+                    !autobet &&
+                    totalMultiplier >= 1.05 &&
+                    totalMultiplier <= 5000.0 &&
+                    setAutobetTab(1)
+                  } // Prevent click if conditions are met
+                >
+                  <p>Auto</p>
+                </div>
               </div>
             </div>
           </div>
+          <BalanceWinAmount
+            info={info}
+            resultData={resultData}
+            isBetting={isBetting}
+            statusData={statusData}
+          />
+          <AmountSection
+            handlePlacebet={handlePlaceBet}
+            amount={amount}
+            setAmount={setAmount}
+            autobetTab={autobetTab}
+            isBetting={isBetting}
+            setAutobet={setAutobet}
+            autobet={autobet}
+            totalMultiplier={totalMultiplier}
+            setTotalMultiplier={setTotalMultiplier}
+            setIconSrc={setIconSrc}
+            setResultData={setResultData}
+          />
+          <div className="main-navbar-container">
+            <NavbarContainer
+              queryParams={queryParams}
+              isTurbo={isTurbo}
+              setIsTurbo={setIsTurbo}
+            />
+          </div>
         </div>
-        <BalanceWinAmount
-          info={info}
-          resultData={resultData}
-          isBetting={isBetting}
+        <div className="show-bet-graph-container">
+          <MultiplierProgress
+            setSliders={setSliders}
+            sliders={sliders}
+            totalMultiplier={totalMultiplier}
+            setTotalMultiplier={setTotalMultiplier}
+            isBetting={isBetting}
+            firstResult={firstResult}
+            secondResult={secondResult}
+            thirdResult={thirdResult}
+            iconSrc={iconSrc}
+            isRefrece={isRefrece}
+            isbno={isbno}
+            statusData={statusData}
+            setIconSrc={setIconSrc}
+            setResultData={setResultData}
+            isTurbo={isTurbo}
+            setAutobet={setAutobet}
+          />
+        </div>
+      </div>
+      {showBalance && (
+        <NotEnoughBalance
+          setShowBalance={setShowBalance}
           showBalance={showBalance}
-          statusData={statusData}
         />
-        <AmountSection
-          handlePlacebet={handlePlaceBet}
-          amount={amount}
-          setAmount={setAmount}
-          isBetting={isBetting}
-          totalMultiplier={totalMultiplier}
-          setTotalMultiplier={setTotalMultiplier}
-          setIconSrc={setIconSrc}
-          setResultData={setResultData}
-        />
-        <div className="main-navbar-container">
-          <NavbarContainer queryParams={queryParams} />
-        </div>
-      </div>
-
-      <div className="show-bet-graph-container">
-        <MultiplierProgress
-          setSliders={setSliders}
-          sliders={sliders}
-          totalMultiplier={totalMultiplier}
-          setTotalMultiplier={setTotalMultiplier}
-          isBetting={isBetting}
-          firstResult={firstResult}
-          secondResult={secondResult}
-          thirdResult={thirdResult}
-          iconSrc={iconSrc}
-          isRefrece={isRefrece}
-          isbno={isbno}
-          statusData={statusData}
-          setIconSrc={setIconSrc}
-          setResultData={setResultData}
-        />
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 

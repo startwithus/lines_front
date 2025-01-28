@@ -3,9 +3,14 @@ import { icon } from "../../utility/icon";
 import "../models/model.css";
 import GameInfo from "./GameInfo";
 import { SoundContext } from "../../context/SoundContext";
-import { pauseSound, playSound, playBgMusic, pauseBgMusic } from '../../utility/gameSettings';
+import {
+  pauseSound,
+  playSound,
+  playBgMusic,
+  pauseBgMusic,
+} from "../../utility/gameSettings";
 
-const NavbarContainer = ({ queryParams }) => {
+const NavbarContainer = ({ queryParams, isTurbo, setIsTurbo }) => {
   const [isSoundOn, setIsSoundOn] = useState(false);
   const [isMusicOn, setIsMusicOn] = useState(false);
   const [isMusicDisabled, setIsMusicDisabled] = useState(false);
@@ -13,13 +18,10 @@ const NavbarContainer = ({ queryParams }) => {
   const [showLobbyModal, setShowLobbyModal] = useState(false);
   const { sound, setSound, music, setMusic } = useContext(SoundContext);
 
-  // Toggle sound state
-  // const toggleSound = () => {
-  //   const newSoundState = !isSoundOn;
-  //   setIsSoundOn(newSoundState);
-  //   setIsMusicDisabled(!newSoundState);
-  //   if (newSoundState) setIsMusicOn(true); // Turn music on when sound is re-enabled
-  // };
+  // Toggle Turbo mode
+  const toggleTurbo = () => {
+    setIsTurbo((prev) => !prev);
+  };
 
   const toggleSound = () => {
     const newSoundState = !isSoundOn;
@@ -27,12 +29,11 @@ const NavbarContainer = ({ queryParams }) => {
     setIsMusicDisabled(!newSoundState);
 
     if (!newSoundState) {
-      setIsMusicOn(false); // Pause music when sound is turned off
+      setIsMusicOn(false);
       pauseBgMusic();
     }
   };
 
-  // Handle win sound toggle
   const toggleSoundWin = () => {
     if (sound) {
       setSound(false);
@@ -43,15 +44,14 @@ const NavbarContainer = ({ queryParams }) => {
     }
   };
 
-  // Toggle music
   const toggleMusic = () => {
     if (!isMusicDisabled) {
       setIsMusicOn((prev) => {
         const newMusicState = !prev;
         if (newMusicState) {
-          playBgMusic(); // Play music only if enabled
+          playBgMusic();
         } else {
-          pauseBgMusic(); // Pause music when toggled off
+          pauseBgMusic();
         }
         return newMusicState;
       });
@@ -70,10 +70,8 @@ const NavbarContainer = ({ queryParams }) => {
     }
   };
 
-  // Toggle game info modal
   const toggleInfoModal = () => setIsModalOpen((prev) => !prev);
 
-  // Handle navigation to lobby
   const handleLobbyNavigation = () => {
     setShowLobbyModal(false);
     window.location.href = `https://lobbydesign.ayodhya365.co/?id=${queryParams.id}`;
@@ -82,7 +80,6 @@ const NavbarContainer = ({ queryParams }) => {
   return (
     <div className="main-navbar">
       <ul className="MainNavbar__list">
-        {/* Sound Toggle */}
         <li
           className="MainNavbar__item"
           onClick={() => {
@@ -98,7 +95,6 @@ const NavbarContainer = ({ queryParams }) => {
           <span className="sound-text">SOUND</span>
         </li>
 
-        {/* Music Toggle */}
         <li
           className={`MainNavbar__item ${isMusicDisabled ? "disabled" : ""}`}
           onClick={() => {
@@ -121,7 +117,19 @@ const NavbarContainer = ({ queryParams }) => {
           <span className="sound-text">MUSIC</span>
         </li>
 
-        {/* Info Modal */}
+        {/* Turbo Button */}
+        <li
+          className="MainNavbar__item"
+          onClick={toggleTurbo}
+          style={{ cursor: "pointer" }}
+        >
+          <img
+            src={isTurbo ? icon.turboIcon : icon.unknownTurbo} // Conditional rendering of the image
+            alt={isTurbo ? "Turbo Icon" : "Unknown Turbo Icon"}
+          />
+          <span className="sound-text">TURBO</span>
+        </li>
+
         <li
           className="MainNavbar__item"
           onClick={toggleInfoModal}
@@ -131,7 +139,6 @@ const NavbarContainer = ({ queryParams }) => {
           <span className="sound-text">INFO</span>
         </li>
 
-        {/* Home Navigation */}
         <li
           className="MainNavbar__item"
           onClick={() => setShowLobbyModal(true)}
@@ -142,14 +149,12 @@ const NavbarContainer = ({ queryParams }) => {
         </li>
       </ul>
 
-      {/* Info Modal */}
       {isModalOpen && (
         <div className="game-info-modal">
           <GameInfo toggleModal={toggleInfoModal} />
         </div>
       )}
 
-      {/* Lobby Modal */}
       {showLobbyModal && (
         <div className="modal-overlay">
           <div className="modal-home">

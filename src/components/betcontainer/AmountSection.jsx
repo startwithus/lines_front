@@ -1,22 +1,25 @@
-import React, { useContext, useState } from "react";
-import { SoundContext } from "../../context/SoundContext";
+import React, { use, useContext, useEffect, useRef, useState } from "react";
 import { icon } from "../../utility/icon";
-import { playButtonSound } from '../../utility/gameSettings'
+import { SoundContext } from "../../context/SoundContext";
+import { playButtonSound } from "../../utility/gameSettings";
 const AmountSection = ({
   handlePlacebet,
   amount,
+  autobetTab,
   setAmount,
   isBetting,
+  autobet,
+  setAutobet,
   totalMultiplier,
   setisRefrece,
   setStatusData,
   setIconSrc,
   setResultData,
 }) => {
+  const { sound } = useContext(SoundContext);
   const MIN_AMOUNT = 10;
   const MAX_AMOUNT = 10000;
-  const { sound } = useContext(SoundContext)
-
+  const autoBetInterval = useRef(null);
   const disableMin =
     Number(amount) === MIN_AMOUNT ||
     totalMultiplier < 1.05 ||
@@ -32,7 +35,24 @@ const AmountSection = ({
     cursor: disabled ? "not-allowed" : "pointer",
     opacity: disabled ? 0.5 : 1,
   });
-
+  useEffect(() => {
+    if (autobet) {
+      clearInterval(autoBetInterval.current);
+      autoBetInterval.current = setInterval(() => handlePlacebet(), 1500);
+    } else {
+      clearInterval(autoBetInterval.current);
+    }
+  }, [autobet, handlePlacebet]);
+  const handleStart = () => {
+    if (autobetTab === 1) {
+      setAutobet(true);
+    }
+  };
+  const handleStop = () => {
+    if (autobetTab === 1) {
+      setAutobet(false);
+    }
+  };
   const getIncrement = (currentValue) => {
     if (currentValue >= 10 && currentValue < 100) {
       return 10;
@@ -54,9 +74,8 @@ const AmountSection = ({
 
   const decreaseProgress = () => {
     if (sound) {
-      playButtonSound()
+      playButtonSound();
     }
-    setResultData(false);
     let numericValue = parseFloat(amount);
     if (isNaN(numericValue) || amount === "") {
       numericValue = MIN_AMOUNT;
@@ -71,10 +90,8 @@ const AmountSection = ({
 
   const handleIncrease = () => {
     if (sound) {
-      playButtonSound()
+      playButtonSound();
     }
-    setResultData(false);
-
     let numericValue = parseFloat(amount);
     if (isNaN(numericValue) || amount === "") {
       numericValue = MIN_AMOUNT;
@@ -87,19 +104,15 @@ const AmountSection = ({
 
   const handleMinClick = () => {
     if (sound) {
-      playButtonSound()
+      playButtonSound();
     }
-    setResultData(false);
-
     setAmount(MIN_AMOUNT.toFixed(2)); // Set amount to MIN_AMOUNT
   };
 
   const handleMaxClick = () => {
     if (sound) {
-      playButtonSound()
+      playButtonSound();
     }
-    setResultData(false);
-
     setAmount(MAX_AMOUNT.toFixed(2)); // Set amount to MAX_AMOUNT
   };
 
@@ -112,8 +125,8 @@ const AmountSection = ({
         <div className="">
           <button
             onClick={handleMinClick}
-            disabled={disableMin} // Disable when amount is at MIN_AMOUNT
-            style={buttonStyle(disableMin)}
+            disabled={disableMin || isBetting || autobet} // Disable when amount is at MIN_AMOUNT
+            style={buttonStyle(disableMin || isBetting || autobet)}
           >
             MIN
           </button>
@@ -128,11 +141,11 @@ const AmountSection = ({
             }}
           ></span>
         </div>
-        <div className="">
+        <div className="min-progress-max">
           <button
             onClick={handleMaxClick}
-            disabled={disableMax} // Disable when amount is at MAX_AMOUNT
-            style={buttonStyle(disableMax)}
+            disabled={disableMax || isBetting || autobet} // Disable when amount is at MAX_AMOUNT
+            style={buttonStyle(disableMax || isBetting || autobet)}
           >
             MAX
           </button>
@@ -143,33 +156,83 @@ const AmountSection = ({
           <button
             onClick={decreaseProgress}
             className="btn-decressincress"
-            disabled={disableMin || isBetting}
-            style={buttonStyle(disableMin || isBetting)}
+            disabled={disableMin || isBetting || autobet}
+            style={buttonStyle(disableMin || isBetting || autobet)}
           >
             <img src={icon.downIcon} alt="Decrease" className="icon-shadow" />
           </button>
         </div>
         <div className="bet-button">
-          <button
-            className="btn-bet"
-            onClick={handlePlacebet}
-            disabled={disableBet}
-            style={buttonStyle(disableBet)}
-          >
-            {isBetting ? (
-              <img src={icon.betLoader} className="bet-icon" alt="Loading" />
-            ) : (
-              "BET"
-            )}
-          </button>
+          {autobetTab === 1 ? (
+            <>
+              {autobet ? (
+                <button
+                  className="btn-bet"
+                  style={{
+                    cursor:
+                      totalMultiplier < 1.05 || totalMultiplier > 5000.0
+                        ? "not-allowed"
+                        : "pointer",
+                    opacity:
+                      totalMultiplier < 1.05 || totalMultiplier > 5000.0
+                        ? 0.5
+                        : 1, // Visual feedback for disabled state
+                  }}
+                  onClick={() => {
+                    if (totalMultiplier >= 1.05 && totalMultiplier <= 5000.0) {
+                      handleStop(); // Call handleStop only if conditions are met
+                    }
+                  }}
+                  disabled={totalMultiplier < 1.05 || totalMultiplier > 5000.0} // Disable button when conditions are not met
+                >
+                  STOP AUTOPLAY
+                </button>
+              ) : (
+                <button
+                  className="btn-bet"
+                  style={{
+                    cursor:
+                      totalMultiplier < 1.05 || totalMultiplier > 5000.0
+                        ? "not-allowed"
+                        : "pointer",
+                    opacity:
+                      totalMultiplier < 1.05 || totalMultiplier > 5000.0
+                        ? 0.5
+                        : 1, // Visual feedback for disabled state
+                  }}
+                  onClick={() => {
+                    if (totalMultiplier >= 1.05 && totalMultiplier <= 5000.0) {
+                      handleStart(); // Call handleStart only if conditions are met
+                    }
+                  }}
+                  disabled={totalMultiplier < 1.05 || totalMultiplier > 5000.0} // Disable button when conditions are not met
+                >
+                  START AUTOPLAY
+                </button>
+              )}
+            </>
+          ) : (
+            <button
+              className="btn-bet"
+              onClick={handlePlacebet}
+              disabled={disableBet}
+              style={buttonStyle(disableBet)}
+            >
+              {isBetting ? (
+                <img src={icon.betLoader} className="bet-icon" alt="Loading" />
+              ) : (
+                "BET"
+              )}
+            </button>
+          )}
         </div>
 
         <div className="btn-incress-decress">
           <button
             onClick={handleIncrease}
             className="btn-decressincress"
-            disabled={disableMax || isBetting}
-            style={buttonStyle(disableMax || isBetting)}
+            disabled={disableMax || isBetting || autobet}
+            style={buttonStyle(disableMax || isBetting || autobet)}
           >
             <img src={icon.upIcon} alt="Increase" className="icon-shadow" />
           </button>

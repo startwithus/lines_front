@@ -120,8 +120,10 @@ body {
   max-width: 1600px;
 }
 .Pane__inner {
+  /* width: 250px; */
+  /* height: 595px; */
   height: 595px;
-  width: 250px;
+  width: 309px;
   background-color: var(--hg-bg-primary);
 }
 .manual-side-container {
@@ -137,7 +139,7 @@ body {
   margin-top: 0.2rem;
 }
 .manual-bg {
-  width: 100%;
+  width: 97%;
   height: 31px;
   border-radius: 20px;
   display: flex;
@@ -158,10 +160,13 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  background: transparent;
+
+  /* box-shadow: inset 1px 1px #fff1cd33; */
+  cursor: pointer;
+}
+.manual-btn-active {
   background: var(--hg-bg-accent);
-  border: 1px solid #00000080;
-  box-shadow: inset 1px 1px #fff1cd33;
-  cursor: default;
 }
 .Auto-btn {
   width: 150px;
@@ -175,7 +180,6 @@ body {
   font-weight: 600;
 }
 .manual-btn p {
-  color: var(--hg-text-secondary);
   font-size: 12px;
   font-weight: 600;
 }
@@ -198,14 +202,11 @@ body {
   justify-content: center;
   color: var(--hg-text-secondary);
   cursor: pointer;
-  font-size: 12px;
+  font-size: 10px;
   font-weight: 600;
   transition: background-color 0.3s; /* Smooth transition effect */
 }
 
-.btn-bet:hover {
-  background-color: var(--hg-btn-disabled-bg);
-}
 .btn-bet:hover {
   background-color: var(--hg-btn-disabled-bg);
 }
@@ -220,9 +221,10 @@ body {
   /* background-color: #001a4d; */
   background-image: url(`../../assests/misc-4.png);
   background-repeat: no-repeat, repeat;
-  width: 74%;
+  width: 75%;
   padding: 1rem 1rem 1rem 0.5rem;
-  height: 579px;
+  /* height: 579px; */
+  height: 582px;
   border-radius: 0.25rem;
 
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
@@ -256,16 +258,13 @@ body {
 }
 .xvalue {
   position: absolute;
-  /* top: -3px; */
+  /* top: -3px; 
   /* left: -147px; */
   display: flex;
   text-align: center;
   font-size: 30px;
   font-weight: 800;
   color: #fff;
-  display: flex;
-  text-align: center;
-  /* background-color: #000; */
 }
 
 /* .slider-progress {
@@ -278,13 +277,11 @@ body {
 .slider-scale {
   display: flex;
   justify-content: space-between;
-  margin: 0.1rem 9px;
-  /* margin: 0rem 0rem 0.2rem 0rem; */
-  /* margin: 5px 0px 0px 6px; */
+  margin: 0.2rem 6px;
   color: #fff;
   font-size: 14px;
   font-weight: 800;
-  width: 98%;
+  width: 100%;
 }
 .slider {
   -webkit-appearance: none;
@@ -336,7 +333,7 @@ body {
 }
 .slider-track {
   position: relative;
-
+  width: 100%;
   height: 11px;
   overflow: hidden;
   background: linear-gradient(to right, red var(--value), #4ace4a var(--value));
@@ -361,7 +358,7 @@ body {
   width: 97%;
   display: flex;
   justify-content: space-between;
-  margin-left: 6px;
+  margin: 0 7px;
 }
 .triangle-up {
   width: 0;
@@ -433,26 +430,24 @@ body {
   width: 40px;
   margin-left: -3rem;
 }
-
 .zoom-in-out-element {
-  animation: zoom-in-zoom-out 1s ease 1;
+  animation: zoom-in-zoom-out 1s ease infinite;
 }
 
 @keyframes zoom-in-zoom-out {
   0% {
-    transform: scale(0.5);
+    transform: scale(50%);
     box-shadow: 0 0 8px rgba(0, 255, 0, 0.5);
   }
   50% {
-    transform: scale(1);
+    transform: scale(100%);
     box-shadow: 0 0 16px rgba(0, 255, 0, 0.7);
   }
   100% {
-    transform: scale(0.5);
+    transform: scale(50%);
     box-shadow: 0 0 8px rgba(0, 255, 0, 0.5);
   }
 }
-
 
 .bounce {
   animation: bounce 0.6s ease-in-out;
@@ -476,6 +471,9 @@ body {
   }
 }
 @media (max-width: 768px) {
+  .manual-bg {
+    width: 80%;
+  }
   .container {
     width: 100%;
     flex-direction: column-reverse;
@@ -495,22 +493,20 @@ body {
   }
 
   .manual-side-container {
-    height: 20%;
+    height: 17%;
     /* / width: 100%; / */
     background: var(--hg-bg-user-panel);
     margin: 0;
     border-radius: 4px;
-    margin-top: 0.5rem;
-    display: none;
-  }
-  .blance-info-container {
-    background: var(--hg-bg-user-panel);
-    margin: 0.5em;
-    padding: 0.5em;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    border-radius: 0.25rem;
+    justify-content: center;
+  }
+  .tringle-container {
+    width: auto;
+  }
+  .btn-bet:hover {
+    background-color: none;
   }
 }
 
@@ -520,52 +516,10 @@ body {
     height: 93%;
   } */
 
-  .manual-btn {
+  /* .manual-btn {
     max-width: 150px;
-  }
+  } */
   /* .manual-side-container {
     height: 572px;
   } */
 }
-
-@media (max-width: 1440px) {
-  /* .show-bet-graph-container {
-    flex-basis: 74%;
-    height: 100%;
-  } */
-
-  .manual-btn {
-    max-width: 150px;
-  }
-}
-
-@media only screen and (min-width: 1024px) and (max-device-width: 1440px) {
-  .show-bet-graph-container {
-    flex-basis: 74%;
-    height: 91%;
-  }
-  .Pane__inner {
-    height: 100%;
-  }
-  .manual-btn {
-    max-width: 150px;
-  }
-}
-
-@media only screen and (max-device-width: 1440px) {
-  .show-bet-graph-container {
-    flex-basis: 74%;
-    height: 102%;
-  }
-  .Pane__inner {
-    height: 100%;
-  }
-  .manual-btn {
-    max-width: 150px;
-  }
-}
-
-/* @media
-only screen and (-webkit-min-device-pixel-ratio : 1.5),
-only screen and (min-device-pixel-ratio : 1.5) {
-} */
