@@ -91,7 +91,7 @@ const MultiplierProgress = ({
     // } else if (index === 2 && thirdResult) {
     //   resultWidth = `${thirdResult}%`;
     // }
-    let resultWidth = "0";
+    let resultWidth = "";
 
     if (index === 0 && firstResult !== undefined && firstResult !== null) {
       resultWidth = `${firstResult}%`;
@@ -185,21 +185,38 @@ const MultiplierProgress = ({
                   min="2"
                   max="98"
                   value={value}
-                  onMouseDown={() => handleMouseDown(index)}
-                  onMouseUp={handleMouseUp}
-                  onChange={(e) => handleSliderChange(index, e)}
-                  // className="slider"
-                  className={`slider ${isActive ? "active" : ""}`}
+                  onMouseDown={
+                    autobet ? undefined : () => handleMouseDown(index)
+                  } // Disable onMouseDown if autobet is true
+                  onMouseUp={autobet ? undefined : handleMouseUp} // Disable onMouseUp if autobet is true
+                  onChange={
+                    autobet ? undefined : (e) => handleSliderChange(index, e)
+                  } // Disable onChange if autobet is true
+                  className={`slider ${isActive ? "active" : ""} ${
+                    autobet ? "disabled" : ""
+                  }`} // Add "disabled" class if autobet is true
                 />
               </div>
-              <div className="img-active" disabled={autobet} style={{}}>
-                <img
+              <div className="img-active">
+                {/* <img
                   src={isActive ? icon.scrollBar : icon.misc}
                   alt="Slider Thumb"
                   className="slider-thumb"
                   style={{
                     left: `calc(${value}% - 10px) `,
                   }}
+                /> */}
+                <img
+                  src={isActive ? icon.scrollBar : icon.misc}
+                  alt="Slider Thumb"
+                  className="slider-thumb"
+                  style={{
+                    left: `calc(${value}% - 10px)`,
+                  }}
+                  onMouseDown={() => setIsActive(true)}
+                  onMouseUp={() => setIsActive(false)}
+                  onTouchStart={() => setIsActive(true)}
+                  onTouchEnd={() => setIsActive(false)}
                 />
               </div>
               <>
@@ -213,11 +230,10 @@ const MultiplierProgress = ({
                         parseFloat(resultWidth.replace("%", "")) < value
                           ? "-1px -1px 0 red, 1px -1px 0 red, -0px 2px 1px red, 1px 1px 0 red"
                           : "-1px -1px 0 #4ace4a, 1px -1px 0 #4ace4a, -0px 2px 1px #4ace4a, 1px 1px 0 #4ace4a",
-
                       color: "black", // Text color
                     }}
                   >
-                    {resultWidth.replace("%", "")}
+                    {resultWidth.replace("%", "").replace(/^0+/, "")}
                   </div>
                 )}
               </>

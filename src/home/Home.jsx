@@ -352,6 +352,7 @@ const Home = () => {
             isTurbo={isTurbo}
             setAutobet={setAutobet}
             autobetTab={autobetTab}
+            autobet={autobet}
           />
         </div>
       </div>
