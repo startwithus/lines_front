@@ -33,7 +33,6 @@ const MultiplierProgress = ({
 
   const handleMouseDown = (index) => {
     setActiveSliderIndex(index);
-
     setResultData(false);
   };
 
@@ -76,10 +75,7 @@ const MultiplierProgress = ({
     setTotalMultiplier(newTotalMultiplier);
     setResultData(false);
   };
-  const buttonStyle = (disabled) => ({
-    cursor: disabled ? "not-allowed" : "pointer",
-    opacity: disabled ? 0.5 : 1,
-  });
+
   const renderSlider = (value, index) => {
     const isActive = activeSliderIndex === index;
 
@@ -187,14 +183,14 @@ const MultiplierProgress = ({
                   value={value}
                   onMouseDown={
                     autobet ? undefined : () => handleMouseDown(index)
-                  } // Disable onMouseDown if autobet is true
-                  onMouseUp={autobet ? undefined : handleMouseUp} // Disable onMouseUp if autobet is true
+                  }
+                  onMouseUp={autobet ? undefined : handleMouseUp}
                   onChange={
                     autobet ? undefined : (e) => handleSliderChange(index, e)
-                  } // Disable onChange if autobet is true
+                  }
                   className={`slider ${isActive ? "active" : ""} ${
                     autobet ? "disabled" : ""
-                  }`} // Add "disabled" class if autobet is true
+                  }`}
                 />
               </div>
               <div className="img-active">
