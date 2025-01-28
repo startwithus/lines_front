@@ -141,7 +141,7 @@ const AmountSection = ({
             }}
           ></span>
         </div>
-        <div className="min-">
+        <div className="min-progress-max">
           <button
             onClick={handleMaxClick}
             disabled={disableMax || isBetting || autobet} // Disable when amount is at MAX_AMOUNT
