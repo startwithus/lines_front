@@ -231,6 +231,7 @@ const Home = () => {
                     isBetting ||
                     autobet ||
                     totalMultiplier < 1.05 ||
+                    totalMultiplier < 1.05 ||
                     totalMultiplier > 5000.0
                       ? "manual-btn-disabled"
                       : ""
@@ -308,6 +309,8 @@ const Home = () => {
             resultData={resultData}
             isBetting={isBetting}
             statusData={statusData}
+            setStatusData={setStatusData}
+            showBalance={showBalance}
           />
           <AmountSection
             handlePlacebet={handlePlaceBet}
@@ -348,6 +351,7 @@ const Home = () => {
             setResultData={setResultData}
             isTurbo={isTurbo}
             setAutobet={setAutobet}
+            autobetTab={autobetTab}
           />
         </div>
       </div>

@@ -127,7 +127,7 @@ body {
   background-color: var(--hg-bg-primary);
 }
 .manual-side-container {
-  height: 63%;
+  height: 375px;
   background: var(--hg-bg-user-panel);
   margin: 0 0.5em;
   padding: 0.5em;
@@ -207,12 +207,12 @@ body {
   transition: background-color 0.3s; /* Smooth transition effect */
 }
 
-.btn-bet:hover {
+/* .btn-bet:hover {
   background-color: var(--hg-btn-disabled-bg);
 }
 .btn-bet:hover {
   background-color: var(--hg-btn-disabled-bg);
-}
+} */
 
 .direction-icnon {
   cursor: pointer;
@@ -428,7 +428,22 @@ body {
   font-size: 16px; /* Adjust as needed */
   text-shadow: 0 0 5px rgba(0, 0, 0, 0.5); /* Optional for better visibility */
 }
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+}
 
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  background-color: transparent;
+  border: none;
+}
+
+input[type="range"]::-moz-range-thumb {
+  background-color: transparent;
+  border: none;
+}
 .crossIcon img {
   width: 40px;
   margin-left: -3rem;
@@ -493,6 +508,7 @@ body {
     /* flex-basis: 74%; */
     height: 81%;
     width: 100%;
+    padding: 0.5rem;
   }
 
   .manual-side-container {
@@ -507,6 +523,12 @@ body {
   }
   .tringle-container {
     width: auto;
+  }
+  .slider-track {
+    height: 10px;
+  }
+  .slider-thumb {
+    height: 22px;
   }
 }
 
