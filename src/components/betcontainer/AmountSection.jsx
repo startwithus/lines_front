@@ -92,6 +92,7 @@ const AmountSection = ({
     if (sound) {
       playButtonSound();
     }
+
     let numericValue = parseFloat(amount);
     if (isNaN(numericValue) || amount === "") {
       numericValue = MIN_AMOUNT;

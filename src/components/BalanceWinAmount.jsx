@@ -36,6 +36,7 @@ const BalanceWinAmount = ({
         <div className="balance-info">
           <div>
             <p
+              className=""
               style={{
                 fontSize: "10px",
                 color: "#e9ecef",

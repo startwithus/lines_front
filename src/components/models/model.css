@@ -245,6 +245,14 @@
     width: 70%;
     left: 50px;
   }
+  .win-amount-section {
+    top: 3%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 150px;
+    height: 35px;
+    font-size: 12px;
+  }
 }
 
 /* / Scrollbar Styling / */
@@ -272,6 +280,17 @@
   scrollbar-color: green #1a1a1a;
   margin-top: 2rem;
 }
+.blance-text {
+  font-size: 10px;
+  color: #e9ecef;
+  text-align: center;
+}
+.ammount-text {
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  margin-top: 6px;
+}
 @media (max-width: 376px) {
   .manual-side-container {
     height: 14%;
@@ -298,5 +317,9 @@
   }
   .current-value-progress {
     margin: 5px 0;
+  }
+  .ammount-text {
+    font-size: 10px;
+    margin-top: 2px;
   }
 }

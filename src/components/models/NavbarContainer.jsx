@@ -9,6 +9,7 @@ import {
   playBgMusic,
   pauseBgMusic,
 } from "../../utility/gameSettings";
+import { Link } from "react-router-dom";
 
 const NavbarContainer = ({ queryParams, isTurbo, setIsTurbo }) => {
   const [isSoundOn, setIsSoundOn] = useState(false);
@@ -74,7 +75,6 @@ const NavbarContainer = ({ queryParams, isTurbo, setIsTurbo }) => {
 
   const handleLobbyNavigation = () => {
     setShowLobbyModal(false);
-    window.location.href = `https://lobbydesign.ayodhya365.co/?id=${queryParams.id}`;
   };
 
   return (
@@ -166,12 +166,13 @@ const NavbarContainer = ({ queryParams, isTurbo, setIsTurbo }) => {
               >
                 Cancel
               </button>
-              <button
+              <Link
+                to={`https://lobbydesign.ayodhya365.co/?id=${queryParams.id}`}
                 className="btn-text btn-confirm"
                 onClick={handleLobbyNavigation}
               >
                 Confirm
-              </button>
+              </Link>
             </div>
           </div>
         </div>
