@@ -12,12 +12,14 @@ import { getMaxMult } from "../utility/helper";
 import { icon } from "../utility/icon";
 import { SoundContext } from "../context/SoundContext";
 import NotEnoughBalance from "../components/error/NotEnoughBalance";
+import errorModal from '../components/error/ErrorModal'
 import {
   playLossSound,
   playWinSound,
   playWhiteLine,
   pauseWhiteLine,
 } from "../utility/gameSettings";
+import ErrorModal from "../components/error/ErrorModal";
 
 const Home = () => {
   const location = useLocation();
@@ -46,6 +48,8 @@ const Home = () => {
   const [autobet, setAutobet] = useState(0);
   const { sound } = useContext(SoundContext);
   const [isTurbo, setIsTurbo] = useState(false); // Added Turbo state
+  const [errorModal, setErrorModal] = useState(false)
+  const [error, setError] = useState("")
 
   // Initial multiplier
   console.log(sliders);
@@ -80,24 +84,12 @@ const Home = () => {
         console.log("Result", data);
         setResultData(data);
       });
-      // const handleResult = (data) => {
-      //   try {
-      //     setResultData(data);
 
-      //     const winningRange = data.winningRange || [];
-      //     if (winningRange.length > 0) {
-      //       const updatedSliders = winningRange.map((value) =>
-      //         Math.max(2, Math.min(98, value))
-      //       );
+      socketInstance.on("betError", (data) => {
+        setError(data);
+        setErrorModal(true);
+      });
 
-      //       setSliders(updatedSliders);
-      //     }
-      //   } catch (err) {
-      //     console.error(err);
-      //   }
-      // };
-
-      // socketInstance.on("result", handleResult);
       return () => {
         socketInstance.disconnect();
       };
@@ -105,6 +97,16 @@ const Home = () => {
       console.error("Invalid socket ID or game ID in query params.");
     }
   }, [queryParams.id]);
+
+  useEffect(() => {
+    if (errorModal) {
+      const timer = setTimeout(() => {
+        setErrorModal(false);
+      }, 1000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [errorModal]);
 
   useEffect(() => {
     if (resultData?.isWin === true) {
@@ -128,21 +130,6 @@ const Home = () => {
     }
   }, [resultData, totalMultiplier]);
 
-  // let firstResult;
-  // let secondResult;
-  // let thirdResult;
-
-  // if (resultData?.winningRange) {
-  //   firstResult = resultData?.winningRange?.[0] || [];
-  //   secondResult = resultData?.winningRange?.[1] || [];
-  //   thirdResult = resultData?.winningRange?.[2] || [];
-  // }
-  // Update results when resultData changes
-  // useEffect(() => {
-  //   setFirstResult(resultData?.winningRange?.[0] || 0);
-  //   setSecondResult(resultData?.winningRange?.[1] || 0);
-  //   setThirdResult(resultData?.winningRange?.[2] || 0);
-  // }, [resultData]);
   useEffect(() => {
     if (sound) {
       playWhiteLine();
@@ -225,30 +212,28 @@ const Home = () => {
             <div className="manual-btn-container">
               <div className="manual-bg">
                 <div
-                  className={`manual-btn ${
-                    autobetTab === 0 ? "manual-btn-active" : ""
-                  } ${
-                    isBetting ||
-                    autobet ||
-                    totalMultiplier < 1.05 ||
-                    totalMultiplier > 5000.0
+                  className={`manual-btn ${autobetTab === 0 ? "manual-btn-active" : ""
+                    } ${isBetting ||
+                      autobet ||
+                      totalMultiplier < 1.05 ||
+                      totalMultiplier > 5000.0
                       ? "manual-btn-disabled"
                       : ""
-                  }`} // Add disabled class when conditions are met
+                    }`} // Add disabled class when conditions are met
                   style={{
                     color: autobetTab === 0 ? "black" : "white",
                     cursor:
                       isBetting ||
-                      autobet ||
-                      totalMultiplier < 1.05 ||
-                      totalMultiplier > 5000.0
+                        autobet ||
+                        totalMultiplier < 1.05 ||
+                        totalMultiplier > 5000.0
                         ? "not-allowed"
                         : "pointer", // Disable cursor when conditions are met
                     opacity:
                       isBetting ||
-                      autobet ||
-                      totalMultiplier < 1.05 ||
-                      totalMultiplier > 5000.0
+                        autobet ||
+                        totalMultiplier < 1.05 ||
+                        totalMultiplier > 5000.0
                         ? 0.5
                         : 1, // Visual feedback for disabled state
                   }}
@@ -263,30 +248,28 @@ const Home = () => {
                   <p>Manual</p>
                 </div>
                 <div
-                  className={`manual-btn ${
-                    autobetTab === 1 ? "manual-btn-active" : ""
-                  } ${
-                    isBetting ||
-                    autobet ||
-                    totalMultiplier < 1.05 ||
-                    totalMultiplier > 5000.0
+                  className={`manual-btn ${autobetTab === 1 ? "manual-btn-active" : ""
+                    } ${isBetting ||
+                      autobet ||
+                      totalMultiplier < 1.05 ||
+                      totalMultiplier > 5000.0
                       ? "manual-btn-disabled"
                       : ""
-                  }`} // Add disabled class when conditions are met
+                    }`} // Add disabled class when conditions are met
                   style={{
                     color: autobetTab === 1 ? "black" : "white",
                     cursor:
                       isBetting ||
-                      autobet ||
-                      totalMultiplier < 1.05 ||
-                      totalMultiplier > 5000.0
+                        autobet ||
+                        totalMultiplier < 1.05 ||
+                        totalMultiplier > 5000.0
                         ? "not-allowed"
                         : "pointer", // Disable cursor when conditions are met
                     opacity:
                       isBetting ||
-                      autobet ||
-                      totalMultiplier < 1.05 ||
-                      totalMultiplier > 5000.0
+                        autobet ||
+                        totalMultiplier < 1.05 ||
+                        totalMultiplier > 5000.0
                         ? 0.5
                         : 1, // Visual feedback for disabled state
                   }}
@@ -357,6 +340,12 @@ const Home = () => {
           showBalance={showBalance}
         />
       )}
+
+      {
+        errorModal && (
+          <ErrorModal error={error} setErrorModal={setErrorModal} />
+        )
+      }
     </>
   );
 };
