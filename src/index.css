@@ -568,4 +568,7 @@ input[type="range"]::-moz-range-thumb {
   .value-sticky {
     font-size: 8px;
   }
+  .add-section {
+    margin-top: 0.2rem;
+  }
 }

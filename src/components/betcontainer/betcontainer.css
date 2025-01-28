@@ -321,7 +321,7 @@
   }
   .slider-wrapper {
     width: 90%;
-    margin-top: 1px;
+    margin-top: 5px;
   }
   .cross-first,
   .cross-second {
@@ -343,7 +343,7 @@
   .cross-first,
   .cross-second {
     width: 25px;
-    height: 20px;
+    height: 25px;
     position: absolute;
     top: -65px;
     left: -12px;
