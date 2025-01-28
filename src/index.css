@@ -122,7 +122,7 @@ body {
 .Pane__inner {
   /* width: 250px; */
   /* height: 595px; */
-  height: 600px;
+  height: 595px;
   width: 309px;
   background-color: var(--hg-bg-primary);
 }
@@ -261,7 +261,7 @@ body {
 }
 .xvalue {
   position: absolute;
-  /* top: -3px; */
+  /* top: -3px; 
   /* left: -147px; */
   display: flex;
   text-align: center;
@@ -336,7 +336,7 @@ body {
 }
 .slider-track {
   position: relative;
-
+  width: 100%;
   height: 11px;
   overflow: hidden;
   background: linear-gradient(to right, red var(--value), #4ace4a var(--value));
@@ -475,7 +475,7 @@ body {
 }
 @media (max-width: 768px) {
   .manual-bg {
-    width: 45%;
+    width: 80%;
   }
   .container {
     width: 100%;
@@ -496,21 +496,17 @@ body {
   }
 
   .manual-side-container {
-    height: 20%;
+    height: 17%;
     /* / width: 100%; / */
     background: var(--hg-bg-user-panel);
     margin: 0;
     border-radius: 4px;
-    margin-top: 0.5rem;
-  }
-  .blance-info-container {
-    background: var(--hg-bg-user-panel);
-    margin: 0.5em;
-    padding: 0.5em;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    border-radius: 0.25rem;
+    justify-content: center;
+  }
+  .tringle-container {
+    width: auto;
   }
 }
 
@@ -525,16 +521,5 @@ body {
   } */
   /* .manual-side-container {
     height: 572px;
-  } */
-}
-
-@media (max-width: 1440px) {
-  /* .show-bet-graph-container {
-    flex-basis: 74%;
-    height: 100%;
-  } */
-
-  /* .manual-btn {
-    max-width: 150px;
   } */
 }

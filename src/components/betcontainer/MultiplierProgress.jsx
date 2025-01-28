@@ -22,6 +22,8 @@ const MultiplierProgress = ({
   setIconSrc,
   statusData,
   setResultData,
+  isTurbo,
+  autobet,
 }) => {
   const [isActive, setIsActive] = useState(false);
   const [activeSliderIndex, setActiveSliderIndex] = useState(null);
@@ -30,7 +32,7 @@ const MultiplierProgress = ({
 
   const handleMouseDown = (index) => {
     setActiveSliderIndex(index);
-    setIconSrc(icon.groupA);
+
     setResultData(false);
   };
 
@@ -85,7 +87,7 @@ const MultiplierProgress = ({
     // } else if (index === 2 && thirdResult) {
     //   resultWidth = `${thirdResult}%`;
     // }
-    let resultWidth = "";
+    let resultWidth = "0";
 
     if (index === 0 && firstResult !== undefined && firstResult !== null) {
       resultWidth = `${firstResult}%`;
@@ -135,7 +137,7 @@ const MultiplierProgress = ({
                   color:
                     totalMultiplier < 1.05 || totalMultiplier > 5000.0
                       ? "#343a40"
-                      : "white",
+                      : "#fff",
                 }}
               >
                 {totalMultiplier.toFixed(2)}x
@@ -170,7 +172,7 @@ const MultiplierProgress = ({
                     className="white-bg"
                     style={{
                       width: resultWidth,
-                      transition: "width 0.5s linear",
+                      transition: isTurbo ? "none" : "width 0.5s linear",
                     }}
                   ></div>
                 )}

@@ -10,7 +10,7 @@ import {
   pauseBgMusic,
 } from "../../utility/gameSettings";
 
-const NavbarContainer = ({ queryParams }) => {
+const NavbarContainer = ({ queryParams, isTurbo, setIsTurbo }) => {
   const [isSoundOn, setIsSoundOn] = useState(false);
   const [isMusicOn, setIsMusicOn] = useState(false);
   const [isMusicDisabled, setIsMusicDisabled] = useState(false);
@@ -18,13 +18,10 @@ const NavbarContainer = ({ queryParams }) => {
   const [showLobbyModal, setShowLobbyModal] = useState(false);
   const { sound, setSound, music, setMusic } = useContext(SoundContext);
 
-  // Toggle sound state
-  // const toggleSound = () => {
-  //   const newSoundState = !isSoundOn;
-  //   setIsSoundOn(newSoundState);
-  //   setIsMusicDisabled(!newSoundState);
-  //   if (newSoundState) setIsMusicOn(true); // Turn music on when sound is re-enabled
-  // };
+  // Toggle Turbo mode
+  const toggleTurbo = () => {
+    setIsTurbo((prev) => !prev);
+  };
 
   const toggleSound = () => {
     const newSoundState = !isSoundOn;
@@ -32,12 +29,11 @@ const NavbarContainer = ({ queryParams }) => {
     setIsMusicDisabled(!newSoundState);
 
     if (!newSoundState) {
-      setIsMusicOn(false); // Pause music when sound is turned off
+      setIsMusicOn(false);
       pauseBgMusic();
     }
   };
 
-  // Handle win sound toggle
   const toggleSoundWin = () => {
     if (sound) {
       setSound(false);
@@ -48,15 +44,14 @@ const NavbarContainer = ({ queryParams }) => {
     }
   };
 
-  // Toggle music
   const toggleMusic = () => {
     if (!isMusicDisabled) {
       setIsMusicOn((prev) => {
         const newMusicState = !prev;
         if (newMusicState) {
-          playBgMusic(); // Play music only if enabled
+          playBgMusic();
         } else {
-          pauseBgMusic(); // Pause music when toggled off
+          pauseBgMusic();
         }
         return newMusicState;
       });
@@ -75,10 +70,8 @@ const NavbarContainer = ({ queryParams }) => {
     }
   };
 
-  // Toggle game info modal
   const toggleInfoModal = () => setIsModalOpen((prev) => !prev);
 
-  // Handle navigation to lobby
   const handleLobbyNavigation = () => {
     setShowLobbyModal(false);
     window.location.href = `https://lobbydesign.ayodhya365.co/?id=${queryParams.id}`;
@@ -122,6 +115,19 @@ const NavbarContainer = ({ queryParams }) => {
             alt={isMusicOn && !isMusicDisabled ? "Music On" : "Music Off"}
           />
           <span className="sound-text">MUSIC</span>
+        </li>
+
+        {/* Turbo Button */}
+        <li
+          className="MainNavbar__item"
+          onClick={toggleTurbo}
+          style={{ cursor: "pointer" }}
+        >
+          <img
+            src={isTurbo ? icon.turboIcon : icon.unknownTurbo} // Conditional rendering of the image
+            alt={isTurbo ? "Turbo Icon" : "Unknown Turbo Icon"}
+          />
+          <span className="sound-text">TURBO</span>
         </li>
 
         <li
