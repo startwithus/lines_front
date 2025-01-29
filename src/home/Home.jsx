@@ -345,6 +345,8 @@ const Home = ({ shouldShowRotateImage }) => {
               setTotalMultiplier={setTotalMultiplier}
               setIconSrc={setIconSrc}
               setResultData={setResultData}
+              info={info}
+              setInfo={setInfo}
             />
             <div className="main-navbar-container">
               <NavbarContainer
