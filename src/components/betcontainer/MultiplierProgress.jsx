@@ -5,6 +5,7 @@ import { icon } from "../../utility/icon";
 import { SoundContext } from "../../context/SoundContext";
 import { playClickSound } from "../../utility/gameSettings";
 // import { playButtonSound } from '../../utility/gameSettings
+import MenuIcon from "./MenuIcon";
 
 const MultiplierProgress = ({
   sliders,
@@ -25,6 +26,8 @@ const MultiplierProgress = ({
   isTurbo,
   autobet,
   autobetTab,
+  queryParams,
+  info,
 }) => {
   const [isActive, setIsActive] = useState(false);
   const [activeSliderIndex, setActiveSliderIndex] = useState(null);
@@ -115,7 +118,7 @@ const MultiplierProgress = ({
                 left: `calc(${value}% - ${value > 50 ? "100px" : "25px"})`,
               }}
             >
-              <span className={`multi-img ${statusData ? "zoom-out-border" : ""}`}>
+              <span className={`multi-img ${statusData ? "zoom-in-out-border" : ""}`}>
                 <img
                   src={iconSrc}
                   alt=""
@@ -179,9 +182,8 @@ const MultiplierProgress = ({
                   onChange={
                     autobet ? undefined : (e) => handleSliderChange(index, e)
                   }
-                  className={`slider ${isActive ? "active" : ""} ${
-                    autobet ? "disabled" : ""
-                  }`}
+                  className={`slider ${isActive ? "active" : ""} ${autobet ? "disabled" : ""
+                    }`}
                 />
               </div>
               <div className="img-active">
@@ -264,6 +266,13 @@ const MultiplierProgress = ({
 
   return (
     <>
+      <div className="">
+        <MenuIcon
+          queryParams={queryParams}
+          info={info}
+
+        />
+      </div>
       <div className="slider-wrapper">
         <div className="lines-container">
           <img src={icon.line} alt="Lines" />
@@ -286,6 +295,7 @@ const MultiplierProgress = ({
             )}
         </div>
       </div>
+
     </>
   );
 };

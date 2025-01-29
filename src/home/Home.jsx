@@ -47,9 +47,9 @@ const Home = ({ shouldShowRotateImage }) => {
   const [autobet, setAutobet] = useState(0);
   const { sound } = useContext(SoundContext);
   const [isTurbo, setIsTurbo] = useState(false); // Added Turbo state
-
+  const [errorModal, setErrorModal] = useState(false)
+  const [error, setError] = useState("")
   // Initial multiplier
-  console.log(sliders);
   let queryParams = {};
   try {
     queryParams = JSON.parse(
@@ -82,10 +82,10 @@ const Home = ({ shouldShowRotateImage }) => {
         setResultData(data);
       });
 
-      // socketInstance.on("betError", (data) => {
-      //   setError(data);
-      //   setErrorModal(true);
-      // });
+      socketInstance.on("betError", (data) => {
+        setError(data);
+        setErrorModal(true);
+      });
 
       return () => {
         socketInstance.disconnect();
@@ -95,15 +95,15 @@ const Home = ({ shouldShowRotateImage }) => {
     }
   }, [queryParams.id]);
 
-  // useEffect(() => {
-  //   if (errorModal) {
-  //     const timer = setTimeout(() => {
-  //       setErrorModal(false);
-  //     }, 1000);
+  useEffect(() => {
+    if (errorModal) {
+      const timer = setTimeout(() => {
+        setErrorModal(false);
+      }, 2000);
 
-  //     return () => clearTimeout(timer);
-  //   }
-  // }, [errorModal]);
+      return () => clearTimeout(timer);
+    }
+  }, [errorModal]);
 
   useEffect(() => {
     if (resultData?.isWin === true) {
@@ -230,31 +230,29 @@ const Home = ({ shouldShowRotateImage }) => {
               <div className="manual-btn-container">
                 <div className="manual-bg">
                   <div
-                    className={`manual-btn ${
-                      autobetTab === 0 ? "manual-btn-active" : ""
-                    } ${
-                      isBetting ||
-                      autobet ||
-                      totalMultiplier < 1.05 ||
-                      totalMultiplier < 1.05 ||
-                      totalMultiplier > 5000.0
+                    className={`manual-btn ${autobetTab === 0 ? "manual-btn-active" : ""
+                      } ${isBetting ||
+                        autobet ||
+                        totalMultiplier < 1.05 ||
+                        totalMultiplier < 1.05 ||
+                        totalMultiplier > 5000.0
                         ? "manual-btn-disabled"
                         : ""
-                    }`} // Add disabled class when conditions are met
+                      }`} // Add disabled class when conditions are met
                     style={{
                       color: autobetTab === 0 ? "black" : "white",
                       cursor:
                         isBetting ||
-                        autobet ||
-                        totalMultiplier < 1.05 ||
-                        totalMultiplier > 5000.0
+                          autobet ||
+                          totalMultiplier < 1.05 ||
+                          totalMultiplier > 5000.0
                           ? "not-allowed"
                           : "pointer", // Disable cursor when conditions are met
                       opacity:
                         isBetting ||
-                        autobet ||
-                        totalMultiplier < 1.05 ||
-                        totalMultiplier > 5000.0
+                          autobet ||
+                          totalMultiplier < 1.05 ||
+                          totalMultiplier > 5000.0
                           ? 0.5
                           : 1, // Visual feedback for disabled state
                     }}
@@ -269,30 +267,28 @@ const Home = ({ shouldShowRotateImage }) => {
                     <p>Manual</p>
                   </div>
                   <div
-                    className={`manual-btn ${
-                      autobetTab === 1 ? "manual-btn-active" : ""
-                    } ${
-                      isBetting ||
-                      autobet ||
-                      totalMultiplier < 1.05 ||
-                      totalMultiplier > 5000.0
+                    className={`manual-btn ${autobetTab === 1 ? "manual-btn-active" : ""
+                      } ${isBetting ||
+                        autobet ||
+                        totalMultiplier < 1.05 ||
+                        totalMultiplier > 5000.0
                         ? "manual-btn-disabled"
                         : ""
-                    }`} // Add disabled class when conditions are met
+                      }`} // Add disabled class when conditions are met
                     style={{
                       color: autobetTab === 1 ? "black" : "white",
                       cursor:
                         isBetting ||
-                        autobet ||
-                        totalMultiplier < 1.05 ||
-                        totalMultiplier > 5000.0
+                          autobet ||
+                          totalMultiplier < 1.05 ||
+                          totalMultiplier > 5000.0
                           ? "not-allowed"
                           : "pointer", // Disable cursor when conditions are met
                       opacity:
                         isBetting ||
-                        autobet ||
-                        totalMultiplier < 1.05 ||
-                        totalMultiplier > 5000.0
+                          autobet ||
+                          totalMultiplier < 1.05 ||
+                          totalMultiplier > 5000.0
                           ? 0.5
                           : 1, // Visual feedback for disabled state
                     }}
@@ -328,6 +324,7 @@ const Home = ({ shouldShowRotateImage }) => {
               totalMultiplier={totalMultiplier}
               setTotalMultiplier={setTotalMultiplier}
               setIconSrc={setIconSrc}
+              setShowBalance={setShowBalance}
               setResultData={setResultData}
               info={info}
               setInfo={setInfo}
@@ -360,18 +357,28 @@ const Home = ({ shouldShowRotateImage }) => {
               setAutobet={setAutobet}
               autobetTab={autobetTab}
               autobet={autobet}
+              queryParams={queryParams}
+              info={info}
             />
           </div>
-          <div className="">
-            {showBalance && (
-              <NotEnoughBalance
-                setShowBalance={setShowBalance}
-                showBalance={showBalance}
-              />
-            )}
-          </div>
         </div>
+
       )}
+
+      {showBalance && (
+        <NotEnoughBalance
+          setShowBalance={setShowBalance}
+          showBalance={showBalance}
+        />
+      )}
+
+      {
+        errorModal && (
+          <ErrorModal error={error} setErrorModal={setErrorModal} />
+        )
+      }
+
+
     </>
   );
 };

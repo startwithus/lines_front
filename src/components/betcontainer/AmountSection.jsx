@@ -11,16 +11,12 @@ const AmountSection = ({
   autobet,
   setAutobet,
   totalMultiplier,
-  setisRefrece,
-  setStatusData,
-  setIconSrc,
-  setResultData,
-  setInfo,
+  setShowBalance,
   info,
 }) => {
   const { sound } = useContext(SoundContext);
   const MIN_AMOUNT = 10;
-  const MAX_AMOUNT = 10000;
+  const MAX_AMOUNT = Math.min(info.balance, 10000.00);
   const autoBetInterval = useRef(null);
   const disableMin =
     Number(amount) === MIN_AMOUNT ||
@@ -46,6 +42,9 @@ const AmountSection = ({
     }
   }, [autobet, handlePlacebet]);
   const handleStart = () => {
+    if (+amount > info.balance || +amount === 0) {
+      return setShowBalance(true);
+    }
     if (autobetTab === 1) {
       setAutobet(true);
     }

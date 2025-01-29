@@ -141,19 +141,17 @@ const GameInfo = ({ toggleModal }) => {
               button.
             </p>
 
-            <h2>ADVANCED AUTOPLAY SETTING</h2>
+            <h2>Win button</h2>
             <p>
-              The Advanced Autoplay settings allow the player to set number of
-              plays, total session lost limit and single win limit. The autoplay
-              feature will stop when any of the selected limits are exceeded.
+             Maximum 
             </p>
 
-            <h2>TURBO PLAY</h2>
+            {/* <h2>TURBO PLAY</h2>
             <p>
               The Turbo Play functionality is used to get the fastest game round
               possible (not available on all operators and jurisdictions). Turbo
               Play is activated from the menu.
-            </p>
+            </p> */}
           </div>
 
           <div className="about-game">
