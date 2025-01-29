@@ -33,7 +33,6 @@ const MultiplierProgress = ({
 
   const handleMouseDown = (index) => {
     setActiveSliderIndex(index);
-
     setResultData(false);
   };
 
@@ -76,10 +75,7 @@ const MultiplierProgress = ({
     setTotalMultiplier(newTotalMultiplier);
     setResultData(false);
   };
-  const buttonStyle = (disabled) => ({
-    cursor: disabled ? "not-allowed" : "pointer",
-    opacity: disabled ? 0.5 : 1,
-  });
+
   const renderSlider = (value, index) => {
     const isActive = activeSliderIndex === index;
 
@@ -91,7 +87,7 @@ const MultiplierProgress = ({
     // } else if (index === 2 && thirdResult) {
     //   resultWidth = `${thirdResult}%`;
     // }
-    let resultWidth = "0";
+    let resultWidth = "";
 
     if (index === 0 && firstResult !== undefined && firstResult !== null) {
       resultWidth = `${firstResult}%`;
@@ -176,21 +172,38 @@ const MultiplierProgress = ({
                   min="2"
                   max="98"
                   value={value}
-                  onMouseDown={() => handleMouseDown(index)}
-                  onMouseUp={handleMouseUp}
-                  onChange={(e) => handleSliderChange(index, e)}
-                  // className="slider"
-                  className={`slider ${isActive ? "active" : ""}`}
+                  onMouseDown={
+                    autobet ? undefined : () => handleMouseDown(index)
+                  }
+                  onMouseUp={autobet ? undefined : handleMouseUp}
+                  onChange={
+                    autobet ? undefined : (e) => handleSliderChange(index, e)
+                  }
+                  className={`slider ${isActive ? "active" : ""} ${
+                    autobet ? "disabled" : ""
+                  }`}
                 />
               </div>
-              <div className="img-active" disabled={autobet} style={{}}>
-                <img
+              <div className="img-active">
+                {/* <img
                   src={isActive ? icon.scrollBar : icon.misc}
                   alt="Slider Thumb"
                   className="slider-thumb"
                   style={{
                     left: `calc(${value}% - 10px) `,
                   }}
+                /> */}
+                <img
+                  src={isActive ? icon.scrollBar : icon.misc}
+                  alt="Slider Thumb"
+                  className="slider-thumb"
+                  style={{
+                    left: `calc(${value}% - 10px)`,
+                  }}
+                  onMouseDown={() => setIsActive(true)}
+                  onMouseUp={() => setIsActive(false)}
+                  onTouchStart={() => setIsActive(true)}
+                  onTouchEnd={() => setIsActive(false)}
                 />
               </div>
               <>
@@ -204,11 +217,10 @@ const MultiplierProgress = ({
                         parseFloat(resultWidth.replace("%", "")) < value
                           ? "-1px -1px 0 red, 1px -1px 0 red, -0px 2px 1px red, 1px 1px 0 red"
                           : "-1px -1px 0 #4ace4a, 1px -1px 0 #4ace4a, -0px 2px 1px #4ace4a, 1px 1px 0 #4ace4a",
-
                       color: "black", // Text color
                     }}
                   >
-                    {resultWidth.replace("%", "")}
+                    {resultWidth.replace("%", "").replace(/^0+/, "")}
                   </div>
                 )}
               </>

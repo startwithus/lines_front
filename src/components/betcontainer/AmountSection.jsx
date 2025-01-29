@@ -15,6 +15,8 @@ const AmountSection = ({
   setStatusData,
   setIconSrc,
   setResultData,
+  setInfo,
+  info,
 }) => {
   const { sound } = useContext(SoundContext);
   const MIN_AMOUNT = 10;

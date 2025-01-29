@@ -23,6 +23,7 @@ import crossIcon from "../assests/misc-6.png";
 import turboIcon from "../assests/image 9.png";
 import unknownTurbo from "../assests/image 10.png";
 import homeIcon from "../assests/home.png";
+import rotate from "../assests/4.webp";
 export const icon = {
   liner: liner,
   linerTwo: linerTwo,
@@ -49,4 +50,5 @@ export const icon = {
   turboIcon: turboIcon,
   unknownTurbo: unknownTurbo,
   homeIcon: homeIcon,
+  rotate: rotate,
 };
