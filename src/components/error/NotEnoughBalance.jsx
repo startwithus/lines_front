@@ -7,7 +7,7 @@ const NotEnoughBalance = ({ setShowBalance, showBalance, amount }) => {
     if (showBalance) {
       timer = setTimeout(() => {
         setShowBalance(false);
-      }, 2000);
+      }, 3000);
     }
     return () => {
       clearTimeout(timer);
@@ -17,7 +17,7 @@ const NotEnoughBalance = ({ setShowBalance, showBalance, amount }) => {
     <div className="error-modal">
       <div className="modal-content-error">
         <p className="session-para">
-          {+amount === 0 ? "Can't set bet amount 0" : "Not Enough Balance"}
+          {+amount === 0 ? "Can't set bet amount 0" : "Not enough balance"}
         </p>
 
         <button

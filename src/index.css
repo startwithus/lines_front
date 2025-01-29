@@ -127,7 +127,7 @@ body {
   background-color: var(--hg-bg-primary);
 }
 .manual-side-container {
-  height: 63%;
+  height: 375px;
   background: var(--hg-bg-user-panel);
   margin: 0 0.5em;
   padding: 0.5em;
@@ -207,9 +207,12 @@ body {
   transition: background-color 0.3s; /* Smooth transition effect */
 }
 
-.btn-bet:hover {
+/* .btn-bet:hover {
   background-color: var(--hg-btn-disabled-bg);
 }
+.btn-bet:hover {
+  background-color: var(--hg-btn-disabled-bg);
+} */
 
 .direction-icnon {
   cursor: pointer;
@@ -224,7 +227,7 @@ body {
   width: 75%;
   padding: 1rem 1rem 1rem 0.5rem;
   /* height: 579px; */
-  height: 582px;
+  height: 585px;
   border-radius: 0.25rem;
 
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
@@ -425,49 +428,63 @@ body {
   font-size: 16px; /* Adjust as needed */
   text-shadow: 0 0 5px rgba(0, 0, 0, 0.5); /* Optional for better visibility */
 }
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+}
 
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  background-color: transparent;
+  border: none;
+}
+
+input[type="range"]::-moz-range-thumb {
+  background-color: transparent;
+  border: none;
+}
 .crossIcon img {
   width: 40px;
   margin-left: -3rem;
 }
-.zoom-in-out-element {
-  animation: zoom-in-zoom-out 1s ease infinite;
+
+.zoom-in-out-border {
+  animation: zoomOutWithShadow 0.5s ease-out; /* Zoom-out animation */
 }
 
-@keyframes zoom-in-zoom-out {
+@keyframes zoomOutWithShadow {
   0% {
-    transform: scale(50%);
-    box-shadow: 0 0 8px rgba(0, 255, 0, 0.5);
+    border-width: 6px;
+    border-color: green;
+    box-shadow: 0 0 25px green; /* Initial larger shadow */
+    transform: scale(1); /* Start at normal size */
   }
   50% {
-    transform: scale(100%);
-    box-shadow: 0 0 16px rgba(0, 255, 0, 0.7);
+    border-width: 4px;
+    border-color: rgba(0, 128, 0, 0.8); /* Slightly lighter green */
+    box-shadow: 0 0 15px rgba(0, 128, 0, 0.5); /* Reduce shadow intensity */
+    transform: scale(0.95); /* Slight zoom-out */
   }
   100% {
-    transform: scale(50%);
-    box-shadow: 0 0 8px rgba(0, 255, 0, 0.5);
+    border-width: 2px;
+    border-color: green;
+    box-shadow: 0 0 5px green; /* Subtle shadow at the end */
+    transform: scale(0.9); /* Final zoom-out */
   }
 }
 
 .bounce {
-  animation: bounce 0.6s ease-in-out;
+  animation: bounceEffect 0.5s ease-in-out infinite; /* Bounce effect */
 }
 
-@keyframes bounce {
-  0% {
-    transform: scale(1);
-  }
-  30% {
-    transform: scale(1.2);
+@keyframes bounceEffect {
+  0%,
+  100% {
+    transform: translateY(0); /* Default position */
   }
   50% {
-    transform: scale(0.9);
-  }
-  70% {
-    transform: scale(1.1);
-  }
-  100% {
-    transform: scale(1);
+    transform: translateY(-10px); /* Move up slightly */
   }
 }
 
@@ -499,6 +516,7 @@ body {
     /* flex-basis: 74%; */
     height: 81%;
     width: 100%;
+    padding: 0.5rem;
   }
 
   .manual-side-container {
@@ -514,12 +532,32 @@ body {
   .tringle-container {
     width: auto;
   }
-  .btn-bet:hover {
-    background-color: none;
+
+  .slider-thumb {
+    height: 22px;
+  }
+  .plus-section img {
+    margin: auto;
+  }
+  .plus-section h1 {
+    font-size: 12px;
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 1024px) {
+  /* .show-bet-graph-container {
+    flex-basis: 74%;
+    height: 93%;
+  } */
+
+  /* .manual-btn {
+    max-width: 150px;
+  } */
+  /* .manual-side-container {
+    height: 572px;
+  } */
+}
+@media (max-width: 376px) {
   .current-value-progress {
     margin: 0%;
   }
@@ -534,9 +572,11 @@ body {
     color: #fff;
     font-size: 10px;
     font-weight: 600;
-    /* width: 100%; */
   }
   .value-sticky {
     font-size: 8px;
+  }
+  .add-section {
+    margin-top: 0.2rem;
   }
 }

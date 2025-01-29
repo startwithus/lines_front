@@ -92,6 +92,7 @@ const AmountSection = ({
     if (sound) {
       playButtonSound();
     }
+
     let numericValue = parseFloat(amount);
     if (isNaN(numericValue) || amount === "") {
       numericValue = MIN_AMOUNT;
@@ -176,14 +177,14 @@ const AmountSection = ({
                     opacity:
                       totalMultiplier < 1.05 || totalMultiplier > 5000.0
                         ? 0.5
-                        : 1, // Visual feedback for disabled state
+                        : 1,
                   }}
                   onClick={() => {
                     if (totalMultiplier >= 1.05 && totalMultiplier <= 5000.0) {
-                      handleStop(); // Call handleStop only if conditions are met
+                      handleStop();
                     }
                   }}
-                  disabled={totalMultiplier < 1.05 || totalMultiplier > 5000.0} // Disable button when conditions are not met
+                  disabled={totalMultiplier < 1.05 || totalMultiplier > 5000.0}
                 >
                   STOP AUTOPLAY
                 </button>

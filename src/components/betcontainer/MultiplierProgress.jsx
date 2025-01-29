@@ -24,6 +24,7 @@ const MultiplierProgress = ({
   setResultData,
   isTurbo,
   autobet,
+  autobetTab,
 }) => {
   const [isActive, setIsActive] = useState(false);
   const [activeSliderIndex, setActiveSliderIndex] = useState(null);
@@ -75,7 +76,10 @@ const MultiplierProgress = ({
     setTotalMultiplier(newTotalMultiplier);
     setResultData(false);
   };
-
+  const buttonStyle = (disabled) => ({
+    cursor: disabled ? "not-allowed" : "pointer",
+    opacity: disabled ? 0.5 : 1,
+  });
   const renderSlider = (value, index) => {
     const isActive = activeSliderIndex === index;
 
@@ -115,21 +119,12 @@ const MultiplierProgress = ({
                 left: `calc(${value}% - ${value > 50 ? "100px" : "25px"})`,
               }}
             >
-              <span className="multi-img">
+              <span className={`multi-img ${statusData ? "zoom-out-border" : ""}`}>
                 <img
                   src={iconSrc}
                   alt=""
-                  // className={statusData ? "zoom-in-out-element" : ""}
+                  className="icon"
                 />
-                {/* <img
-                  src={
-                    totalMultiplier < 1.05 || totalMultiplier > 5000.0
-                      ? icon.group2
-                      : icon.groupA
-                  }
-                  alt="Icon"
-                  className={isZoomOut ? "zoom-in-out-element" : ""}
-                /> */}
               </span>
               <p
                 className={`xvalue ${triggerBounce ? "bounce" : ""}`}
@@ -185,24 +180,25 @@ const MultiplierProgress = ({
                   onMouseUp={handleMouseUp}
                   onChange={(e) => handleSliderChange(index, e)}
                   // className="slider"
-                  className={`slider ${isActive ? "active" : ""}`} // Add "active" if isActive is true
+                  className={`slider ${isActive ? "active" : ""}`}
                 />
               </div>
-
-              <img
-                src={isActive ? icon.scrollBar : icon.misc}
-                alt="Slider Thumb"
-                className="slider-thumb"
-                style={{
-                  left: `calc(${value}% - 10px)`,
-                }}
-              />
+              <div className="img-active" disabled={autobet} style={{}}>
+                <img
+                  src={isActive ? icon.scrollBar : icon.misc}
+                  alt="Slider Thumb"
+                  className="slider-thumb"
+                  style={{
+                    left: `calc(${value}% - 10px) `,
+                  }}
+                />
+              </div>
               <>
                 {isbno && (
                   <div
                     className="white-value-no"
                     style={{
-                      left: `calc(${resultWidth} - 0px)`,
+                      left: "48%",
                       transition: "left 0.3s ease-out",
                       textShadow:
                         parseFloat(resultWidth.replace("%", "")) < value

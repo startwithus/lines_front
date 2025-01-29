@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { formatBalance } from "../utility/helper";
 
 const BalanceWinAmount = ({
@@ -11,16 +11,16 @@ const BalanceWinAmount = ({
   const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
-    if (statusData) {
+    if (statusData === true) {
       setShowPopup(true);
 
-      // Automatically hide the popup after 2 seconds
       const timer = setTimeout(() => {
         setShowPopup(false);
-      }, 1000);
+      }, 2000);
 
-      // Cleanup the timer on component unmount or if statusData changes
       return () => clearTimeout(timer);
+    } else {
+      setShowPopup(false);
     }
   }, [statusData]);
 
@@ -36,6 +36,7 @@ const BalanceWinAmount = ({
         <div className="balance-info">
           <div>
             <p
+              className=""
               style={{
                 fontSize: "10px",
                 color: "#e9ecef",
