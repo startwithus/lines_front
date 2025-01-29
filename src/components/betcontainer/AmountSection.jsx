@@ -29,7 +29,8 @@ const AmountSection = ({
   const disableMax =
     Number(amount) === MAX_AMOUNT ||
     totalMultiplier < 1.05 ||
-    totalMultiplier > 5000.0;
+    totalMultiplier > 5000.0 ||
+    info.balance < 10;
   const disableBet =
     isBetting || totalMultiplier < 1.05 || totalMultiplier > 5000.0;
 

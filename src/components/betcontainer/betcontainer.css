@@ -316,14 +316,14 @@
     margin-top: 0.2rem;
   }
   .lines-container {
-    height: 30%;
+    height: 35%;
   }
   .current-value-progress {
-    margin: 10px 0;
+    margin: 11px 0;
   }
   .slider-wrapper {
     width: 90%;
-    margin-top: 5px;
+    margin-top: 6px;
   }
   .cross-first,
   .cross-second {

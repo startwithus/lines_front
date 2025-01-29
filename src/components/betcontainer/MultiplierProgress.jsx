@@ -4,6 +4,7 @@ import { getMaxMult } from "../../utility/helper";
 import { icon } from "../../utility/icon";
 import { SoundContext } from "../../context/SoundContext";
 import { playClickSound } from "../../utility/gameSettings";
+
 // import { playButtonSound } from '../../utility/gameSettings
 
 const MultiplierProgress = ({
@@ -236,7 +237,7 @@ const MultiplierProgress = ({
           </div>
 
           <div className="" style={{ position: "relative" }}>
-            {index === 1 && sliders.length === 2 && !isBetting && (
+            {index === 1 && sliders.length === 2 && !isBetting && !autobet && (
               <img
                 className="cross-first"
                 src={icon.crossIcon}
@@ -245,7 +246,7 @@ const MultiplierProgress = ({
               />
             )}
 
-            {index === 2 && sliders.length > 2 && !isBetting && (
+            {index === 2 && sliders.length > 2 && !isBetting && !autobet && (
               <img
                 className="cross-second"
                 src={icon.crossIcon}
@@ -280,7 +281,8 @@ const MultiplierProgress = ({
 
         <div className="add-section">
           {sliders.length < 3 &&
-            !isBetting && ( // Only show this section if not betting
+            !isBetting &&
+            !autobet && ( // Only show this section if not betting
               <div className="plus-section" onClick={handleAddSlider}>
                 <div>
                   <div>
