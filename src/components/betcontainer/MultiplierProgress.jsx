@@ -192,7 +192,6 @@ const MultiplierProgress = ({
                   }`}
                   style={{
                     cursor: autobet ? "not-allowed" : "pointer",
-                    opacity: autobet ? 0.5 : 1,
                   }}
                 />
               </div>
@@ -204,7 +203,6 @@ const MultiplierProgress = ({
                   style={{
                     left: `calc(${value}% - 10px)`,
                     cursor: autobet ? "not-allowed" : "pointer",
-                    opacity: autobet ? 0.5 : 1,
                   }}
                   onMouseDown={() => !autobet && setIsActive(true)}
                   onMouseUp={() => !autobet && setIsActive(false)}

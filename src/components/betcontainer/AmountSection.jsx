@@ -11,6 +11,7 @@ const AmountSection = ({
   autobet,
   setAutobet,
   totalMultiplier,
+  setShowBalance,
   info,
 }) => {
   const { sound } = useContext(SoundContext);
@@ -41,7 +42,11 @@ const AmountSection = ({
       clearInterval(autoBetInterval.current);
     }
   }, [autobet, handlePlacebet]);
+
   const handleStart = () => {
+    if (+amount > info.balance || +amount === 0) {
+      return setShowBalance(true);
+    }
     if (autobetTab === 1) {
       setAutobet(true);
     }

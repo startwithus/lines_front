@@ -127,7 +127,7 @@ body {
   background-color: var(--hg-bg-primary);
 }
 .manual-side-container {
-  height: 371px;
+  height: 370px;
   background: var(--hg-bg-user-panel);
   margin: 0 0.5em;
   padding: 0.5em;
@@ -314,7 +314,7 @@ body {
   height: 30px;
   border-radius: 0.5rem;
   /* background: #001a4d; */
-  cursor: pointer;
+
   /* border: 2px solid black; */
   pointer-events: auto;
 }
