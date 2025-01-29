@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react";
-import io from "socket.io-client";
 import { getMaxMult } from "../../utility/helper";
 import { icon } from "../../utility/icon";
 import { SoundContext } from "../../context/SoundContext";
@@ -25,7 +24,6 @@ const MultiplierProgress = ({
   setResultData,
   isTurbo,
   autobet,
-  autobetTab,
 }) => {
   const [isActive, setIsActive] = useState(false);
   const [activeSliderIndex, setActiveSliderIndex] = useState(null);

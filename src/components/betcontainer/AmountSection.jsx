@@ -11,11 +11,6 @@ const AmountSection = ({
   autobet,
   setAutobet,
   totalMultiplier,
-  setisRefrece,
-  setStatusData,
-  setIconSrc,
-  setResultData,
-  setInfo,
   info,
 }) => {
   const { sound } = useContext(SoundContext);

@@ -328,10 +328,8 @@ const Home = ({ shouldShowRotateImage }) => {
             <BalanceWinAmount
               info={info}
               resultData={resultData}
-              isBetting={isBetting}
               statusData={statusData}
               setStatusData={setStatusData}
-              showBalance={showBalance}
             />
             <AmountSection
               handlePlacebet={handlePlaceBet}
@@ -343,10 +341,7 @@ const Home = ({ shouldShowRotateImage }) => {
               autobet={autobet}
               totalMultiplier={totalMultiplier}
               setTotalMultiplier={setTotalMultiplier}
-              setIconSrc={setIconSrc}
-              setResultData={setResultData}
               info={info}
-              setInfo={setInfo}
             />
             <div className="main-navbar-container">
               <NavbarContainer
@@ -374,7 +369,6 @@ const Home = ({ shouldShowRotateImage }) => {
               setResultData={setResultData}
               isTurbo={isTurbo}
               setAutobet={setAutobet}
-              autobetTab={autobetTab}
               autobet={autobet}
             />
           </div>

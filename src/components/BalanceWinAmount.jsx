@@ -1,13 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { formatBalance } from "../utility/helper";
 
-const BalanceWinAmount = ({
-  info,
-  resultData,
-  isBetting,
-  statusData,
-  showBalance,
-}) => {
+const BalanceWinAmount = ({ info, resultData, statusData }) => {
   const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
