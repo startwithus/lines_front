@@ -35,6 +35,35 @@ const AmountSection = ({
     opacity: disabled ? 0.5 : 1,
   });
   useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        setAutobet(false);
+        clearInterval(autoBetInterval.current);
+      }
+    };
+
+    const handleBeforeUnload = () => {
+      setAutobet(false);
+      clearInterval(autoBetInterval.current);
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    if (autobet) {
+      clearInterval(autoBetInterval.current);
+      autoBetInterval.current = setInterval(() => handlePlacebet(), 1500);
+    } else {
+      clearInterval(autoBetInterval.current);
+    }
+
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+      clearInterval(autoBetInterval.current);
+    };
+  }, [autobet, handlePlacebet]);
+  useEffect(() => {
     if (autobet) {
       clearInterval(autoBetInterval.current);
       autoBetInterval.current = setInterval(() => handlePlacebet(), 1500);

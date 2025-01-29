@@ -541,7 +541,7 @@ input[type="range"]::-moz-range-thumb {
     margin: 5px 0;
   }
   .lines-section {
-    margin-top: 1rem;
+    margin-top: 0.4rem;
   }
 }
 
@@ -557,29 +557,4 @@ input[type="range"]::-moz-range-thumb {
   /* .manual-side-container {
     height: 572px;
   } */
-}
-@media (max-width: 376px) {
-  .current-value-progress {
-    margin: 0%;
-  }
-  .show-bet-graph-container {
-    padding: 0px;
-  }
-  .multi-img img {
-    height: 35px;
-  }
-  .slider-scale {
-    margin: 0.2rem 6px;
-    color: #fff;
-    font-size: 10px;
-    font-weight: 600;
-  }
-  .value-sticky {
-    font-size: 8px;
-  }
-  .add-section {
-  }
-  .lines-section {
-    margin-top: 2px;
-  }
 }

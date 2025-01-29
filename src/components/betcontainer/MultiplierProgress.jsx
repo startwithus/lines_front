@@ -44,7 +44,7 @@ const MultiplierProgress = ({
     const value = Math.max(2, Math.min(98, parseInt(e.target.value, 10))); // Clamp value between 2 and 98
     const updatedSliders = [...sliders];
     updatedSliders[index] = value;
-
+    setResultData(false);
     const newTotalMultiplier = getMaxMult(updatedSliders);
 
     setSliders(updatedSliders);
