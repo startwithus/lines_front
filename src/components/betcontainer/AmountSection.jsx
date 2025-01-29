@@ -20,7 +20,7 @@ const AmountSection = ({
 }) => {
   const { sound } = useContext(SoundContext);
   const MIN_AMOUNT = 10;
-  const MAX_AMOUNT = 10000;
+  const MAX_AMOUNT = Math.min(info.balance, 10000.0);
   const autoBetInterval = useRef(null);
   const disableMin =
     Number(amount) === MIN_AMOUNT ||

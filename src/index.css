@@ -127,7 +127,7 @@ body {
   background-color: var(--hg-bg-primary);
 }
 .manual-side-container {
-  height: 375px;
+  height: 371px;
   background: var(--hg-bg-user-panel);
   margin: 0 0.5em;
   padding: 0.5em;
@@ -227,7 +227,7 @@ body {
   width: 75%;
   padding: 1rem 1rem 1rem 0.5rem;
   /* height: 579px; */
-  height: 585px;
+  height: 582px;
   border-radius: 0.25rem;
 
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
@@ -448,25 +448,30 @@ input[type="range"]::-moz-range-thumb {
   width: 40px;
   margin-left: -3rem;
 }
-.zoom-in-out-element {
-  animation: zoom-in-zoom-out 1s ease infinite;
+.zoom-in-out-border {
+  animation: zoomOutWithShadow 0.5s ease-out;
 }
 
-@keyframes zoom-in-zoom-out {
+@keyframes zoomOutWithShadow {
   0% {
-    transform: scale(50%);
-    box-shadow: 0 0 8px rgba(0, 255, 0, 0.5);
+    border-width: 6px;
+    border-color: green;
+    box-shadow: 0 0 25px green;
+    transform: scale(1);
   }
   50% {
-    transform: scale(100%);
-    box-shadow: 0 0 16px rgba(0, 255, 0, 0.7);
+    border-width: 4px;
+    border-color: rgba(0, 128, 0, 0.8);
+    box-shadow: 0 0 15px rgba(0, 128, 0, 0.5);
+    transform: scale(0.95);
   }
   100% {
-    transform: scale(50%);
-    box-shadow: 0 0 8px rgba(0, 255, 0, 0.5);
+    border-width: 2px;
+    border-color: green;
+    box-shadow: 0 0 5px green;
+    transform: scale(0.9);
   }
 }
-
 .bounce {
   animation: bounce 0.6s ease-in-out;
 }

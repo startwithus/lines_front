@@ -119,7 +119,7 @@ const MultiplierProgress = ({
                 <img
                   src={iconSrc}
                   alt=""
-                  // className={statusData ? "zoom-in-out-element" : ""}
+                  className={statusData ? "zoom-in-out-border" : ""}
                 />
                 {/* <img
                   src={
@@ -191,30 +191,29 @@ const MultiplierProgress = ({
                   className={`slider ${isActive ? "active" : ""} ${
                     autobet ? "disabled" : ""
                   }`}
+                  style={{
+                    cursor: autobet ? "not-allowed" : "pointer",
+                    opacity: autobet ? 0.5 : 1,
+                  }}
                 />
               </div>
               <div className="img-active">
-                {/* <img
-                  src={isActive ? icon.scrollBar : icon.misc}
-                  alt="Slider Thumb"
-                  className="slider-thumb"
-                  style={{
-                    left: `calc(${value}% - 10px) `,
-                  }}
-                /> */}
                 <img
                   src={isActive ? icon.scrollBar : icon.misc}
                   alt="Slider Thumb"
                   className="slider-thumb"
                   style={{
                     left: `calc(${value}% - 10px)`,
+                    cursor: autobet ? "not-allowed" : "pointer",
+                    opacity: autobet ? 0.5 : 1,
                   }}
-                  onMouseDown={() => setIsActive(true)}
-                  onMouseUp={() => setIsActive(false)}
-                  onTouchStart={() => setIsActive(true)}
-                  onTouchEnd={() => setIsActive(false)}
+                  onMouseDown={() => !autobet && setIsActive(true)}
+                  onMouseUp={() => !autobet && setIsActive(false)}
+                  onTouchStart={() => !autobet && setIsActive(true)}
+                  onTouchEnd={() => !autobet && setIsActive(false)}
                 />
               </div>
+
               <>
                 {isbno && (
                   <div
