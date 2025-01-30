@@ -2,6 +2,7 @@ import React, { use, useContext, useEffect, useRef, useState } from "react";
 import { icon } from "../../utility/icon";
 import { SoundContext } from "../../context/SoundContext";
 import { playButtonSound } from "../../utility/gameSettings";
+
 const AmountSection = ({
   handlePlacebet,
   amount,
@@ -85,20 +86,28 @@ const AmountSection = ({
       setAutobet(false);
     }
   };
+
   const getIncrement = (currentValue) => {
-    if (currentValue >= 10 && currentValue < 100) {
-      return 10;
-    } else if (currentValue >= 100 && currentValue < 1000) {
-      return 100;
-    } else if (currentValue >= 1000) {
-      return 2000; // Double the value
-    }
-    return MIN_AMOUNT; // Default increment
+    if (currentValue >= 10 && currentValue < 50) return 5;
+    if (currentValue >= 50 && currentValue < 100) return 10;
+    if (currentValue >= 100 && currentValue < 500) return 50;
+    if (currentValue >= 500 && currentValue < 1000) return 100;
+    if (currentValue >= 1000 && currentValue < 5000) return 500;
+    if (currentValue >= 5000 && currentValue <= 10000) return 1000;
+    return MIN_AMOUNT;
+  };
+
+  const getDecrement = (currentValue) => {
+    if (currentValue > 5000) return 1000;
+    if (currentValue > 1000) return 500;
+    if (currentValue > 500) return 100;
+    if (currentValue > 100) return 50;
+    if (currentValue > 50) return 10;
+    if (currentValue > 10) return 5;
+    return MIN_AMOUNT;
   };
 
   const showIntermediateValue = (start, end, setFinalValue) => {
-    const midpoint = (start + end) / 2;
-    setAmount(midpoint.toFixed(2));
     setTimeout(() => {
       setFinalValue(end.toFixed(2));
     }, 200);
@@ -112,7 +121,7 @@ const AmountSection = ({
     if (isNaN(numericValue) || amount === "") {
       numericValue = MIN_AMOUNT;
     } else if (numericValue > MIN_AMOUNT) {
-      const decrement = getIncrement(numericValue) / 2;
+      const decrement = getDecrement(numericValue);
       const targetValue = Math.max(numericValue - decrement, MIN_AMOUNT);
       showIntermediateValue(numericValue, targetValue, setAmount);
     } else {

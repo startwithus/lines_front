@@ -135,25 +135,23 @@ const GameInfo = ({ toggleModal }) => {
             <h2>AUTOPLAY</h2>
             <p>
               Using Autoplay will let you play a number of game rounds
-              automatically. Press the AUTOPLAY button and choose a number of
-              game rounds to initiate this feature. The remaining number of
-              spins is displayed. Autoplay is stopped by pressing the STOP
+              automatically. Press the AUTOPLAY button to initiate this feature. Autoplay is stopped by pressing the STOP
               button.
             </p>
 
-            <h2>ADVANCED AUTOPLAY SETTING</h2>
+            {/* <h2>ADVANCED AUTOPLAY SETTING</h2>
             <p>
               The Advanced Autoplay settings allow the player to set number of
               plays, total session lost limit and single win limit. The autoplay
               feature will stop when any of the selected limits are exceeded.
-            </p>
+            </p> */}
 
-            <h2>TURBO PLAY</h2>
+            {/* <h2>TURBO PLAY</h2>
             <p>
               The Turbo Play functionality is used to get the fastest game round
               possible (not available on all operators and jurisdictions). Turbo
               Play is activated from the menu.
-            </p>
+            </p> */}
           </div>
 
           <div className="about-game">

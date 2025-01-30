@@ -289,9 +289,7 @@
   color: #fff;
   margin-top: 6px;
 }
-
-
-@media screen and  (max-width: 420px) {
+@media (max-width: 376px) {
   .lines-container {
     height: 30px;
   }
