@@ -14,7 +14,7 @@ import { Link } from "react-router-dom";
 const NavbarContainer = ({ queryParams, isTurbo, setIsTurbo }) => {
   const [isSoundOn, setIsSoundOn] = useState(false);
   const [isMusicOn, setIsMusicOn] = useState(false);
-  const [isMusicDisabled, setIsMusicDisabled] = useState(false);
+  const [isMusicDisabled, setIsMusicDisabled] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showLobbyModal, setShowLobbyModal] = useState(false);
   const { sound, setSound, music, setMusic } = useContext(SoundContext);
@@ -167,7 +167,7 @@ const NavbarContainer = ({ queryParams, isTurbo, setIsTurbo }) => {
                 Cancel
               </button>
               <Link
-                to={`https://lobby.unicon.vip/?id=${queryParams.id}`}
+                to={`https://lobbydesign.ayodhya365.co/?id=${queryParams.id}`}
                 className="btn-text btn-confirm"
                 onClick={handleLobbyNavigation}
               >
