@@ -151,9 +151,9 @@ const GameInfo = ({ toggleModal }) => {
             <h1>ADDITIONAL INFORMATION</h1>
             <p>
               In addition to the features described here, the bar on the bottom
-              of the game screen displays the current balance in the chosen
-              currency, the amount paid if a win occurs, and the amount bet on
-              the last/current proposition.
+              of the game screen displays the current balance , the amount paid
+              if a win occurs, and the amount bet on the last/current
+              proposition.
             </p>
           </div>
         </div>
