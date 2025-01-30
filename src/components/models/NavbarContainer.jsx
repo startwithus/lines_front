@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { icon } from "../../utility/icon";
 import "../models/model.css";
 import GameInfo from "./GameInfo";
@@ -12,17 +12,24 @@ import {
 import { Link } from "react-router-dom";
 
 const NavbarContainer = ({ queryParams, isTurbo, setIsTurbo }) => {
-  const [isSoundOn, setIsSoundOn] = useState(false);
-  const [isMusicOn, setIsMusicOn] = useState(false);
-  const [isMusicDisabled, setIsMusicDisabled] = useState(true);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [showLobbyModal, setShowLobbyModal] = useState(false);
   const { sound, setSound, music, setMusic } = useContext(SoundContext);
 
-  // Toggle Turbo mode
-  const toggleTurbo = () => {
-    setIsTurbo((prev) => !prev);
-  };
+  const [isSoundOn, setIsSoundOn] = useState(
+    localStorage.getItem("sound") === "true"
+  );
+  const [isMusicOn, setIsMusicOn] = useState(
+    localStorage.getItem("music") === "true"
+  );
+  const [isMusicDisabled, setIsMusicDisabled] = useState(
+    localStorage.getItem("sound") !== "true"
+  );
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showLobbyModal, setShowLobbyModal] = useState(false);
+
+  useEffect(() => {
+    localStorage.setItem("sound", isSoundOn);
+    localStorage.setItem("music", isMusicOn);
+  }, [isSoundOn, isMusicOn]);
 
   const toggleSound = () => {
     const newSoundState = !isSoundOn;
@@ -71,12 +78,6 @@ const NavbarContainer = ({ queryParams, isTurbo, setIsTurbo }) => {
     }
   };
 
-  const toggleInfoModal = () => setIsModalOpen((prev) => !prev);
-
-  const handleLobbyNavigation = () => {
-    setShowLobbyModal(false);
-  };
-
   return (
     <div className="main-navbar">
       <ul className="MainNavbar__list">
@@ -117,22 +118,9 @@ const NavbarContainer = ({ queryParams, isTurbo, setIsTurbo }) => {
           <span className="sound-text">MUSIC</span>
         </li>
 
-        {/* Turbo Button */}
-        {/* <li
-          className="MainNavbar__item"
-          onClick={toggleTurbo}
-          style={{ cursor: "pointer" }}
-        >
-          <img
-            src={isTurbo ? icon.turboIcon : icon.unknownTurbo} // Conditional rendering of the image
-            alt={isTurbo ? "Turbo Icon" : "Unknown Turbo Icon"}
-          />
-          <span className="sound-text">TURBO</span>
-        </li> */}
-
         <li
           className="MainNavbar__item"
-          onClick={toggleInfoModal}
+          onClick={() => setIsModalOpen((prev) => !prev)}
           style={{ cursor: "pointer" }}
         >
           <img src={icon.infoIcon} alt="Info Icon" />
@@ -151,7 +139,7 @@ const NavbarContainer = ({ queryParams, isTurbo, setIsTurbo }) => {
 
       {isModalOpen && (
         <div className="game-info-modal">
-          <GameInfo toggleModal={toggleInfoModal} />
+          <GameInfo toggleModal={() => setIsModalOpen(false)} />
         </div>
       )}
 
@@ -169,7 +157,7 @@ const NavbarContainer = ({ queryParams, isTurbo, setIsTurbo }) => {
               <Link
                 to={`https://lobbydesign.ayodhya365.co/?id=${queryParams.id}`}
                 className="btn-text btn-confirm"
-                onClick={handleLobbyNavigation}
+                onClick={() => setShowLobbyModal(false)}
               >
                 Confirm
               </Link>
