@@ -16,7 +16,7 @@ const AmountSection = ({
 }) => {
   const { sound } = useContext(SoundContext);
   const MIN_AMOUNT = 10;
-  const MAX_AMOUNT = Math.min(info.balance, 10000.00);
+  const MAX_AMOUNT = Math.min(info.balance, 10000.0);
   const autoBetInterval = useRef(null);
   const disableMin =
     Number(amount) === MIN_AMOUNT ||
@@ -25,7 +25,8 @@ const AmountSection = ({
   const disableMax =
     Number(amount) === MAX_AMOUNT ||
     totalMultiplier < 1.05 ||
-    totalMultiplier > 5000.0;
+    totalMultiplier > 5000.0 ||
+    info.balance < 10;
   const disableBet =
     isBetting || totalMultiplier < 1.05 || totalMultiplier > 5000.0;
 
@@ -34,6 +35,35 @@ const AmountSection = ({
     opacity: disabled ? 0.5 : 1,
   });
   useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        setAutobet(false);
+        clearInterval(autoBetInterval.current);
+      }
+    };
+
+    const handleBeforeUnload = () => {
+      setAutobet(false);
+      clearInterval(autoBetInterval.current);
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    if (autobet) {
+      clearInterval(autoBetInterval.current);
+      autoBetInterval.current = setInterval(() => handlePlacebet(), 1500);
+    } else {
+      clearInterval(autoBetInterval.current);
+    }
+
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+      clearInterval(autoBetInterval.current);
+    };
+  }, [autobet, handlePlacebet]);
+  useEffect(() => {
     if (autobet) {
       clearInterval(autoBetInterval.current);
       autoBetInterval.current = setInterval(() => handlePlacebet(), 1500);
@@ -41,6 +71,7 @@ const AmountSection = ({
       clearInterval(autoBetInterval.current);
     }
   }, [autobet, handlePlacebet]);
+
   const handleStart = () => {
     if (+amount > info.balance || +amount === 0) {
       return setShowBalance(true);

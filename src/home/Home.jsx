@@ -12,13 +12,13 @@ import { getMaxMult } from "../utility/helper";
 import { icon } from "../utility/icon";
 import { SoundContext } from "../context/SoundContext";
 import NotEnoughBalance from "../components/error/NotEnoughBalance";
+import ErrorModal from "../components/error/ErrorModal";
 import {
   playLossSound,
   playWinSound,
   playWhiteLine,
   pauseWhiteLine,
 } from "../utility/gameSettings";
-import ErrorModal from "../components/error/ErrorModal";
 
 const Home = ({ shouldShowRotateImage }) => {
   const location = useLocation();
@@ -47,9 +47,10 @@ const Home = ({ shouldShowRotateImage }) => {
   const [autobet, setAutobet] = useState(0);
   const { sound } = useContext(SoundContext);
   const [isTurbo, setIsTurbo] = useState(false); // Added Turbo state
-  const [errorModal, setErrorModal] = useState(false)
-  const [error, setError] = useState("")
+  const [errorModal, setErrorModal] = useState(false);
+  const [error, setError] = useState("");
   // Initial multiplier
+  console.log(sliders);
   let queryParams = {};
   try {
     queryParams = JSON.parse(
@@ -81,12 +82,28 @@ const Home = ({ shouldShowRotateImage }) => {
         console.log("Result", data);
         setResultData(data);
       });
-
       socketInstance.on("betError", (data) => {
         setError(data);
         setErrorModal(true);
       });
+      // const handleResult = (data) => {
+      //   try {
+      //     setResultData(data);
 
+      //     const winningRange = data.winningRange || [];
+      //     if (winningRange.length > 0) {
+      //       const updatedSliders = winningRange.map((value) =>
+      //         Math.max(2, Math.min(98, value))
+      //       );
+
+      //       setSliders(updatedSliders);
+      //     }
+      //   } catch (err) {
+      //     console.error(err);
+      //   }
+      // };
+
+      // socketInstance.on("result", handleResult);
       return () => {
         socketInstance.disconnect();
       };
@@ -94,7 +111,6 @@ const Home = ({ shouldShowRotateImage }) => {
       console.error("Invalid socket ID or game ID in query params.");
     }
   }, [queryParams.id]);
-
   useEffect(() => {
     if (errorModal) {
       const timer = setTimeout(() => {
@@ -104,7 +120,6 @@ const Home = ({ shouldShowRotateImage }) => {
       return () => clearTimeout(timer);
     }
   }, [errorModal]);
-
   useEffect(() => {
     if (resultData?.isWin === true) {
       if (sound) {
@@ -127,6 +142,21 @@ const Home = ({ shouldShowRotateImage }) => {
     }
   }, [resultData, totalMultiplier]);
 
+  // let firstResult;
+  // let secondResult;
+  // let thirdResult;
+
+  // if (resultData?.winningRange) {
+  //   firstResult = resultData?.winningRange?.[0] || [];
+  //   secondResult = resultData?.winningRange?.[1] || [];
+  //   thirdResult = resultData?.winningRange?.[2] || [];
+  // }
+  // Update results when resultData changes
+  // useEffect(() => {
+  //   setFirstResult(resultData?.winningRange?.[0] || 0);
+  //   setSecondResult(resultData?.winningRange?.[1] || 0);
+  //   setThirdResult(resultData?.winningRange?.[2] || 0);
+  // }, [resultData]);
   useEffect(() => {
     if (sound) {
       playWhiteLine();
@@ -308,10 +338,8 @@ const Home = ({ shouldShowRotateImage }) => {
             <BalanceWinAmount
               info={info}
               resultData={resultData}
-              isBetting={isBetting}
               statusData={statusData}
               setStatusData={setStatusData}
-              showBalance={showBalance}
             />
             <AmountSection
               handlePlacebet={handlePlaceBet}
@@ -323,11 +351,8 @@ const Home = ({ shouldShowRotateImage }) => {
               autobet={autobet}
               totalMultiplier={totalMultiplier}
               setTotalMultiplier={setTotalMultiplier}
-              setIconSrc={setIconSrc}
-              setShowBalance={setShowBalance}
-              setResultData={setResultData}
               info={info}
-              setInfo={setInfo}
+              setShowBalance={setShowBalance}
             />
             <div className="main-navbar-container">
               <NavbarContainer
@@ -355,14 +380,10 @@ const Home = ({ shouldShowRotateImage }) => {
               setResultData={setResultData}
               isTurbo={isTurbo}
               setAutobet={setAutobet}
-              autobetTab={autobetTab}
               autobet={autobet}
-              queryParams={queryParams}
-              info={info}
             />
           </div>
         </div>
-
       )}
 
       {showBalance && (
@@ -372,13 +393,7 @@ const Home = ({ shouldShowRotateImage }) => {
         />
       )}
 
-      {
-        errorModal && (
-          <ErrorModal error={error} setErrorModal={setErrorModal} />
-        )
-      }
-
-
+      {errorModal && <ErrorModal error={error} setErrorModal={setErrorModal} />}
     </>
   );
 };

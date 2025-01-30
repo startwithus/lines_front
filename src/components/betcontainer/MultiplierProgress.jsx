@@ -1,11 +1,10 @@
 import React, { useContext, useState } from "react";
-import io from "socket.io-client";
 import { getMaxMult } from "../../utility/helper";
 import { icon } from "../../utility/icon";
 import { SoundContext } from "../../context/SoundContext";
 import { playClickSound } from "../../utility/gameSettings";
+
 // import { playButtonSound } from '../../utility/gameSettings
-import MenuIcon from "./MenuIcon";
 
 const MultiplierProgress = ({
   sliders,
@@ -25,9 +24,6 @@ const MultiplierProgress = ({
   setResultData,
   isTurbo,
   autobet,
-  autobetTab,
-  queryParams,
-  info,
 }) => {
   const [isActive, setIsActive] = useState(false);
   const [activeSliderIndex, setActiveSliderIndex] = useState(null);
@@ -48,7 +44,7 @@ const MultiplierProgress = ({
     const value = Math.max(2, Math.min(98, parseInt(e.target.value, 10))); // Clamp value between 2 and 98
     const updatedSliders = [...sliders];
     updatedSliders[index] = value;
-
+    setResultData(false);
     const newTotalMultiplier = getMaxMult(updatedSliders);
 
     setSliders(updatedSliders);
@@ -118,12 +114,21 @@ const MultiplierProgress = ({
                 left: `calc(${value}% - ${value > 50 ? "100px" : "25px"})`,
               }}
             >
-              <span className={`multi-img ${statusData ? "zoom-in-out-border" : ""}`}>
+              <span className="multi-img">
                 <img
                   src={iconSrc}
                   alt=""
-                  className="icon"
+                  className={statusData ? "zoom-in-out-border" : ""}
                 />
+                {/* <img
+                  src={
+                    totalMultiplier < 1.05 || totalMultiplier > 5000.0
+                      ? icon.group2
+                      : icon.groupA
+                  }
+                  alt="Icon"
+                  className={isZoomOut ? "zoom-in-out-element" : ""}
+                /> */}
               </span>
               <p
                 className={`xvalue ${triggerBounce ? "bounce" : ""}`}
@@ -182,32 +187,30 @@ const MultiplierProgress = ({
                   onChange={
                     autobet ? undefined : (e) => handleSliderChange(index, e)
                   }
-                  className={`slider ${isActive ? "active" : ""} ${autobet ? "disabled" : ""
-                    }`}
+                  className={`slider ${isActive ? "active" : ""} ${
+                    autobet ? "disabled" : ""
+                  }`}
+                  style={{
+                    cursor: autobet ? "not-allowed" : "pointer",
+                  }}
                 />
               </div>
               <div className="img-active">
-                {/* <img
-                  src={isActive ? icon.scrollBar : icon.misc}
-                  alt="Slider Thumb"
-                  className="slider-thumb"
-                  style={{
-                    left: `calc(${value}% - 10px) `,
-                  }}
-                /> */}
                 <img
                   src={isActive ? icon.scrollBar : icon.misc}
                   alt="Slider Thumb"
                   className="slider-thumb"
                   style={{
                     left: `calc(${value}% - 10px)`,
+                    cursor: autobet ? "not-allowed" : "pointer",
                   }}
-                  onMouseDown={() => setIsActive(true)}
-                  onMouseUp={() => setIsActive(false)}
-                  onTouchStart={() => setIsActive(true)}
-                  onTouchEnd={() => setIsActive(false)}
+                  onMouseDown={() => !autobet && setIsActive(true)}
+                  onMouseUp={() => !autobet && setIsActive(false)}
+                  onTouchStart={() => !autobet && setIsActive(true)}
+                  onTouchEnd={() => !autobet && setIsActive(false)}
                 />
               </div>
+
               <>
                 {isbno && (
                   <div
@@ -230,7 +233,7 @@ const MultiplierProgress = ({
           </div>
 
           <div className="" style={{ position: "relative" }}>
-            {index === 1 && sliders.length === 2 && !isBetting && (
+            {index === 1 && sliders.length === 2 && !isBetting && !autobet && (
               <img
                 className="cross-first"
                 src={icon.crossIcon}
@@ -239,7 +242,7 @@ const MultiplierProgress = ({
               />
             )}
 
-            {index === 2 && sliders.length > 2 && !isBetting && (
+            {index === 2 && sliders.length > 2 && !isBetting && !autobet && (
               <img
                 className="cross-second"
                 src={icon.crossIcon}
@@ -266,13 +269,6 @@ const MultiplierProgress = ({
 
   return (
     <>
-      <div className="">
-        <MenuIcon
-          queryParams={queryParams}
-          info={info}
-
-        />
-      </div>
       <div className="slider-wrapper">
         <div className="lines-container">
           <img src={icon.line} alt="Lines" />
@@ -281,7 +277,8 @@ const MultiplierProgress = ({
 
         <div className="add-section">
           {sliders.length < 3 &&
-            !isBetting && ( // Only show this section if not betting
+            !isBetting &&
+            !autobet && ( // Only show this section if not betting
               <div className="plus-section" onClick={handleAddSlider}>
                 <div>
                   <div>
@@ -295,7 +292,6 @@ const MultiplierProgress = ({
             )}
         </div>
       </div>
-
     </>
   );
 };
