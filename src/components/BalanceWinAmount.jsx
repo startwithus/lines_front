@@ -28,21 +28,22 @@ const BalanceWinAmount = ({ info, resultData, statusData }) => {
 
       <div className="blance-info-container">
         <div className="balance-info">
-          <div>
+          <div className="">
             <p
               className=""
               style={{
                 fontSize: "10px",
                 color: "#e9ecef",
                 textAlign: "center",
+                height: "10px",
               }}
             >
               BALANCE:
             </p>
             <p
               style={{
-                fontSize: "16px",
-                fontWeight: 700,
+                fontSize: "14px",
+                fontWeight: 600,
                 color: "#fff",
                 marginTop: "6px",
               }}
@@ -58,16 +59,18 @@ const BalanceWinAmount = ({ info, resultData, statusData }) => {
                 fontSize: "10px",
                 color: "#e9ecef",
                 textAlign: "center",
+                height: "10px",
               }}
             >
               WIN
             </p>
             <p
               style={{
-                fontSize: "16px",
-                fontWeight: 700,
+                fontSize: "14px",
+                fontWeight: 600,
                 color: "#fff",
                 marginTop: "6px",
+                height: "10px",
               }}
             >
               {resultData?.winAmount}

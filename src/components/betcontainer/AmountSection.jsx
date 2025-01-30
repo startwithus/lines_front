@@ -63,6 +63,7 @@ const AmountSection = ({
       clearInterval(autoBetInterval.current);
     };
   }, [autobet, handlePlacebet]);
+
   useEffect(() => {
     if (autobet) {
       clearInterval(autoBetInterval.current);
