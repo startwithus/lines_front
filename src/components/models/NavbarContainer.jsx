@@ -167,7 +167,7 @@ const NavbarContainer = ({ queryParams, isTurbo, setIsTurbo }) => {
                 Cancel
               </button>
               <Link
-                to={`https://lobbydesign.ayodhya365.co/?id=${queryParams.id}`}
+                to={`https://lobby.unicon.vip/?id=${queryParams.id}`}
                 className="btn-text btn-confirm"
                 onClick={handleLobbyNavigation}
               >
