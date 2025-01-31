@@ -12,8 +12,14 @@ import {
 import { Link } from "react-router-dom";
 
 const NavbarContainer = ({ queryParams, isTurbo, setIsTurbo }) => {
-  const [isSoundOn, setIsSoundOn] = useState(false);
-  const [isMusicOn, setIsMusicOn] = useState(false);
+  // const [isSoundOn, setIsSoundOn] = useState(false);
+  // const [isMusicOn, setIsMusicOn] = useState(false);
+  // const [isMusicDisabled, setIsMusicDisabled] = useState(false);
+  // const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [showLobbyModal, setShowLobbyModal] = useState(false);
+  // const { sound, setSound, music, setMusic } = useContext(SoundContext);
+
+
   const [isMusicDisabled, setIsMusicDisabled] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showLobbyModal, setShowLobbyModal] = useState(false);
@@ -25,12 +31,12 @@ const NavbarContainer = ({ queryParams, isTurbo, setIsTurbo }) => {
   };
 
   const toggleSound = () => {
-    const newSoundState = !isSoundOn;
-    setIsSoundOn(newSoundState);
+    const newSoundState = !sound;
+    setSound(newSoundState);
     setIsMusicDisabled(!newSoundState);
 
     if (!newSoundState) {
-      setIsMusicOn(false);
+      setMusic(false);
       pauseBgMusic();
     }
   };
@@ -47,14 +53,10 @@ const NavbarContainer = ({ queryParams, isTurbo, setIsTurbo }) => {
 
   const toggleMusic = () => {
     if (!isMusicDisabled) {
-      setIsMusicOn((prev) => {
-        const newMusicState = !prev;
-        if (newMusicState) {
-          playBgMusic();
-        } else {
-          pauseBgMusic();
-        }
-        return newMusicState;
+      setMusic((prev) => {
+        if (!prev) playBgMusic();
+        else pauseBgMusic();
+        return !prev;
       });
     }
   };
@@ -89,8 +91,8 @@ const NavbarContainer = ({ queryParams, isTurbo, setIsTurbo }) => {
           style={{ cursor: "pointer" }}
         >
           <img
-            src={isSoundOn ? icon.soundIcon : icon.unSoundIcon}
-            alt={isSoundOn ? "Sound On" : "Sound Off"}
+            src={sound ? icon.soundIcon : icon.unSoundIcon}
+            // alt={isSoundOn ? "Sound On" : "Sound Off"}
           />
           <span className="sound-text">SOUND</span>
         </li>
@@ -109,10 +111,8 @@ const NavbarContainer = ({ queryParams, isTurbo, setIsTurbo }) => {
           }}
         >
           <img
-            src={
-              isMusicOn && !isMusicDisabled ? icon.muteIcon : icon.unmuteIcon
-            }
-            alt={isMusicOn && !isMusicDisabled ? "Music On" : "Music Off"}
+            src={music ? icon.muteIcon : icon.unmuteIcon}
+            alt={music ? "Music On" : "Music Off"}
           />
           <span className="sound-text">MUSIC</span>
         </li>

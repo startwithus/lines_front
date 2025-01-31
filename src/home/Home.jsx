@@ -219,6 +219,7 @@ const Home = ({ shouldShowRotateImage }) => {
   const buttonStyle = (disabled) => ({
     cursor: disabled ? "not-allowed" : "pointer",
     opacity: disabled ? 0.5 : 1,
+    pointerEvents: disabled ? "none" : "auto", // Prevent clicking when disabled
   });
   const handleCanvasLoad = (status) => {
     setLoading(!status);
@@ -353,6 +354,7 @@ const Home = ({ shouldShowRotateImage }) => {
               setTotalMultiplier={setTotalMultiplier}
               info={info}
               setShowBalance={setShowBalance}
+              buttonStyle={buttonStyle}
             />
             <div className="main-navbar-container">
               <NavbarContainer

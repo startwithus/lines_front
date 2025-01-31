@@ -84,6 +84,12 @@
 .btn-decressincress img {
   width: 20px;
 }
+
+.btn-decressincress:disabled {
+  pointer-events: none; /* Completely disables interactions */
+  opacity: 0.5; /* Visually indicate the button is disabled */
+  cursor: not-allowed;
+}
 /* navbar */
 .main-navbar-container {
   background: var(--hg-bg-user-panel);
@@ -290,47 +296,69 @@
 @media (max-width: 768px) {
   .blance-info-container {
     margin: 0;
-
     margin-top: 0.2rem;
   }
 
   .action-pet-container {
     background: var(--hg-bg-user-panel);
     margin: 0;
-    /* / padding: 12px; / */
     border-radius: 0.25rem;
     margin-top: 0.2rem;
+    padding: 0.3rem;
   }
+
   .select-bet-container {
     gap: 20px;
   }
+
   .main-navbar-container {
     background: var(--hg-bg-user-panel);
     margin: 0;
-    /* / padding: 0.4em; / */
     border-radius: 4px;
     margin-top: 0.2rem;
   }
+
   .lines-container {
     height: 35%;
   }
+
   .current-value-progress {
     margin: 10px 0;
   }
+
   .slider-wrapper {
     width: 90%;
     margin-top: 6px;
   }
+
   .cross-first,
   .cross-second {
     top: -54px;
     left: -20px;
     height: 27px;
   }
-  .action-pet-container {
-    padding: 0.3rem;
+
+  /* Safari-specific fixes */
+  @supports (-webkit-touch-callout: none) {
+    .action-pet-container,
+    .main-navbar-container {
+      -webkit-border-radius: 4px;
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+    }
+
+    .slider-wrapper {
+      width: 95%; /* Slightly adjusted for better rendering in Safari */
+    }
+
+    .cross-first,
+    .cross-second {
+      transform: translate(-20px, -54px);
+      -webkit-transform: translate(-20px, -54px);
+    }
   }
 }
+
 /* @media (max-width: 376px) {
   .add-section img {
     height: 50px;
