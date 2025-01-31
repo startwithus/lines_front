@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import { icon } from "../../utility/icon";
 import "../models/model.css";
 import GameInfo from "./GameInfo";
@@ -12,32 +12,30 @@ import {
 import { Link } from "react-router-dom";
 
 const NavbarContainer = ({ queryParams, isTurbo, setIsTurbo }) => {
-  const { sound, setSound, music, setMusic } = useContext(SoundContext);
+  // const [isSoundOn, setIsSoundOn] = useState(false);
+  // const [isMusicOn, setIsMusicOn] = useState(false);
+  // const [isMusicDisabled, setIsMusicDisabled] = useState(false);
+  // const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [showLobbyModal, setShowLobbyModal] = useState(false);
+  // const { sound, setSound, music, setMusic } = useContext(SoundContext);
 
-  const [isSoundOn, setIsSoundOn] = useState(
-    localStorage.getItem("sound") === "true"
-  );
-  const [isMusicOn, setIsMusicOn] = useState(
-    localStorage.getItem("music") === "true"
-  );
-  const [isMusicDisabled, setIsMusicDisabled] = useState(
-    localStorage.getItem("sound") !== "true"
-  );
+  const [isMusicDisabled, setIsMusicDisabled] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showLobbyModal, setShowLobbyModal] = useState(false);
+  const { sound, setSound, music, setMusic } = useContext(SoundContext);
 
-  useEffect(() => {
-    localStorage.setItem("sound", isSoundOn);
-    localStorage.setItem("music", isMusicOn);
-  }, [isSoundOn, isMusicOn]);
+  // Toggle Turbo mode
+  const toggleTurbo = () => {
+    setIsTurbo((prev) => !prev);
+  };
 
   const toggleSound = () => {
-    const newSoundState = !isSoundOn;
-    setIsSoundOn(newSoundState);
+    const newSoundState = !sound;
+    setSound(newSoundState);
     setIsMusicDisabled(!newSoundState);
 
     if (!newSoundState) {
-      setIsMusicOn(false);
+      setMusic(false);
       pauseBgMusic();
     }
   };
@@ -54,14 +52,10 @@ const NavbarContainer = ({ queryParams, isTurbo, setIsTurbo }) => {
 
   const toggleMusic = () => {
     if (!isMusicDisabled) {
-      setIsMusicOn((prev) => {
-        const newMusicState = !prev;
-        if (newMusicState) {
-          playBgMusic();
-        } else {
-          pauseBgMusic();
-        }
-        return newMusicState;
+      setMusic((prev) => {
+        if (!prev) playBgMusic();
+        else pauseBgMusic();
+        return !prev;
       });
     }
   };
@@ -78,6 +72,12 @@ const NavbarContainer = ({ queryParams, isTurbo, setIsTurbo }) => {
     }
   };
 
+  const toggleInfoModal = () => setIsModalOpen((prev) => !prev);
+
+  const handleLobbyNavigation = () => {
+    setShowLobbyModal(false);
+  };
+
   return (
     <div className="main-navbar">
       <ul className="MainNavbar__list">
@@ -90,8 +90,8 @@ const NavbarContainer = ({ queryParams, isTurbo, setIsTurbo }) => {
           style={{ cursor: "pointer" }}
         >
           <img
-            src={isSoundOn ? icon.soundIcon : icon.unSoundIcon}
-            alt={isSoundOn ? "Sound On" : "Sound Off"}
+            src={sound ? icon.soundIcon : icon.unSoundIcon}
+            // alt={isSoundOn ? "Sound On" : "Sound Off"}
           />
           <span className="sound-text">SOUND</span>
         </li>
@@ -110,17 +110,27 @@ const NavbarContainer = ({ queryParams, isTurbo, setIsTurbo }) => {
           }}
         >
           <img
-            src={
-              isMusicOn && !isMusicDisabled ? icon.muteIcon : icon.unmuteIcon
-            }
-            alt={isMusicOn && !isMusicDisabled ? "Music On" : "Music Off"}
+            src={music ? icon.muteIcon : icon.unmuteIcon}
+            alt={music ? "Music On" : "Music Off"}
           />
           <span className="sound-text">MUSIC</span>
         </li>
 
+        {/* <li
+          className="MainNavbar__item"
+          onClick={toggleTurbo}
+          style={{ cursor: "pointer" }}
+        >
+          <img
+            src={isTurbo ? icon.turboIcon : icon.unknownTurbo} // Conditional rendering of the image
+            alt={isTurbo ? "Turbo Icon" : "Unknown Turbo Icon"}
+          />
+          <span className="sound-text">TURBO</span>
+        </li> */}
+
         <li
           className="MainNavbar__item"
-          onClick={() => setIsModalOpen((prev) => !prev)}
+          onClick={toggleInfoModal}
           style={{ cursor: "pointer" }}
         >
           <img src={icon.infoIcon} alt="Info Icon" />
@@ -139,7 +149,7 @@ const NavbarContainer = ({ queryParams, isTurbo, setIsTurbo }) => {
 
       {isModalOpen && (
         <div className="game-info-modal">
-          <GameInfo toggleModal={() => setIsModalOpen(false)} />
+          <GameInfo toggleModal={toggleInfoModal} />
         </div>
       )}
 
@@ -155,7 +165,11 @@ const NavbarContainer = ({ queryParams, isTurbo, setIsTurbo }) => {
                 Cancel
               </button>
               <Link
-                to={`https://lobby.unicon.vip/?id=${queryParams.id}`}
+                // staging
+                to={`https://lobbydesign.ayodhya365.co/?id=${queryParams.id}`}
+                // producation
+                // to={`https://lobby.unicon.vip/?id=${queryParams.id}`}
+
                 className="btn-text btn-confirm"
                 onClick={() => setShowLobbyModal(false)}
               >
