@@ -740,7 +740,7 @@ th {
   }
   .slider-wrapper {
     width: 90%;
-    margin-top: 6px;
+    margin-top: -25px;
   }
   .cross-first,
   .cross-second {
@@ -759,7 +759,7 @@ th {
   }
   th,
   td {
-    padding: 11px 9px;
+    padding: 11px 0px;
     text-align: center;
   }
 }
