@@ -169,7 +169,6 @@ const NavbarContainer = ({ queryParams, isTurbo, setIsTurbo }) => {
                 to={`https://lobbydesign.ayodhya365.co/?id=${queryParams.id}`}
                 // producation
                 // to={`https://lobby.unicon.vip/?id=${queryParams.id}`}
-
                 className="btn-text btn-confirm"
                 onClick={() => setShowLobbyModal(false)}
               >
