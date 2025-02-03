@@ -3,6 +3,7 @@ import { getMaxMult } from "../../utility/helper";
 import { icon } from "../../utility/icon";
 import { SoundContext } from "../../context/SoundContext";
 import { playClickSound } from "../../utility/gameSettings";
+import MenuIcon from "./MenuIcon";
 
 // import { playButtonSound } from '../../utility/gameSettings
 
@@ -24,6 +25,8 @@ const MultiplierProgress = ({
   setResultData,
   isTurbo,
   autobet,
+  queryParams,
+  info,
 }) => {
   const [isActive, setIsActive] = useState(false);
   const [activeSliderIndex, setActiveSliderIndex] = useState(null);
@@ -269,6 +272,9 @@ const MultiplierProgress = ({
 
   return (
     <>
+      <div className="menu-icon">
+        <MenuIcon queryParams={queryParams} info={info} />
+      </div>
       <div className="slider-wrapper">
         <div className="lines-container">
           <img src={icon.line} alt="Lines" />

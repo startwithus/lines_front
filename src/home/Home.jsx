@@ -385,6 +385,8 @@ const Home = ({ shouldShowRotateImage }) => {
               isTurbo={isTurbo}
               setAutobet={setAutobet}
               autobet={autobet}
+              queryParams={queryParams}
+              info={info}
             />
           </div>
         </div>
