@@ -166,9 +166,9 @@ const NavbarContainer = ({ queryParams, isTurbo, setIsTurbo }) => {
               </button>
               <Link
                 // staging
-                // to={`https://lobbydesign.ayodhya365.co/?id=${queryParams.id}`}
+                to={`https://lobbydesign.ayodhya365.co/?id=${queryParams.id}`}
                 // producation
-                to={`https://lobby.unicon.vip/?id=${queryParams.id}`}
+                // to={`https://lobby.unicon.vip/?id=${queryParams.id}`}
                 className="btn-text btn-confirm"
                 onClick={() => setShowLobbyModal(false)}
               >
