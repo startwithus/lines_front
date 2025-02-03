@@ -148,14 +148,14 @@ const AmountSection = ({
     if (sound) {
       playButtonSound();
     }
-    setAmount(MIN_AMOUNT.toFixed(2)); // Set amount to MIN_AMOUNT
+    setAmount(MIN_AMOUNT.toFixed(2));
   };
 
   const handleMaxClick = () => {
     if (sound) {
       playButtonSound();
     }
-    setAmount(MAX_AMOUNT.toFixed(2)); // Set amount to MAX_AMOUNT
+    setAmount(MAX_AMOUNT.toFixed(2));
   };
 
   return (

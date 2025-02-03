@@ -19,7 +19,6 @@ const NavbarContainer = ({ queryParams, isTurbo, setIsTurbo }) => {
   // const [showLobbyModal, setShowLobbyModal] = useState(false);
   // const { sound, setSound, music, setMusic } = useContext(SoundContext);
 
-
   const [isMusicDisabled, setIsMusicDisabled] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showLobbyModal, setShowLobbyModal] = useState(false);
@@ -117,7 +116,6 @@ const NavbarContainer = ({ queryParams, isTurbo, setIsTurbo }) => {
           <span className="sound-text">MUSIC</span>
         </li>
 
-        {/* Turbo Button */}
         {/* <li
           className="MainNavbar__item"
           onClick={toggleTurbo}
@@ -167,9 +165,13 @@ const NavbarContainer = ({ queryParams, isTurbo, setIsTurbo }) => {
                 Cancel
               </button>
               <Link
-                to={`https://lobby.unicon.vip/?id=${queryParams.id}`}
+                // staging
+                to={`https://lobbydesign.ayodhya365.co/?id=${queryParams.id}`}
+                // producation
+                // to={`https://lobby.unicon.vip/?id=${queryParams.id}`}
+
                 className="btn-text btn-confirm"
-                onClick={handleLobbyNavigation}
+                onClick={() => setShowLobbyModal(false)}
               >
                 Confirm
               </Link>

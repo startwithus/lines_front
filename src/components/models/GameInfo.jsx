@@ -135,16 +135,9 @@ const GameInfo = ({ toggleModal }) => {
             <h2>AUTOPLAY</h2>
             <p>
               Using Autoplay will let you play a number of game rounds
-              automatically. Press the AUTOPLAY button to initiate this feature. Autoplay is stopped by pressing the STOP
-              button.
+              automatically. Press the AUTOPLAY button to initiate this feature.
+              Autoplay is stopped by pressing the STOP button.
             </p>
-
-            {/* <h2>ADVANCED AUTOPLAY SETTING</h2>
-            <p>
-              The Advanced Autoplay settings allow the player to set number of
-              plays, total session lost limit and single win limit. The autoplay
-              feature will stop when any of the selected limits are exceeded.
-            </p> */}
 
             {/* <h2>TURBO PLAY</h2>
             <p>
@@ -158,9 +151,9 @@ const GameInfo = ({ toggleModal }) => {
             <h1>ADDITIONAL INFORMATION</h1>
             <p>
               In addition to the features described here, the bar on the bottom
-              of the game screen displays the current balance in the chosen
-              currency, the amount paid if a win occurs, and the amount bet on
-              the last/current proposition.
+              of the game screen displays the current balance , the amount paid
+              if a win occurs, and the amount bet on the last/current
+              proposition.
             </p>
           </div>
         </div>
