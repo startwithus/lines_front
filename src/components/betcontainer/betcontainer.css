@@ -300,8 +300,9 @@
   width: 850px;
   text-align: center;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-  position: relative;
+  position: absolute;
   animation: fadeIn 0.3s ease-in-out;
+  top: 20px;
 }
 
 .history-bet {
@@ -323,6 +324,7 @@
 }
 
 .close-btn {
+  margin-bottom: 5px;
   padding: 8px 16px;
   box-shadow: inset 1px 1px #fff1cd33;
   background-color: #373e48;
@@ -338,11 +340,49 @@
 
 .table-head {
   background-color: rgba(255, 255, 255, 0.1);
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   font-size: 14px;
 
   cursor: default;
+}
+.table-wrapper {
+  width: 100%;
+  max-width: 100%;
+}
+
+.table-container {
+  max-height: 500px; /* Adjust height as needed */
+  overflow-y: auto;
+  /* border: 1px solid rgba(255, 255, 255, 0.1); */
+}
+
+.betsTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-head {
+  position: sticky;
+  top: 0;
+  background-color: #222; /* Ensure background is set to avoid overlap */
+  z-index: 10;
+}
+
+th {
+  color: rgb(128, 128, 128);
+  background: #333;
+  padding: 10px;
+  text-align: left;
+}
+
+td {
+  padding: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+tbody tr:hover {
+  background: rgba(255, 255, 255, 0.1);
 }
 
 @keyframes fadeIn {
@@ -372,7 +412,6 @@ table {
   width: 100%;
   border-collapse: collapse;
   background-color: #212226;
-  margin-top: 1rem;
 }
 
 thead {
@@ -389,7 +428,6 @@ td {
 
 th {
   font-weight: 600;
-  color: #333;
 }
 
 .load-more-btn {
@@ -599,6 +637,8 @@ th {
   /* padding: 1.5rem 1.5rem 0; */
   width: 25rem;
   animation: modal-new 0.5s ease-out forwards;
+  position: absolute;
+  top: 4rem;
 }
 .modal-head {
   display: flex;
@@ -762,6 +802,10 @@ th {
   td {
     padding: 11px 0px;
     text-align: center;
+  }
+  .modal-content-bet {
+    width: 100%;
+    top: 4rem;
   }
 }
 /* @media (max-width: 376px) {
