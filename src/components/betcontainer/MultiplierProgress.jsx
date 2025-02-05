@@ -273,7 +273,12 @@ const MultiplierProgress = ({
   return (
     <>
       <div className="menu-icon">
-        <MenuIcon queryParams={queryParams} info={info} />
+        <MenuIcon
+          queryParams={queryParams}
+          info={info}
+          totalMultiplier={totalMultiplier}
+          resultData={resultData}
+        />
       </div>
       <div className="slider-wrapper">
         <div className="lines-container">

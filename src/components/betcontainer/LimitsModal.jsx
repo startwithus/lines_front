@@ -31,7 +31,7 @@ function LimitsModal({ isOpen, onClose }) {
           </div>
           <div className="limit-block">
             <p className="value-para">Max Profit</p>
-            <p className="value">2,00,000.00</p>
+            <p className="value">10,00,000.00</p>
           </div>
         </div>
       </div>

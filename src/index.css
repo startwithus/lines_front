@@ -358,7 +358,7 @@ body {
   pointer-events: none; /* Ensure it doesn't block interaction */
 }
 .tringle-container {
-  width: 97%;
+  /* width: 97%; */
   display: flex;
   justify-content: space-between;
   margin: 0 7px;
