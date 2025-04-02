@@ -49,6 +49,8 @@ const Home = ({ shouldShowRotateImage }) => {
   const [isTurbo, setIsTurbo] = useState(false); // Added Turbo state
   const [errorModal, setErrorModal] = useState(false);
   const [error, setError] = useState("");
+  const [winAmount1, setwinAmount1] = useState(false);
+
   // Initial multiplier
   console.log(sliders);
   let queryParams = {};
@@ -121,26 +123,34 @@ const Home = ({ shouldShowRotateImage }) => {
     }
   }, [errorModal]);
   useEffect(() => {
-    if (resultData?.isWin === true) {
-      if (sound) {
-        playWinSound();
+    const timeout = setTimeout(() => {
+      if (resultData?.isWin === true) {
+        if (sound) {
+          playWinSound();
+        }
+        setStatusData(true);
+        setIconSrc(icon.group3);
+      } else if (resultData?.isWin === false) {
+        if (sound) {
+          playLossSound();
+        }
+        setStatusData(false);
+        setIconSrc(icon.group2);
       }
-      setStatusData(true);
-      setIconSrc(icon.group3);
-    } else if (resultData?.isWin === false) {
-      if (sound) {
-        playLossSound();
-      }
-      setStatusData(false);
-      setIconSrc(icon.group2);
-    } else if (totalMultiplier < 1.05 || totalMultiplier > 5000.0) {
+    }, 990); // 990ms delay
+
+    return () => clearTimeout(timeout); // Cleanup timeout when dependencies change
+  }, [resultData, sound]);
+
+  // Separate useEffect for totalMultiplier check
+  useEffect(() => {
+    if (totalMultiplier < 1.05 || totalMultiplier > 5000.0) {
       setStatusData(false);
       setIconSrc(icon.group2); // Use group2 if totalMultiplier is out of range
     } else {
-      setStatusData(false); // Default case
-      setIconSrc(icon.groupA);
+      setIconSrc(icon.groupA); // Default case
     }
-  }, [resultData, totalMultiplier]);
+  }, [totalMultiplier]);
 
   // let firstResult;
   // let secondResult;
@@ -183,18 +193,26 @@ const Home = ({ shouldShowRotateImage }) => {
   const handleResult = (data) => {
     setResultData(data);
   };
+  useEffect(() => {
+    if (resultData?.winAmount) {
+      const timer = setTimeout(() => {
+        setwinAmount1(resultData?.winAmount);
+      }, 1500);
+      return () => clearTimeout(timer);
+    }
+  }, [resultData]);
   const handlePlaceBet = () => {
     if (+amount > info.balance || +amount === 0) {
       return setShowBalance(true);
     }
     if (isBetting) return;
-
+    setIconSrc(icon.groupA);
     // Start betting
     setIsBetting(true);
     setisRefrece(false);
     setsetisbno(false);
     setResultData(true);
-
+    setwinAmount1(false);
     // Temporarily disable refreshing
     const dataToSend = sliders.join(",");
 
@@ -212,8 +230,10 @@ const Home = ({ shouldShowRotateImage }) => {
     }, 5);
     setTimeout(() => {
       setIsBetting(false);
+    }, 1500);
+    setTimeout(() => {
       setsetisbno(true);
-    }, 500);
+    }, 1000);
     // Stop betting after a defined period
   };
   const buttonStyle = (disabled) => ({
@@ -344,6 +364,7 @@ const Home = ({ shouldShowRotateImage }) => {
               resultData={resultData}
               statusData={statusData}
               setStatusData={setStatusData}
+              winAmount1={winAmount1}
             />
             <AmountSection
               handlePlacebet={handlePlaceBet}

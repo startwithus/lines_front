@@ -119,14 +119,14 @@ const BetHistory = ({ isOpen, onClose, info, totalMultiplier, resultData }) => {
       </div>
 
       {/* Show the Bet Detail Modal when a bet is clicked */}
-      {selectedBet && (
+      {/* {selectedBet && (
         <BetDetailModal
           bet={selectedBet}
           totalMultiplier={totalMultiplier}
           resultData={resultData}
           onClose={() => setSelectedBet(null)}
         />
-      )}
+      )} */}
     </div>
   );
 };

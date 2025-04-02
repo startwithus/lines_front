@@ -16,7 +16,7 @@ const MenuIcon = ({ queryParams, info }) => {
   const [settingModal, setSettingModal] = useState(false);
   const [limitModel, setLimitModel] = useState(false);
   const clickedOutsideRef = useRef(false);
-  const modalRef = useRef(null); // Reference for modal container
+  const modalRef = useRef(null);
 
   const closeAllModals = () => {
     setIsModalOpen(false);
@@ -29,7 +29,7 @@ const MenuIcon = ({ queryParams, info }) => {
 
   const openSettings = () => {
     if (clickedOutsideRef.current) {
-      clickedOutsideRef.current = false; // Reset flag so it doesn't block future clicks
+      clickedOutsideRef.current = false;
       return;
     }
 
@@ -155,7 +155,10 @@ const MenuIcon = ({ queryParams, info }) => {
                   Cancel
                 </button>
                 <Link
+                  // staging
                   to={`https://lobbydesign.ayodhya365.co/?id=${queryParams.id}`}
+                  // producation
+                  // to={`https://lobby.unicon.vip/?id=${queryParams.id}`}
                   className="btn-text btn-confirm"
                   onClick={() => setShowLobbyModal(false)}
                 >

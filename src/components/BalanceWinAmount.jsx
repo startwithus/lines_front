@@ -1,22 +1,26 @@
 import React, { useState, useEffect, useContext } from "react";
 import { formatBalance } from "../utility/helper";
 
-const BalanceWinAmount = ({ info, resultData, statusData }) => {
+const BalanceWinAmount = ({ info, resultData, statusData, winAmount1 }) => {
   const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
-    if (statusData === true) {
-      setShowPopup(true);
+    if (statusData && resultData?.winAmount) {
+      const delayTimer = setTimeout(() => {
+        setShowPopup(true);
 
-      const timer = setTimeout(() => {
-        setShowPopup(false);
-      }, 2000);
+        const hideTimer = setTimeout(() => {
+          setShowPopup(false);
+        }, 2000);
 
-      return () => clearTimeout(timer);
+        return () => clearTimeout(hideTimer);
+      }, 500); // Delay pop-up and win amount by 2 seconds
+
+      return () => clearTimeout(delayTimer);
     } else {
       setShowPopup(false);
     }
-  }, [statusData]);
+  }, [statusData, resultData]);
 
   return (
     <div style={{ height: "" }}>
@@ -73,7 +77,7 @@ const BalanceWinAmount = ({ info, resultData, statusData }) => {
                 height: "10px",
               }}
             >
-              {resultData?.winAmount}
+              {winAmount1}
             </p>
           </div>
         </div>
